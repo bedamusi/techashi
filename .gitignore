@@ -1,0 +1,10 @@
+node_modules/
+dist/
+.idea/
+crop-preview.png
+.env
+.env.*
+!.env.example
+api/sessions/*
+!api/sessions/.htaccess
+api/uploads/products/*
