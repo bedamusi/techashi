@@ -22,10 +22,23 @@ async function ensureCsrfToken() {
   return token;
 }
 
+const productCache = new Map();
+
 export async function readProducts(category = 'all') {
+  if (productCache.has(category)) {
+    // Return cached immediately and refresh in background
+    fetchProducts(category).catch(() => {});
+    return productCache.get(category);
+  }
+  return fetchProducts(category);
+}
+
+async function fetchProducts(category = 'all') {
   const params = new URLSearchParams({ route: 'products', category });
   const { products } = await request(`/api/index.php?${params}`);
-  return products || [];
+  const items = products || [];
+  productCache.set(category, items);
+  return items;
 }
 
 export async function readProduct(id, category) {
@@ -35,6 +48,7 @@ export async function readProduct(id, category) {
 }
 
 export async function saveProduct(product) {
+  productCache.clear();
   const editing = Boolean(product.id);
   return request('/api/index.php?route=products', {
     method: editing ? 'PUT' : 'POST',
@@ -44,6 +58,7 @@ export async function saveProduct(product) {
 }
 
 export async function deleteProduct(id) {
+  productCache.clear();
   const params = new URLSearchParams({ route: 'products', id });
   return request(`/api/index.php?${params}`, { method: 'DELETE', headers: writeHeaders() });
 }

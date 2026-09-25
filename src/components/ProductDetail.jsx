@@ -20,8 +20,10 @@ export default function ProductDetail({ categoryId, productId, onOpenQuote }) {
     return () => { active = false; };
   }, [categoryId, productId]);
 
-  if (loading) return <section className="grid min-h-[65vh] place-items-center px-6 pt-24 text-sm text-slate-500">Loading product…</section>;
-  if (!product) {
+  if (loading && !product) {
+    return <section className="min-h-[75vh] bg-white px-4 pb-20 pt-28 sm:px-8 lg:px-12" />;
+  }
+  if (!loading && !product) {
     return (
       <section className="grid min-h-[65vh] place-items-center px-6 pt-24 text-center">
         <div className="max-w-md">
@@ -44,7 +46,7 @@ export default function ProductDetail({ categoryId, productId, onOpenQuote }) {
           <div className="grid gap-3 sm:grid-cols-2">
             {images.length ? images.map((image, index) => (
               <div key={`${image.path || image.src}-${index}`} className={`flex min-h-64 items-center justify-center overflow-hidden rounded-3xl bg-slate-50 p-5 ${index === 0 ? 'sm:col-span-2 sm:min-h-[460px]' : 'min-h-48'}`}>
-                <img src={image.src} alt={image.name || product.name} className="max-h-[520px] w-full object-contain" />
+                <img src={image.src} alt={image.name || product.name} className="max-h-[520px] w-full object-contain" loading="eager" decoding="async" />
               </div>
             )) : <div className="grid min-h-[360px] place-items-center rounded-3xl bg-slate-50 text-sm text-slate-400 sm:col-span-2">Product photos available on request</div>}
           </div>

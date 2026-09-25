@@ -180,7 +180,7 @@ export function ImageStreamHero({
                     <img
                       src={img.src}
                       alt={img.alt ?? ""}
-                      loading="lazy"
+                      loading="eager"
                       decoding="async"
                       className={cn(
                         "w-full h-full select-none",

@@ -75,7 +75,7 @@ export default function ProductShowcase({ onOpenQuote, initialCategory = 'all' }
       },
     };
     const photo = categoryPhotos[id] ?? categoryPhotos.laptops;
-    return <img src={photo.src} alt={photo.alt} loading="lazy" className="h-full w-full object-contain" />;
+    return <img src={photo.src} alt={photo.alt} loading="eager" decoding="async" className="h-full w-full object-contain" />;
   };
 
   const filteredCategories = isCategoryPage ? [] : PRODUCT_CATEGORIES;
@@ -100,7 +100,7 @@ export default function ProductShowcase({ onOpenQuote, initialCategory = 'all' }
 
         {!isCategoryPage && <div className="mb-10 flex flex-col justify-between gap-4 border-y border-slate-200 py-5 sm:flex-row sm:items-center">
           <div>
-            <p className="text-sm font-heading font-bold text-brand-navy">{loading ? 'Loading catalog…' : filteredProducts.length ? `${filteredProducts.length} available products` : 'Your next setup starts here'}</p>
+            <p className="text-sm font-heading font-bold text-brand-navy">{filteredProducts.length ? `${filteredProducts.length} available products` : 'Your next setup starts here'}</p>
             <p className="mt-1 text-xs text-slate-500">Browse product categories from one public catalog.</p>
           </div>
           <a href="/products" className="inline-flex w-fit items-center gap-2 rounded-full border border-slate-200 px-5 py-3 text-xs font-bold text-brand-navy transition hover:border-brand-blue hover:text-brand-blue">View all products <ArrowRight className="h-3.5 w-3.5" /></a>
@@ -109,16 +109,16 @@ export default function ProductShowcase({ onOpenQuote, initialCategory = 'all' }
         {isCategoryPage && <a href="/products" className="mb-7 inline-flex items-center gap-2 text-xs font-semibold text-brand-blue"><ArrowRight className="h-3.5 w-3.5 rotate-180" /> All product categories</a>}
         {loadError && <p role="alert" className="mb-8 rounded-xl border border-red-100 bg-red-50 px-4 py-3 text-sm text-red-700">{loadError}</p>}
 
-        {loading && <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 xl:grid-cols-3" aria-label="Loading products"><div className="h-72 animate-pulse bg-slate-50" /><div className="h-72 animate-pulse bg-slate-50" /><div className="h-72 animate-pulse bg-slate-50" /></div>}
+
         {!loading && !loadError && filteredProducts.length === 0 && isCategoryPage && <div className="border-y border-slate-200 py-16 text-center"><h3 className="font-heading text-xl font-bold text-brand-navy">No products listed yet</h3><p className="mt-2 text-sm text-slate-500">Contact us to ask about {activeCategoryInfo?.name.toLowerCase()}.</p><button onClick={onOpenQuote} className="mt-5 rounded-full bg-brand-navy px-5 py-3 text-xs font-bold text-white">Request a quote</button></div>}
-        {!loading && filteredProducts.length > 0 && (
+        {filteredProducts.length > 0 && (
           <div className="mb-16">
             <div className="mb-5 flex items-end justify-between"><h3 className="text-2xl font-heading font-bold text-brand-navy">Products</h3><span className="text-xs sm:text-sm text-slate-500">{filteredProducts.length} items</span></div>
             <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 xl:grid-cols-3">
               {filteredProducts.map((product) => (
                 <article key={product.id} className="overflow-hidden border-y border-slate-200 bg-white transition-colors hover:bg-slate-50">
                   <div className="relative flex h-52 items-center justify-center bg-slate-50 p-4">
-                    {product.images?.[0]?.src ? <img src={product.images[0].src} alt={product.images[0].name || product.name} className="h-full w-full object-contain" loading="lazy" /> : <div className="text-sm text-slate-400">Image coming soon</div>}
+                    {product.images?.[0]?.src ? <img src={product.images[0].src} alt={product.images[0].name || product.name} className="h-full w-full object-contain" loading="eager" decoding="async" /> : <div className="text-sm text-slate-400">Image coming soon</div>}
                     {product.offer_price != null && Number(product.offer_price) > 0 && (
                       <span className="absolute top-3 right-3 rounded-full bg-red-600 px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider text-white shadow-xs">
                         Offer

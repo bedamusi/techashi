@@ -63,9 +63,9 @@ function ChapterVisual({ item, index, animated = false }) {
         <img
           src={visual.src}
           alt={visual.alt}
-          loading={animated || index === 0 || item.key === 'support' ? 'eager' : 'lazy'}
+          loading="eager"
           decoding="async"
-          fetchPriority={animated || item.key === 'support' ? 'high' : 'auto'}
+          fetchPriority="high"
           className="h-[240px] w-full object-cover sm:h-[420px] lg:h-[min(62svh,560px)] lg:min-h-[400px]"
           style={{ objectPosition: visual.position }}
         />
