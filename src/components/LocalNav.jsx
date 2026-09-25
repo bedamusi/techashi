@@ -30,7 +30,7 @@ export default function LocalNav({ onOpenQuote }) {
 
   return (
     <div className="fixed top-12 left-0 right-0 z-30 transition-all duration-300 animate-fadeIn">
-      <div className="bg-white/85 backdrop-blur-xl border-b border-slate-200/80 shadow-2xs py-2 px-4 sm:px-8">
+      <div className="glass-drop py-2 px-4 sm:px-8">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           
           {/* Local Brand Identity */}

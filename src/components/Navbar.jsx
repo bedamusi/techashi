@@ -149,10 +149,8 @@ export default function Navbar({ onOpenQuote, onSelectCategory }) {
   return (
     <>
       <header
-        className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 ${
-          isScrolled
-            ? 'apple-glass py-2 shadow-subtle'
-            : 'bg-white/90 sm:bg-white/70 backdrop-blur-md py-3 border-b border-slate-100'
+        className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 glass-drop ${
+          isScrolled ? 'py-2 shadow-md' : 'py-3'
         }`}
         onMouseLeave={() => setActiveFlyout(null)}
       >
