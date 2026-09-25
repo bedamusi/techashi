@@ -259,13 +259,13 @@ export default function Navbar({ onOpenQuote, onSelectCategory }) {
                 return (
                   <div className="grid grid-cols-12 gap-8 items-center">
                     <div className="col-span-5 border-r border-slate-100 pr-6">
-                      <span className="text-[10px] font-bold uppercase tracking-wider text-brand-blue">
+                      <span className="text-xs font-bold uppercase tracking-wider text-brand-blue">
                         Techashi Portfolio
                       </span>
                       <h4 className="text-xl font-heading font-bold text-brand-navy mt-1">
                         {fly.title}
                       </h4>
-                      <p className="text-xs text-slate-500 mt-2">
+                      <p className="text-xs sm:text-sm text-slate-600 mt-2">
                         Authentic enterprise-grade hardware, professional installation, and reliable after-sales support.
                       </p>
                       <button
@@ -282,7 +282,7 @@ export default function Navbar({ onOpenQuote, onSelectCategory }) {
                         <div
                           key={idx}
                           onClick={(e) => handleProductClick(e, link)}
-                          className="p-3 rounded-xl bg-slate-50 hover:bg-brand-soft-blue hover:text-brand-blue text-xs font-medium text-slate-700 cursor-pointer transition-colors flex items-center justify-between"
+                          className="p-3 rounded-xl bg-slate-50 hover:bg-brand-soft-blue hover:text-brand-blue text-xs sm:text-sm font-medium text-slate-800 cursor-pointer transition-colors flex items-center justify-between"
                         >
                           <span>{item}</span>
                           <ChevronRight className="w-3 h-3 text-slate-400 shrink-0 ml-1" />

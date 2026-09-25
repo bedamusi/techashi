@@ -72,8 +72,8 @@ function ChapterVisual({ item, index, animated = false }) {
       </picture>
       <div className="flex items-center gap-4 px-4 py-3.5 sm:px-6 sm:py-4">
         <div className="min-w-0">
-          <p className="text-[10px] font-bold uppercase tracking-[0.16em] text-brand-blue sm:text-[11px]">{item.badge}</p>
-          <p className="mt-1 truncate text-xs font-semibold text-slate-700 sm:text-sm">{item.short} · {item.tagline}</p>
+          <p className="text-xs sm:text-sm font-bold uppercase tracking-[0.16em] text-brand-blue">{item.badge}</p>
+          <p className="mt-1 truncate text-xs sm:text-sm font-semibold text-slate-800">{item.short} · {item.tagline}</p>
         </div>
       </div>
     </div>
@@ -116,20 +116,20 @@ function ChapterBlock({ item, index, isActive, onOpenQuote }) {
           </h3>
 
           {/* Summary Narrative */}
-          <p className="copy mt-3 text-xs sm:text-base lg:text-lg leading-relaxed text-slate-600 max-w-xl">
+          <p className="copy mt-3 text-sm sm:text-base lg:text-lg leading-relaxed text-slate-600 max-w-xl">
             {item.summary}
           </p>
 
           {/* Key Deliverables Feature Matrix */}
           <div className="mt-5 sm:mt-7 border-t border-slate-200/90 pt-4 sm:pt-5">
-            <p className="mb-2.5 text-[10px] sm:text-[11px] font-bold uppercase tracking-[0.2em] text-slate-400">
+            <p className="mb-2.5 text-xs font-bold uppercase tracking-[0.2em] text-slate-500">
               Capabilities & Deliverables
             </p>
             <ul className="grid grid-cols-1 gap-x-6 gap-y-2 sm:grid-cols-2">
               {item.items.map((deliverable) => (
                 <li
                   key={deliverable}
-                  className="flex items-start gap-2 text-[11px] sm:text-xs leading-[1.35] text-slate-700"
+                  className="flex items-start gap-2 text-xs sm:text-sm leading-relaxed text-slate-700"
                 >
                   <span
                     className="mt-0.5 flex h-3.5 w-3.5 sm:h-4 sm:w-4 shrink-0 items-center justify-center rounded-full bg-brand-soft-green text-brand-green shadow-2xs"
@@ -239,7 +239,7 @@ export default function InteractiveEcosystem({ onOpenQuote }) {
             Technology, built around your business.
           </p>
 
-          <p className="text-xs sm:text-base lg:text-lg leading-relaxed text-slate-600 max-w-2xl">
+          <p className="text-sm sm:text-base lg:text-lg leading-relaxed text-slate-600 max-w-2xl">
             Explore Techashi’s connected technology capabilities.
           </p>
         </header>

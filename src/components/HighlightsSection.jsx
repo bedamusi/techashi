@@ -135,20 +135,20 @@ export default function HighlightsSection({ onOpenQuote }) {
                   style={{ opacity, transform: `translate3d(0, ${y}px, 0) scale(${scale})`, pointerEvents: index === displayIndex ? 'auto' : 'none', willChange: 'opacity, transform' }}
                 >
                   <div className="highlights-panel-enter flex min-h-0 flex-col justify-center px-5 sm:px-8 md:py-8 md:pl-10 md:pr-8 lg:pl-16 lg:pr-12">
-                    <p className="text-[11px] font-sans font-semibold uppercase tracking-[0.16em] text-brand-blue sm:text-xs">{highlight.eyebrow}</p>
+                    <p className="text-xs sm:text-sm font-sans font-bold uppercase tracking-[0.16em] text-brand-blue">{highlight.eyebrow}</p>
                     <h3 className="mt-2 max-w-xl text-[26px] font-heading font-semibold tracking-tight leading-[1.08] sm:text-3xl lg:text-[42px]">{highlight.title}</h3>
-                    <p className="mt-3 max-w-lg text-sm leading-relaxed text-[#6e6e73] sm:mt-4 sm:text-base">{highlight.description}</p>
+                    <p className="mt-3 max-w-lg text-sm sm:text-base lg:text-[17px] leading-relaxed text-slate-600 sm:mt-4">{highlight.description}</p>
 
                     <div className="mt-5 flex items-end justify-between gap-3 border-t border-black/10 pt-3 sm:mt-8 sm:pt-4">
                       <div className="min-w-0">
                         <p className="text-lg font-heading font-bold tracking-tight sm:text-xl">{highlight.stat}</p>
-                        <p className="mt-0.5 text-[11px] leading-snug text-[#86868b] sm:text-xs">{highlight.statLabel}</p>
+                        <p className="mt-0.5 text-xs sm:text-sm leading-snug text-slate-600">{highlight.statLabel}</p>
                       </div>
-                      <button onClick={onOpenQuote} className="inline-flex shrink-0 items-center gap-1.5 rounded-full bg-[#1d1d1f] px-4 py-2.5 text-xs font-medium text-white transition-colors hover:bg-[#333336] sm:px-5">
+                      <button onClick={onOpenQuote} className="inline-flex shrink-0 items-center gap-1.5 rounded-full bg-[#1d1d1f] px-5 py-2.5 text-xs sm:text-sm font-semibold text-white transition-colors hover:bg-[#333336] sm:px-6">
                         Inquire <ArrowRight className="h-3.5 w-3.5" />
                       </button>
                     </div>
-                    <p className="mt-3 hidden text-[10px] text-[#86868b] md:block">{highlight.tagline}</p>
+                    <p className="mt-3 hidden text-xs text-slate-500 font-medium md:block">{highlight.tagline}</p>
                   </div>
 
                   <div className={`highlights-panel-enter relative min-h-0 bg-[#eaf1f6] ${isHardware ? 'overflow-hidden md:rounded-l-2xl' : 'overflow-hidden rounded-none bg-slate-900'}`}>
@@ -161,7 +161,7 @@ export default function HighlightsSection({ onOpenQuote }) {
                           {HARDWARE_PRODUCTS.slice(1).map((product) => (
                             <div key={product.label} className="relative flex min-h-[120px] items-center justify-center rounded-xl bg-white/65 p-3 sm:min-h-[150px] md:min-h-0 md:p-4">
                               <img src={product.src} alt={product.alt} className="h-full w-full object-contain object-center" loading="eager" decoding="async" />
-                              <span className="absolute bottom-2 left-3 text-[10px] font-semibold text-slate-600 sm:text-xs">{product.label}</span>
+                              <span className="absolute bottom-2 left-3 text-xs sm:text-sm font-semibold text-slate-700">{product.label}</span>
                             </div>
                           ))}
                         </div>

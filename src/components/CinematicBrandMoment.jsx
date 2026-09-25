@@ -71,7 +71,7 @@ export default function CinematicBrandMoment() {
                   <span className="text-xs sm:text-sm font-heading font-bold text-white">
                     {item.title}
                   </span>
-                  <span className="text-[10px] sm:text-[11px] text-slate-300 mt-1 leading-tight">
+                  <span className="text-xs sm:text-[13px] text-slate-200 mt-1 leading-tight">
                     {item.desc}
                   </span>
                 </div>
@@ -82,14 +82,14 @@ export default function CinematicBrandMoment() {
 
         {/* Climax Signature Statement */}
         <div className="mt-12 sm:mt-20 pt-10 sm:pt-16 border-t border-white/10 max-w-3xl mx-auto">
-          <p className="text-[10px] sm:text-xs uppercase tracking-widest text-slate-400 font-semibold mb-2 sm:mb-3">
+          <p className="text-xs sm:text-sm uppercase tracking-widest text-slate-400 font-semibold mb-2 sm:mb-3">
             The Core Truth
           </p>
           <h3 className="text-xl sm:text-4xl md:text-5xl font-heading font-bold text-transparent bg-clip-text bg-gradient-to-r from-white via-slate-100 to-slate-300 tracking-tight leading-snug">
             EVERYTHING WORKS BETTER<br />
             WHEN IT WORKS TOGETHER.
           </h3>
-          <p className="text-xs sm:text-base text-slate-400 mt-3 sm:mt-4 max-w-xl mx-auto font-normal leading-relaxed">
+          <p className="text-sm sm:text-base text-slate-300 mt-3 sm:mt-4 max-w-xl mx-auto font-normal leading-relaxed">
             Hardware without dependable cabling stalls. Great software without secure hardware falters. We unify every layer so your technology is an accelerator, never an obstacle.
           </p>
         </div>

@@ -107,10 +107,10 @@ export default function CartPage() {
               <article key={productId} className="grid grid-cols-[88px_minmax(0,1fr)] gap-4 py-5 sm:grid-cols-[132px_minmax(0,1fr)_auto] sm:gap-6 sm:py-7">
                 <a href={`/products/${product.category}/${encodeURIComponent(product.id)}`} className="grid h-24 place-items-center overflow-hidden rounded-2xl bg-slate-50 p-2 sm:h-32">{product.images?.[0]?.src ? <img src={product.images[0].src} alt={product.images[0].name || product.name} className="h-full w-full object-contain" /> : <ShoppingBag className="h-6 w-6 text-slate-300" />}</a>
                 <div className="min-w-0">
-                  <p className="text-[10px] font-bold uppercase tracking-[.14em] text-brand-blue">{product.category}</p>
+                  <p className="text-xs font-bold uppercase tracking-[.14em] text-brand-blue">{product.category}</p>
                   <a href={`/products/${product.category}/${encodeURIComponent(product.id)}`} className="mt-1 block font-heading text-base font-bold text-brand-navy hover:text-brand-blue sm:text-lg">{product.name}</a>
                   <p className="mt-1 line-clamp-2 text-xs leading-relaxed text-slate-500">{product.description}</p>
-                  {product.stock != null && <p className="mt-2 text-[11px] font-medium text-slate-500">{product.stock > 0 ? `${product.stock} available` : 'Out of stock'}</p>}
+                  {product.stock != null && <p className="mt-2 text-xs font-medium text-slate-600">{product.stock > 0 ? `${product.stock} available` : 'Out of stock'}</p>}
                   <div className="mt-4 flex items-center gap-2 sm:hidden">
                     <QuantityControl quantity={quantity} onChange={(next) => setQuantity(productId, next)} max={product.stock ?? 99} />
                     <button onClick={() => removeItem(productId)} aria-label={`Remove ${product.name}`} className="ml-auto rounded-full p-2 text-slate-400 hover:bg-red-50 hover:text-red-600"><Trash2 className="h-4 w-4" /></button>
@@ -166,9 +166,9 @@ function OrderSummary({ subtotal, onContinue, disabled, compact = false, lines =
     {compact && <div className="mt-5 max-h-56 space-y-3 overflow-y-auto border-b border-slate-200 pb-4">{lines.filter((line) => line.product).map((line) => <div key={line.productId} className="flex justify-between gap-3 text-xs"><span className="line-clamp-2 text-slate-600">{line.quantity} × {line.product.name}</span><strong className="shrink-0 text-brand-navy">{money(line.product.price * line.quantity)}</strong></div>)}</div>}
     <div className="mt-5 space-y-3 border-b border-slate-200 pb-5 text-sm"><div className="flex justify-between gap-4"><span className="text-slate-500">Items subtotal</span><strong className="text-brand-navy">{money(subtotal)}</strong></div><div className="flex justify-between gap-4"><span className="text-slate-500">Delivery</span><span className="text-right text-xs text-slate-500">Confirmed before dispatch</span></div></div>
     <div className="flex justify-between gap-4 py-5"><span className="font-semibold text-brand-navy">Items total</span><strong className="font-heading text-lg text-brand-navy">{money(subtotal)}</strong></div>
-    <p className="mb-5 text-[11px] leading-relaxed text-slate-500">Delivery fee is confirmed with you before dispatch. Total shown covers the products only.</p>
+    <p className="mb-5 text-xs sm:text-[13px] leading-relaxed text-slate-600">Delivery fee is confirmed with you before dispatch. Total shown covers the products only.</p>
     {onContinue && <button onClick={onContinue} disabled={disabled} className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-brand-navy px-5 py-3.5 text-sm font-semibold text-white transition hover:bg-brand-blue disabled:cursor-not-allowed disabled:opacity-50">Continue to checkout <ArrowRight className="h-4 w-4" /></button>}
-    <p className="mt-4 flex items-center justify-center gap-2 text-[11px] text-slate-400"><ShieldCheck className="h-3.5 w-3.5 text-emerald-700" /> Secure order submission</p>
+    <p className="mt-4 flex items-center justify-center gap-2 text-xs text-slate-500"><ShieldCheck className="h-3.5 w-3.5 text-emerald-700" /> Secure order submission</p>
   </aside>;
 }
 

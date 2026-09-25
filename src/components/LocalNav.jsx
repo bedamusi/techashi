@@ -42,7 +42,7 @@ export default function LocalNav({ onOpenQuote }) {
           </a>
 
           {/* Subnav Links */}
-          <div className="flex items-center space-x-4 sm:space-x-6 text-[11px] font-sans font-medium text-slate-600">
+          <div className="flex items-center space-x-4 sm:space-x-6 text-xs sm:text-sm font-sans font-medium text-slate-700">
             <div className="hidden md:flex items-center space-x-6 text-xs sm:text-sm">
               {links.map((link) => (
                 <a
@@ -59,7 +59,7 @@ export default function LocalNav({ onOpenQuote }) {
             {/* Quick Action Pill Button */}
             <button
               onClick={onOpenQuote}
-              className="px-3.5 py-1.5 rounded-full bg-brand-blue hover:bg-brand-blue-hover text-white text-[11px] font-heading font-semibold transition-all shadow-2xs"
+              className="px-4 py-1.5 rounded-full bg-brand-blue hover:bg-brand-blue-hover text-white text-xs font-heading font-semibold transition-all shadow-2xs"
             >
               Get a Quote
             </button>

@@ -137,13 +137,13 @@ export default function SearchDrawer({ isOpen, onClose, onSelectCategory, onOpen
                     className="p-3.5 rounded-2xl border border-slate-100 hover:border-brand-blue/30 hover:bg-brand-soft-blue/30 transition-all cursor-pointer flex items-center justify-between group"
                   >
                     <div>
-                      <span className="text-[10px] font-bold uppercase tracking-wider text-brand-blue">
+                      <span className="text-xs font-bold uppercase tracking-wider text-brand-blue">
                         {res.type}
                       </span>
                       <h4 className="text-sm font-heading font-bold text-slate-800 group-hover:text-brand-blue transition-colors">
                         {res.title}
                       </h4>
-                      <p className="text-xs text-slate-500 line-clamp-1 mt-0.5">
+                      <p className="text-xs sm:text-sm text-slate-600 line-clamp-1 mt-0.5">
                         {res.description}
                       </p>
                     </div>

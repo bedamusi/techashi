@@ -16,17 +16,17 @@ export default function ServiceDirectory({ onOpenQuote }) {
             <article key={service.id} className="grid gap-6 py-8 sm:py-10 lg:grid-cols-[100px_1fr_1fr_auto] lg:items-start lg:gap-10">
               <span className="font-heading text-4xl font-bold text-brand-blue/35">{service.number}</span>
               <div>
-                <p className="text-[10px] font-bold uppercase tracking-widest text-brand-blue">{service.category}</p>
+                <p className="text-xs sm:text-sm font-bold uppercase tracking-widest text-brand-blue">{service.category}</p>
                 <h2 className="mt-2 text-2xl font-heading font-bold text-brand-navy">{service.title}</h2>
                 <p className="mt-2 text-sm leading-relaxed text-slate-600">{service.subtitle}</p>
               </div>
               <div>
                 <p className="text-sm leading-relaxed text-slate-600">{service.detailedText}</p>
                 <ul className="mt-4 grid gap-2 sm:grid-cols-2">
-                  {service.items.map((item) => <li key={item} className="flex gap-2 text-xs text-slate-600"><Check className="mt-0.5 h-3.5 w-3.5 shrink-0 text-brand-green" />{item}</li>)}
+                  {service.items.map((item) => <li key={item} className="flex gap-2 text-xs sm:text-sm text-slate-700"><Check className="mt-0.5 h-3.5 w-3.5 shrink-0 text-brand-green" />{item}</li>)}
                 </ul>
               </div>
-              <button onClick={onOpenQuote} className="inline-flex w-fit items-center gap-2 rounded-full bg-brand-navy px-5 py-3 text-xs font-semibold text-white transition hover:bg-brand-blue"><Wrench className="h-3.5 w-3.5" /> Get support <ArrowUpRight className="h-3.5 w-3.5" /></button>
+              <button onClick={onOpenQuote} className="inline-flex w-fit items-center gap-2 rounded-full bg-brand-navy px-6 py-3 text-xs sm:text-sm font-semibold text-white transition hover:bg-brand-blue"><Wrench className="h-3.5 w-3.5" /> Get support <ArrowUpRight className="h-3.5 w-3.5" /></button>
             </article>
           ))}
         </div>

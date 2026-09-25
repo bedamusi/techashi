@@ -11,7 +11,7 @@ export default function HowWeWork({ onOpenQuote }) {
         
         {/* Section Header */}
         <div className="mx-auto mb-16 sm:mb-20 max-w-4xl text-center">
-          <p className="text-xs font-heading font-bold uppercase tracking-widest text-brand-blue mb-3">
+          <p className="text-xs sm:text-sm font-heading font-bold uppercase tracking-widest text-brand-blue mb-3">
             Execution Process
           </p>
           <h2 className="text-2xl sm:text-3xl lg:text-4xl font-heading font-extrabold text-brand-navy tracking-tight leading-[1.04] text-balance">
@@ -42,7 +42,7 @@ export default function HowWeWork({ onOpenQuote }) {
                     </div>
                   </div>
 
-                  <span className="text-[11px] font-bold tracking-widest uppercase text-brand-green">
+                  <span className="text-xs sm:text-sm font-bold tracking-widest uppercase text-brand-green">
                     Stage {step.step}
                   </span>
                   
@@ -50,16 +50,16 @@ export default function HowWeWork({ onOpenQuote }) {
                     {step.title}
                   </h3>
 
-                  <p className="text-xs font-semibold text-slate-700 mt-2 font-heading">
+                  <p className="text-sm font-semibold text-slate-700 mt-2 font-heading">
                     {step.heading}
                   </p>
 
-                  <p className="text-xs sm:text-sm text-slate-500 mt-3 leading-relaxed">
+                  <p className="text-sm text-slate-600 mt-3 leading-relaxed">
                     {step.description}
                   </p>
                 </div>
 
-                <div className="mt-8 pt-4 border-t border-slate-100 flex items-center gap-1.5 text-[11px] font-semibold text-slate-400 group-hover:text-brand-blue transition-colors">
+                <div className="mt-8 pt-4 border-t border-slate-100 flex items-center gap-1.5 text-xs sm:text-sm font-semibold text-slate-500 group-hover:text-brand-blue transition-colors">
                   <span>Transparent Delivery</span>
                 </div>
               </div>
@@ -72,7 +72,7 @@ export default function HowWeWork({ onOpenQuote }) {
         <div className="mt-16 text-center">
           <button
             onClick={onOpenQuote}
-            className="inline-flex items-center gap-2 px-8 py-3.5 rounded-full bg-brand-blue hover:bg-brand-blue-hover text-white text-xs font-heading font-semibold transition-all shadow-md hover:shadow-lg"
+            className="inline-flex items-center gap-2 px-8 py-3.5 rounded-full bg-brand-blue hover:bg-brand-blue-hover text-white text-xs sm:text-sm font-heading font-semibold transition-all shadow-md hover:shadow-lg"
           >
             <span>Start Step 01 With Us</span>
             <ArrowRight className="w-4 h-4" />

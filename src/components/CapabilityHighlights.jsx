@@ -22,7 +22,7 @@ export default function CapabilityHighlights({ onOpenQuote }) {
         
         {/* Section Header */}
         <div className="mx-auto w-full max-w-[1600px] px-5 py-14 text-center sm:px-8 sm:py-16 lg:px-12 lg:py-20 xl:px-16">
-          <p className="mb-3 text-[11px] font-heading font-bold uppercase tracking-[0.2em] text-brand-blue sm:text-xs">
+          <p className="mb-3 text-xs sm:text-sm font-heading font-bold uppercase tracking-[0.2em] text-brand-blue">
             Core Capabilities
           </p>
           <h2 className="mx-auto max-w-4xl text-2xl sm:text-3xl lg:text-4xl font-heading font-extrabold text-brand-navy tracking-tight leading-[1.04] text-balance">
@@ -47,7 +47,7 @@ export default function CapabilityHighlights({ onOpenQuote }) {
                     <span className="text-4xl sm:text-5xl font-heading font-extrabold text-brand-blue/30 tracking-tight">
                       01
                     </span>
-                    <span className="px-3 py-1 rounded-full bg-blue-100 text-brand-blue text-[11px] font-bold tracking-wider uppercase">
+                    <span className="px-3 py-1 rounded-full bg-blue-100 text-brand-blue text-xs sm:text-sm font-bold tracking-wider uppercase">
                       Infrastructure
                     </span>
                   </div>
@@ -73,7 +73,7 @@ export default function CapabilityHighlights({ onOpenQuote }) {
                       'Hardware & software firewalls',
                       'Turnkey office network setup',
                     ].map((item, idx) => (
-                      <div key={idx} className="flex items-start gap-2 text-xs text-slate-700">
+                      <div key={idx} className="flex items-start gap-2 text-sm text-slate-700">
                         <Check className="w-3.5 h-3.5 text-brand-green shrink-0 mt-0.5" />
                         <span>{item}</span>
                       </div>
@@ -84,7 +84,7 @@ export default function CapabilityHighlights({ onOpenQuote }) {
                 <div className="pt-8">
                   <button
                     onClick={onOpenQuote}
-                    className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-brand-navy hover:bg-brand-blue text-white text-xs font-heading font-semibold transition-all shadow-sm group"
+                    className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-brand-navy hover:bg-brand-blue text-white text-xs sm:text-sm font-heading font-semibold transition-all shadow-sm group"
                   >
                     <span>Request Network Architecture</span>
                     <ArrowUpRight className="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
@@ -126,7 +126,7 @@ export default function CapabilityHighlights({ onOpenQuote }) {
                     <span className="text-4xl sm:text-5xl font-heading font-extrabold text-brand-blue/30 tracking-tight">
                       02
                     </span>
-                    <span className="px-3 py-1 rounded-full bg-emerald-100 text-emerald-800 text-[11px] font-bold tracking-wider uppercase">
+                    <span className="px-3 py-1 rounded-full bg-emerald-100 text-emerald-800 text-xs sm:text-sm font-bold tracking-wider uppercase">
                       Physical Security
                     </span>
                   </div>
@@ -151,7 +151,7 @@ export default function CapabilityHighlights({ onOpenQuote }) {
                       'Anywhere remote viewing on iOS and Android smartphones',
                       'Scheduled camera alignment, lens cleaning & maintenance',
                     ].map((item, idx) => (
-                      <div key={idx} className="flex items-start gap-2 text-xs text-slate-700">
+                      <div key={idx} className="flex items-start gap-2 text-sm text-slate-700">
                         <Check className="w-3.5 h-3.5 text-brand-green shrink-0 mt-0.5" />
                         <span>{item}</span>
                       </div>
@@ -162,7 +162,7 @@ export default function CapabilityHighlights({ onOpenQuote }) {
                 <div className="pt-8">
                   <button
                     onClick={onOpenQuote}
-                    className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-brand-navy hover:bg-brand-blue text-white text-xs font-heading font-semibold transition-all shadow-sm group"
+                    className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-brand-navy hover:bg-brand-blue text-white text-xs sm:text-sm font-heading font-semibold transition-all shadow-sm group"
                   >
                     <span>Request CCTV Installation</span>
                     <ArrowUpRight className="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
@@ -184,7 +184,7 @@ export default function CapabilityHighlights({ onOpenQuote }) {
                     <span className="text-4xl sm:text-5xl font-heading font-extrabold text-brand-blue/30 tracking-tight">
                       03
                     </span>
-                    <span className="px-3 py-1 rounded-full bg-indigo-100 text-indigo-800 text-[11px] font-bold tracking-wider uppercase">
+                    <span className="px-3 py-1 rounded-full bg-indigo-100 text-indigo-800 text-xs sm:text-sm font-bold tracking-wider uppercase">
                       Hardware & Systems
                     </span>
                   </div>
@@ -209,7 +209,7 @@ export default function CapabilityHighlights({ onOpenQuote }) {
                       'Laptops, phones, accessories, and workspace peripherals',
                       'Workstation RAM, NVMe SSD upgrades & preventative servicing',
                     ].map((item, idx) => (
-                      <div key={idx} className="flex items-start gap-2 text-xs text-slate-700">
+                      <div key={idx} className="flex items-start gap-2 text-sm text-slate-700">
                         <Check className="w-3.5 h-3.5 text-brand-green shrink-0 mt-0.5" />
                         <span>{item}</span>
                       </div>
@@ -220,7 +220,7 @@ export default function CapabilityHighlights({ onOpenQuote }) {
                 <div className="pt-8">
                   <a
                     href="/products"
-                    className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-brand-navy hover:bg-brand-blue text-white text-xs font-heading font-semibold transition-all shadow-sm group"
+                    className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-brand-navy hover:bg-brand-blue text-white text-xs sm:text-sm font-heading font-semibold transition-all shadow-sm group"
                   >
                     <span>Browse Product Categories</span>
                     <ArrowUpRight className="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
@@ -236,7 +236,7 @@ export default function CapabilityHighlights({ onOpenQuote }) {
                     <span className="text-xs font-heading font-bold text-slate-800 uppercase tracking-wider">
                       Hardware Quality Assurance
                     </span>
-                    <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-brand-soft-green text-brand-navy">
+                    <span className="text-xs font-bold px-2.5 py-0.5 rounded bg-brand-soft-green text-brand-navy">
                       Warranty Guaranteed
                     </span>
                   </div>
@@ -254,29 +254,29 @@ export default function CapabilityHighlights({ onOpenQuote }) {
                     <div className="p-3.5 rounded-xl bg-slate-50 border border-slate-100">
                       <Laptop className="w-6 h-6 text-brand-blue mb-2" />
                       <p className="text-xs font-bold font-heading text-slate-800">Business Laptops</p>
-                      <p className="text-[10px] text-slate-500 mt-1">New & Tested Refurbished</p>
+                      <p className="text-xs text-slate-600 mt-1">New & Tested Refurbished</p>
                     </div>
 
                     <div className="p-3.5 rounded-xl bg-slate-50 border border-slate-100">
                       <Monitor className="w-6 h-6 text-brand-navy mb-2" />
                       <p className="text-xs font-bold font-heading text-slate-800">Tower Desktops</p>
-                      <p className="text-[10px] text-slate-500 mt-1">High-Throughput Office PCs</p>
+                      <p className="text-xs text-slate-600 mt-1">High-Throughput Office PCs</p>
                     </div>
 
                     <div className="p-3.5 rounded-xl bg-slate-50 border border-slate-100">
                       <Smartphone className="w-6 h-6 text-emerald-600 mb-2" />
                       <p className="text-xs font-bold font-heading text-slate-800">Gadgets & Phones</p>
-                      <p className="text-[10px] text-slate-500 mt-1">Original Peripherals</p>
+                      <p className="text-xs text-slate-600 mt-1">Original Peripherals</p>
                     </div>
 
                     <div className="p-3.5 rounded-xl bg-slate-50 border border-slate-100">
                       <Cpu className="w-6 h-6 text-purple-600 mb-2" />
                       <p className="text-xs font-bold font-heading text-slate-800">Component Upgrades</p>
-                      <p className="text-[10px] text-slate-500 mt-1">RAM & SSD Enhancements</p>
+                      <p className="text-xs text-slate-600 mt-1">RAM & SSD Enhancements</p>
                     </div>
                   </div>
 
-                  <div className="text-center pt-1 text-[11px] text-slate-500 font-medium">
+                  <div className="text-center pt-1 text-xs sm:text-sm text-slate-600 font-medium">
                     Every refurbished unit is benchmarked, cleaned, and warranty-backed.
                   </div>
                 </div>
@@ -306,7 +306,7 @@ export default function CapabilityHighlights({ onOpenQuote }) {
                     <span className="text-4xl sm:text-5xl font-heading font-extrabold text-brand-blue/30 tracking-tight">
                       04
                     </span>
-                    <span className="px-3 py-1 rounded-full bg-emerald-100 text-emerald-800 text-[11px] font-bold tracking-wider uppercase">
+                    <span className="px-3 py-1 rounded-full bg-emerald-100 text-emerald-800 text-xs sm:text-sm font-bold tracking-wider uppercase">
                       Cloud & Digital
                     </span>
                   </div>
@@ -331,7 +331,7 @@ export default function CapabilityHighlights({ onOpenQuote }) {
                       'Graphic design (logos, branding, flyers, social media, company profiles)',
                       'IT consultancy (technology planning, system selection, IT audits, advisory)',
                     ].map((item, idx) => (
-                      <div key={idx} className="flex items-start gap-2 text-xs text-slate-700">
+                      <div key={idx} className="flex items-start gap-2 text-sm text-slate-700">
                         <Check className="w-3.5 h-3.5 text-brand-green shrink-0 mt-0.5" />
                         <span>{item}</span>
                       </div>
@@ -342,7 +342,7 @@ export default function CapabilityHighlights({ onOpenQuote }) {
                 <div className="pt-8">
                   <button
                     onClick={onOpenQuote}
-                    className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-brand-navy hover:bg-brand-blue text-white text-xs font-heading font-semibold transition-all shadow-sm group"
+                    className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-brand-navy hover:bg-brand-blue text-white text-xs sm:text-sm font-heading font-semibold transition-all shadow-sm group"
                   >
                     <span>Consult on Digital Solutions</span>
                     <ArrowUpRight className="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
