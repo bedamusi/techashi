@@ -155,37 +155,42 @@ export default function HighlightsSection({ onOpenQuote }) {
 
                   <div className={`highlights-panel-enter relative min-h-0 ${isHardware ? 'bg-[#eaf1f6]' : 'bg-slate-900'}`}>
                     {isHardware ? (
-                      <div className="grid h-full min-h-[160px] sm:min-h-[220px] grid-cols-1 gap-2.5 p-2.5 sm:p-4 md:min-h-0 md:grid-cols-[1.45fr_1fr] md:gap-3 lg:gap-4 lg:p-4">
-                        <div className="relative h-full w-full min-h-[140px] sm:min-h-[180px] md:min-h-0 overflow-hidden rounded-xl md:rounded-2xl bg-white shadow-xs group">
-                          <img
-                            src={HARDWARE_PRODUCTS[0].src}
-                            alt={HARDWARE_PRODUCTS[0].alt}
-                            className="h-full w-full object-cover object-center transition-transform duration-500 group-hover:scale-105"
-                            loading="eager"
-                            decoding="async"
-                          />
-                          <span className="absolute bottom-2.5 left-2.5 sm:bottom-3 sm:left-3 rounded-full bg-black/60 backdrop-blur-md px-2.5 py-1 text-[11px] sm:text-xs font-semibold text-white shadow-xs">
-                            {HARDWARE_PRODUCTS[0].label}
-                          </span>
-                        </div>
-                        <div className="grid min-h-0 grid-cols-2 gap-2.5 md:h-full md:grid-cols-1 md:grid-rows-2 md:gap-3">
-                          {HARDWARE_PRODUCTS.slice(1).map((product) => (
-                            <div
-                              key={product.label}
-                              className="relative h-full w-full min-h-[85px] sm:min-h-[110px] md:min-h-0 overflow-hidden rounded-xl md:rounded-2xl bg-slate-900 shadow-xs group"
-                            >
-                              <img
-                                src={product.src}
-                                alt={product.alt}
-                                className="h-full w-full object-cover object-center transition-transform duration-500 group-hover:scale-105"
-                                loading="eager"
-                                decoding="async"
-                              />
-                              <span className="absolute bottom-2 left-2 sm:bottom-2.5 sm:left-2.5 rounded-full bg-black/60 backdrop-blur-md px-2.5 py-1 text-[11px] sm:text-xs font-semibold text-white shadow-xs">
-                                {product.label}
-                              </span>
-                            </div>
-                          ))}
+                      <div className="flex h-full w-full items-center justify-center p-3 sm:p-4 lg:p-6">
+                        <div className="grid w-full max-w-2xl grid-cols-1 gap-2.5 sm:gap-3.5 md:grid-cols-[1.4fr_1fr] md:items-stretch">
+                          {/* Main Business Laptop (Dell) */}
+                          <div className="relative flex aspect-[4/3] sm:aspect-[16/11] md:aspect-auto md:h-full w-full items-center justify-center overflow-hidden rounded-xl md:rounded-2xl bg-white p-2.5 sm:p-4 shadow-xs">
+                            <img
+                              src={HARDWARE_PRODUCTS[0].src}
+                              alt={HARDWARE_PRODUCTS[0].alt}
+                              className="h-full w-full object-contain object-center"
+                              loading="eager"
+                              decoding="async"
+                            />
+                            <span className="absolute bottom-2.5 left-2.5 sm:bottom-3 sm:left-3 rounded-full bg-black/60 backdrop-blur-md px-2.5 py-1 text-[11px] sm:text-xs font-semibold text-white shadow-xs">
+                              {HARDWARE_PRODUCTS[0].label}
+                            </span>
+                          </div>
+
+                          {/* Right Column: Performance Laptop & Workstations */}
+                          <div className="grid grid-cols-2 gap-2.5 sm:gap-3 md:grid-cols-1 md:gap-3">
+                            {HARDWARE_PRODUCTS.slice(1).map((product) => (
+                              <div
+                                key={product.label}
+                                className="relative flex aspect-video w-full items-center justify-center overflow-hidden rounded-xl md:rounded-2xl bg-slate-900 shadow-xs"
+                              >
+                                <img
+                                  src={product.src}
+                                  alt={product.alt}
+                                  className="h-full w-full object-contain object-center"
+                                  loading="eager"
+                                  decoding="async"
+                                />
+                                <span className="absolute bottom-2 left-2 sm:bottom-2.5 sm:left-2.5 rounded-full bg-black/60 backdrop-blur-md px-2.5 py-1 text-[11px] sm:text-xs font-semibold text-white shadow-xs">
+                                  {product.label}
+                                </span>
+                              </div>
+                            ))}
+                          </div>
                         </div>
                       </div>
                     ) : (
