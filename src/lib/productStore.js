@@ -42,6 +42,10 @@ async function fetchProducts(category = 'all') {
 }
 
 export async function readProduct(id, category) {
+  for (const list of productCache.values()) {
+    const found = list.find((p) => String(p.id) === String(id));
+    if (found) return found;
+  }
   const params = new URLSearchParams({ route: 'products', id, category });
   const { product } = await request(`/api/index.php?${params}`);
   return product;
