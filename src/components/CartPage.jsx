@@ -98,15 +98,15 @@ export default function CartPage() {
         </div>
 
         {loadError && <div role="alert" className="mt-6 flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-900"><span>{loadError}</span><button onClick={loadCatalog} className="font-semibold underline underline-offset-2">Retry</button></div>}
-        {loading && <div className="grid min-h-64 place-items-center text-sm text-slate-500" role="status">Refreshing your bag…</div>}
 
-        {!loading && !items.length && <div className="mt-12 rounded-[28px] bg-white px-6 py-16 text-center"><span className="mx-auto grid h-14 w-14 place-items-center rounded-full bg-blue-50 text-brand-blue"><ShoppingBag className="h-6 w-6" /></span><h2 className="mt-5 text-2xl font-heading font-bold text-brand-navy">Your bag is ready for something good.</h2><p className="mt-2 text-sm text-slate-500">Explore the catalog and add products you’d like to order.</p><a href="/products" className="mt-7 inline-flex items-center gap-2 rounded-full bg-brand-navy px-6 py-3 text-sm font-semibold text-white hover:bg-brand-blue">Explore products <ArrowRight className="h-4 w-4" /></a></div>}
 
-        {!loading && items.length > 0 && step === 'cart' && <div className="mt-8 grid gap-8 lg:grid-cols-[minmax(0,1fr)_360px] lg:items-start">
+        {!items.length && <div className="mt-12 rounded-[28px] bg-white px-6 py-16 text-center"><span className="mx-auto grid h-14 w-14 place-items-center rounded-full bg-blue-50 text-brand-blue"><ShoppingBag className="h-6 w-6" /></span><h2 className="mt-5 text-2xl font-heading font-bold text-brand-navy">Your bag is ready for something good.</h2><p className="mt-2 text-sm text-slate-500">Explore the catalog and add products you’d like to order.</p><a href="/products" className="mt-7 inline-flex items-center gap-2 rounded-full bg-brand-navy px-6 py-3 text-sm font-semibold text-white hover:bg-brand-blue">Explore products <ArrowRight className="h-4 w-4" /></a></div>}
+
+        {items.length > 0 && step === 'cart' && <div className="mt-8 grid gap-8 lg:grid-cols-[minmax(0,1fr)_360px] lg:items-start">
           <div className="divide-y divide-slate-200 border-y border-slate-200 bg-white px-4 sm:px-7">
             {lines.map(({ product, productId, quantity }) => product ? (
               <article key={productId} className="grid grid-cols-[88px_minmax(0,1fr)] gap-4 py-5 sm:grid-cols-[132px_minmax(0,1fr)_auto] sm:gap-6 sm:py-7">
-                <a href={`/products/${product.category}/${encodeURIComponent(product.id)}`} className="grid h-24 place-items-center overflow-hidden rounded-2xl bg-slate-50 p-2 sm:h-32">{product.images?.[0]?.src ? <img src={product.images[0].src} alt={product.images[0].name || product.name} className="h-full w-full object-contain" /> : <ShoppingBag className="h-6 w-6 text-slate-300" />}</a>
+                <a href={`/products/${product.category}/${encodeURIComponent(product.id)}`} className="grid h-24 place-items-center overflow-hidden rounded-2xl bg-slate-50 p-2 sm:h-32">{product.images?.[0]?.src ? <img src={product.images[0].src} alt={product.images[0].name || product.name} className="h-full w-full object-contain" loading="eager" decoding="async" /> : <ShoppingBag className="h-6 w-6 text-slate-300" />}</a>
                 <div className="min-w-0">
                   <p className="text-xs font-bold uppercase tracking-[.14em] text-brand-blue">{product.category}</p>
                   <a href={`/products/${product.category}/${encodeURIComponent(product.id)}`} className="mt-1 block font-heading text-base font-bold text-brand-navy hover:text-brand-blue sm:text-lg">{product.name}</a>
@@ -132,7 +132,7 @@ export default function CartPage() {
           <OrderSummary subtotal={subtotal} onContinue={() => setStep('checkout')} disabled={!items.length || hasUnavailable || !!loadError} />
         </div>}
 
-        {!loading && items.length > 0 && step === 'checkout' && <form onSubmit={submitOrder} className="mt-8 grid gap-8 lg:grid-cols-[minmax(0,1fr)_360px] lg:items-start">
+        {items.length > 0 && step === 'checkout' && <form onSubmit={submitOrder} className="mt-8 grid gap-8 lg:grid-cols-[minmax(0,1fr)_360px] lg:items-start">
           <div className="space-y-7 rounded-[28px] bg-white p-5 sm:p-8">
             <div><h2 className="text-lg font-heading font-bold text-brand-navy">Contact details</h2><p className="mt-1 text-xs text-slate-500">We’ll use these to confirm your order and coordinate fulfillment.</p></div>
             <div className="grid gap-4 sm:grid-cols-2">

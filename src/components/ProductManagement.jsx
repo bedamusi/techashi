@@ -286,7 +286,7 @@ export default function ProductManagement() {
               ))}
             </div>
 
-            {isLoading ? <div className="mt-5 rounded-2xl border border-slate-200 bg-white px-6 py-14 text-center text-sm text-slate-500" role="status">Loading shared catalog…</div> : visibleProducts.length ? (
+            {isLoading && !products.length ? <div className="mt-5 rounded-2xl border border-slate-200 bg-white px-6 py-14 text-center text-sm text-slate-500" role="status">Loading shared catalog…</div> : visibleProducts.length ? (
               <div className="mt-4 divide-y divide-slate-200 border-y border-slate-200">
                 {visibleProducts.map((product) => (
                   <article key={product.id} className="flex gap-4 py-4 sm:gap-5">
