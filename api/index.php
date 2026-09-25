@@ -155,7 +155,7 @@ try {
                 api_json(429, ['error' => 'Please wait a few seconds before submitting another order.']);
             }
 
-            $productStmt = $pdo->prepare('SELECT id,name,category,sku,price,stock,images FROM products WHERE id = ? AND is_published = 1 LIMIT 1 FOR UPDATE');
+            $productStmt = $pdo->prepare('SELECT id,name,category,sku,price,offer_price,stock,images FROM products WHERE id = ? AND is_published = 1 LIMIT 1 FOR UPDATE');
             $orderProducts = [];
             $subtotal = 0.0;
             foreach ($quantities as $productId => $quantity) {
@@ -169,7 +169,8 @@ try {
                     $pdo->rollBack();
                     api_json(409, ['error' => $product['name'] . ' has only ' . (int)$product['stock'] . ' available. Update the quantity and try again.']);
                 }
-                $unitPrice = (float)$product['price'];
+                $effectivePrice = ($product['offer_price'] !== null && (float)$product['offer_price'] > 0) ? (float)$product['offer_price'] : (float)$product['price'];
+                $unitPrice = $effectivePrice;
                 $subtotal += $unitPrice * $quantity;
                 $images = json_decode((string)$product['images'], true) ?: [];
                 $product['image_src'] = isset($images[0]['src']) ? (string)$images[0]['src'] : null;
@@ -319,15 +320,17 @@ try {
         $category = (string)($body['category'] ?? '');
         $description = trim((string)($body['description'] ?? ''));
         $price = filter_var($body['price'] ?? null, FILTER_VALIDATE_FLOAT);
+        $offerPriceRaw = $body['offer_price'] ?? ($body['offer'] ?? null);
+        $offerPrice = ($offerPriceRaw === null || $offerPriceRaw === '') ? null : filter_var($offerPriceRaw, FILTER_VALIDATE_FLOAT);
         $specs = $body['specs'] ?? null;
         $sku = trim((string)($body['sku'] ?? ''));
         $stock = $body['stock'] ?? null;
         $images = $body['images'] ?? [];
-        if ($name === '' || mb_strlen($name) > 100 || !in_array($category, $categories, true) || $description === '' || mb_strlen($description) > 700 || $price === false || $price < 0 || !is_array($specs) || !count($specs) || !is_array($images) || count($images) > 5 || ($stock !== null && (!filter_var($stock, FILTER_VALIDATE_INT) || (int)$stock < 0))) api_json(422, ['error' => 'Check the required fields, category, price, stock, specifications, and images.']);
+        if ($name === '' || mb_strlen($name) > 100 || !in_array($category, $categories, true) || $description === '' || mb_strlen($description) > 700 || $price === false || $price < 0 || ($offerPrice !== null && ($offerPrice === false || $offerPrice < 0)) || !is_array($specs) || !count($specs) || !is_array($images) || count($images) > 5 || ($stock !== null && (!filter_var($stock, FILTER_VALIDATE_INT) || (int)$stock < 0))) api_json(422, ['error' => 'Check the required fields, category, price, offer price, stock, specifications, and images.']);
         $id = $method === 'PUT' ? (string)($body['id'] ?? '') : sprintf('%s-%s-%s-%s-%s', bin2hex(random_bytes(4)), bin2hex(random_bytes(2)), '4' . substr(bin2hex(random_bytes(2)), 1), '8' . substr(bin2hex(random_bytes(2)), 1), bin2hex(random_bytes(6)));
         if (!preg_match('/^[a-f0-9-]{36}$/i', $id)) api_json(422, ['error' => 'Invalid product identifier.']);
-        $stmt = db()->prepare('INSERT INTO products (id,name,category,description,price,specs,sku,stock,images,is_published) VALUES (?,?,?,?,?,?,?,?,?,1) ON DUPLICATE KEY UPDATE name=VALUES(name),category=VALUES(category),description=VALUES(description),price=VALUES(price),specs=VALUES(specs),sku=VALUES(sku),stock=VALUES(stock),images=VALUES(images),updated_at=CURRENT_TIMESTAMP');
-        $stmt->execute([$id, $name, $category, $description, $price, json_encode(array_values($specs)), $sku, $stock === null ? null : (int)$stock, json_encode(array_values($images))]);
+        $stmt = db()->prepare('INSERT INTO products (id,name,category,description,price,offer_price,specs,sku,stock,images,is_published) VALUES (?,?,?,?,?,?,?,?,?,?,1) ON DUPLICATE KEY UPDATE name=VALUES(name),category=VALUES(category),description=VALUES(description),price=VALUES(price),offer_price=VALUES(offer_price),specs=VALUES(specs),sku=VALUES(sku),stock=VALUES(stock),images=VALUES(images),updated_at=CURRENT_TIMESTAMP');
+        $stmt->execute([$id, $name, $category, $description, $price, $offerPrice, json_encode(array_values($specs)), $sku, $stock === null ? null : (int)$stock, json_encode(array_values($images))]);
         $read = db()->prepare('SELECT * FROM products WHERE id = ?');
         $read->execute([$id]);
         api_json($method === 'POST' ? 201 : 200, ['product' => product_row($read->fetch())]);

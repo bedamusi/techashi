@@ -36,7 +36,8 @@ export default function CartPage() {
 
   const catalog = useMemo(() => new Map(products.map((product) => [product.id, product])), [products]);
   const lines = items.map((item) => ({ ...item, product: catalog.get(item.productId) }));
-  const subtotal = lines.reduce((sum, item) => sum + (item.product ? Number(item.product.price) * item.quantity : 0), 0);
+  const getUnitPrice = (product) => (product?.offer_price != null && Number(product.offer_price) > 0) ? Number(product.offer_price) : Number(product?.price || 0);
+  const subtotal = lines.reduce((sum, item) => sum + (item.product ? getUnitPrice(item.product) * item.quantity : 0), 0);
   const hasUnavailable = lines.some((item) => !item.product || (item.product.stock != null && item.quantity > item.product.stock));
 
   const submitOrder = async (event) => {
@@ -117,7 +118,12 @@ export default function CartPage() {
                   </div>
                 </div>
                 <div className="col-span-2 flex items-center justify-between sm:col-span-1 sm:flex-col sm:items-end sm:justify-between sm:py-1">
-                  <strong className="font-heading text-sm font-bold text-brand-navy">{money(product.price * quantity)}</strong>
+                  <div className="flex flex-col items-end">
+                    {product.offer_price != null && Number(product.offer_price) > 0 && (
+                      <span className="text-xs text-slate-400 line-through">{money(Number(product.price) * quantity)}</span>
+                    )}
+                    <strong className="font-heading text-sm font-bold text-brand-navy">{money(getUnitPrice(product) * quantity)}</strong>
+                  </div>
                   <div className="hidden items-center gap-3 sm:flex"><QuantityControl quantity={quantity} onChange={(next) => setQuantity(productId, next)} max={product.stock ?? 99} /><button onClick={() => removeItem(productId)} aria-label={`Remove ${product.name}`} className="rounded-full p-2 text-slate-400 hover:bg-red-50 hover:text-red-600"><Trash2 className="h-4 w-4" /></button></div>
                 </div>
               </article>
@@ -163,7 +169,7 @@ function QuantityControl({ quantity, onChange, max }) {
 function OrderSummary({ subtotal, onContinue, disabled, compact = false, lines = [] }) {
   return <aside className="rounded-[24px] bg-white p-5 sm:p-6 lg:sticky lg:top-28">
     <h2 className="font-heading text-lg font-bold text-brand-navy">Order summary</h2>
-    {compact && <div className="mt-5 max-h-56 space-y-3 overflow-y-auto border-b border-slate-200 pb-4">{lines.filter((line) => line.product).map((line) => <div key={line.productId} className="flex justify-between gap-3 text-xs"><span className="line-clamp-2 text-slate-600">{line.quantity} × {line.product.name}</span><strong className="shrink-0 text-brand-navy">{money(line.product.price * line.quantity)}</strong></div>)}</div>}
+    {compact && <div className="mt-5 max-h-56 space-y-3 overflow-y-auto border-b border-slate-200 pb-4">{lines.filter((line) => line.product).map((line) => <div key={line.productId} className="flex justify-between gap-3 text-xs"><span className="line-clamp-2 text-slate-600">{line.quantity} × {line.product.name}</span><div className="shrink-0 text-right">{line.product.offer_price != null && Number(line.product.offer_price) > 0 && <span className="mr-1.5 text-slate-400 line-through">{money(Number(line.product.price) * line.quantity)}</span>}<strong className="text-brand-navy">{money(((line.product.offer_price != null && Number(line.product.offer_price) > 0) ? Number(line.product.offer_price) : Number(line.product.price)) * line.quantity)}</strong></div></div>)}</div>}
     <div className="mt-5 space-y-3 border-b border-slate-200 pb-5 text-sm"><div className="flex justify-between gap-4"><span className="text-slate-500">Items subtotal</span><strong className="text-brand-navy">{money(subtotal)}</strong></div><div className="flex justify-between gap-4"><span className="text-slate-500">Delivery</span><span className="text-right text-xs text-slate-500">Confirmed before dispatch</span></div></div>
     <div className="flex justify-between gap-4 py-5"><span className="font-semibold text-brand-navy">Items total</span><strong className="font-heading text-lg text-brand-navy">{money(subtotal)}</strong></div>
     <p className="mb-5 text-xs sm:text-[13px] leading-relaxed text-slate-600">Delivery fee is confirmed with you before dispatch. Total shown covers the products only.</p>

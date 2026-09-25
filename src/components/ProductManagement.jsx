@@ -5,7 +5,7 @@ import { deleteProduct as deleteCatalogProduct, readProducts, saveProduct as sav
 import { signOutAdmin } from '../lib/adminAuth';
 import { useToast } from '../context/ToastContext';
 
-const blankProduct = { name: '', category: 'laptops', description: '', price: '', specs: '', sku: '', stock: '', images: [] };
+const blankProduct = { name: '', category: 'laptops', description: '', price: '', offer_price: '', specs: '', sku: '', stock: '', images: [] };
 
 function parseCsv(text) {
   const rows = [];
@@ -40,9 +40,12 @@ function parseCsv(text) {
 
   return rows.slice(1).map((cells, index) => {
     const value = (key) => cells[headers.indexOf(key)] || '';
+    const offerVal = value('offer_price') || value('offer');
     const product = {
       name: value('name'), category: value('category').toLowerCase(), description: value('description'),
-      price: Number(value('price')), specs: value('specs').split(/[|;]/).map((spec) => spec.trim()).filter(Boolean),
+      price: Number(value('price')),
+      offer_price: offerVal === '' ? null : Number(offerVal),
+      specs: value('specs').split(/[|;]/).map((spec) => spec.trim()).filter(Boolean),
       sku: value('sku'), stock: value('stock') === '' ? null : Number(value('stock')), images: [],
     };
     const issues = [];
@@ -50,6 +53,7 @@ function parseCsv(text) {
     if (!knownCategories.includes(product.category)) issues.push(`category must be one of: ${knownCategories.join(', ')}`);
     if (!product.description || product.description.length > 700) issues.push('description is required (max 700 characters)');
     if (!Number.isFinite(product.price) || product.price < 0) issues.push('price must be a non-negative number');
+    if (product.offer_price !== null && (!Number.isFinite(product.offer_price) || product.offer_price < 0)) issues.push('offer must be a non-negative number');
     if (!product.specs.length) issues.push('at least one spec is required');
     if (product.sku.length > 40) issues.push('SKU must be 40 characters or fewer');
     if (product.stock !== null && (!Number.isInteger(product.stock) || product.stock < 0)) issues.push('stock must be blank or a non-negative whole number');
@@ -57,7 +61,7 @@ function parseCsv(text) {
   });
 }
 
-const CSV_TEMPLATE = 'name,category,description,price,specs,sku,stock\n"Dell Latitude 5440",laptops,"Core i5 laptop with 16 GB RAM",85000,"Core i5 | 16 GB RAM | 512 GB SSD",TECH-001,5\n';
+const CSV_TEMPLATE = 'name,category,description,price,offer_price,specs,sku,stock\n"Dell Latitude 5440",laptops,"Core i5 laptop with 16 GB RAM",85000,75000,"Core i5 | 16 GB RAM | 512 GB SSD",TECH-001,5\n';
 
 export default function ProductManagement() {
   const notify = useToast();
@@ -152,9 +156,18 @@ export default function ProductManagement() {
       return;
     }
     const price = Number(form.price);
+    const offerPrice = form.offer_price === '' ? null : Number(form.offer_price);
     const stock = form.stock === '' ? null : Number(form.stock);
     if (!Number.isFinite(price) || price < 0 || (stock !== null && (!Number.isInteger(stock) || stock < 0))) {
       setError('Enter a valid non-negative price and whole-number stock quantity.');
+      return;
+    }
+    if (offerPrice !== null && (!Number.isFinite(offerPrice) || offerPrice < 0)) {
+      setError('Enter a valid non-negative offer price.');
+      return;
+    }
+    if (offerPrice !== null && offerPrice >= price) {
+      setError('Offer price should be lower than the original price.');
       return;
     }
 
@@ -166,6 +179,7 @@ export default function ProductManagement() {
       category: form.category,
       description: form.description.trim(),
       price,
+      offer_price: offerPrice,
       specs: form.specs.split('\n').map((item) => item.trim()).filter(Boolean),
       sku: form.sku.trim(),
       stock,
@@ -192,6 +206,7 @@ export default function ProductManagement() {
       category: product.category,
       description: product.description,
       price: String(product.price),
+      offer_price: product.offer_price != null ? String(product.offer_price) : '',
       specs: (product.specs || []).join('\n'),
       sku: product.sku || '',
       stock: product.stock == null ? '' : String(product.stock),
@@ -257,7 +272,7 @@ export default function ProductManagement() {
               {bulkError && <p role="alert" className="mt-3 rounded-xl bg-red-50 px-3 py-2.5 text-xs text-red-700">{bulkError}</p>}
               {!!bulkRows.length && <>
                 <div className="mt-4 max-h-60 overflow-auto rounded-xl border border-slate-200">
-                  <table className="w-full min-w-[560px] text-left text-[11px]"><thead className="sticky top-0 bg-slate-50 text-slate-500"><tr><th className="px-3 py-2">Row</th><th className="px-3 py-2">Product</th><th className="px-3 py-2">Category</th><th className="px-3 py-2">Price</th><th className="px-3 py-2">Validation</th></tr></thead><tbody className="divide-y divide-slate-100">{bulkRows.map(({ line, product, issues }) => <tr key={line} className={issues.length ? 'bg-red-50/70' : ''}><td className="px-3 py-2 text-slate-400">{line}</td><td className="px-3 py-2 font-semibold text-brand-navy">{product.name || '—'}</td><td className="px-3 py-2">{product.category || '—'}</td><td className="px-3 py-2">{Number.isFinite(product.price) ? `KES ${product.price.toLocaleString()}` : '—'}</td><td className={`px-3 py-2 ${issues.length ? 'text-red-700' : 'text-emerald-700'}`}>{issues.length ? issues.join('; ') : 'Ready'}</td></tr>)}</tbody></table>
+                  <table className="w-full min-w-[560px] text-left text-[11px]"><thead className="sticky top-0 bg-slate-50 text-slate-500"><tr><th className="px-3 py-2">Row</th><th className="px-3 py-2">Product</th><th className="px-3 py-2">Category</th><th className="px-3 py-2">Price</th><th className="px-3 py-2">Validation</th></tr></thead><tbody className="divide-y divide-slate-100">{bulkRows.map(({ line, product, issues }) => <tr key={line} className={issues.length ? 'bg-red-50/70' : ''}><td className="px-3 py-2 text-slate-400">{line}</td><td className="px-3 py-2 font-semibold text-brand-navy">{product.name || '—'}</td><td className="px-3 py-2">{product.category || '—'}</td><td className="px-3 py-2">{Number.isFinite(product.price) ? (product.offer_price != null && Number.isFinite(product.offer_price) && product.offer_price > 0 ? <div className="flex flex-wrap items-center gap-1.5"><span className="line-through text-slate-400">KES {product.price.toLocaleString()}</span><span className="font-bold text-red-600">KES {product.offer_price.toLocaleString()}</span></div> : `KES ${product.price.toLocaleString()}`) : '—'}</td><td className={`px-3 py-2 ${issues.length ? 'text-red-700' : 'text-emerald-700'}`}>{issues.length ? issues.join('; ') : 'Ready'}</td></tr>)}</tbody></table>
                 </div>
                 <div className="mt-3 flex flex-wrap items-center justify-between gap-3"><p className="text-xs text-slate-500">{bulkRows.filter(({ issues }) => !issues.length).length} ready · {bulkRows.filter(({ issues }) => issues.length).length} with errors</p><div className="flex gap-2"><button type="button" onClick={() => { setBulkRows([]); setBulkError(''); }} disabled={bulkBusy} className="rounded-full px-4 py-2 text-xs font-semibold text-slate-500 hover:bg-slate-100">Clear</button><button type="button" onClick={importCsv} disabled={bulkBusy || !bulkRows.some(({ issues }) => !issues.length)} className="inline-flex items-center gap-2 rounded-full bg-brand-navy px-4 py-2 text-xs font-semibold text-white hover:bg-brand-blue disabled:cursor-not-allowed disabled:opacity-50"><Upload className="h-3.5 w-3.5" />{bulkBusy ? 'Importing…' : 'Import valid products'}</button></div></div>
               </>}
@@ -282,7 +297,18 @@ export default function ProductManagement() {
                       <p className="text-[10px] font-bold uppercase tracking-wider text-brand-blue">{PRODUCT_CATEGORIES.find((item) => item.id === product.category)?.name}</p>
                       <h3 className="mt-1 truncate font-heading font-bold text-brand-navy">{product.name}</h3>
                       <p className="mt-1 line-clamp-2 text-xs text-slate-500">{product.description}</p>
-                      <p className="mt-2 text-xs font-bold text-slate-700">KES {Number(product.price).toLocaleString()}{product.stock != null ? ` · ${product.stock} in stock` : ''}</p>
+                      <div className="mt-2 flex flex-wrap items-center gap-2">
+                        {product.offer_price != null && Number(product.offer_price) > 0 ? (
+                          <>
+                            <span className="text-xs text-slate-400 line-through">KES {Number(product.price).toLocaleString()}</span>
+                            <span className="text-xs font-bold text-red-600">KES {Number(product.offer_price).toLocaleString()}</span>
+                            <span className="rounded bg-red-50 px-1.5 py-0.5 text-[10px] font-bold text-red-600">Offer</span>
+                          </>
+                        ) : (
+                          <span className="text-xs font-bold text-slate-700">KES {Number(product.price).toLocaleString()}</span>
+                        )}
+                        {product.stock != null ? <span className="text-xs text-slate-500">· {product.stock} in stock</span> : ''}
+                      </div>
                     </div>
                     <div className="flex shrink-0 flex-col gap-2 sm:flex-row">
                       <button onClick={() => editProduct(product)} aria-label={`Edit ${product.name}`} className="grid h-9 w-9 place-items-center rounded-full bg-white text-slate-500 hover:text-brand-blue"><Pencil className="h-4 w-4" /></button>
@@ -312,9 +338,10 @@ export default function ProductManagement() {
 
             <form onSubmit={saveProduct} className="mt-5 space-y-4">
               <label className="block text-xs font-semibold text-slate-700">Product name *<input required maxLength={100} value={form.name} onChange={(event) => updateForm('name', event.target.value)} placeholder="e.g. Dell Latitude 5440" className="mt-1.5 w-full rounded-xl border border-slate-200 px-3.5 py-3 text-sm font-normal outline-none transition focus:border-brand-blue" /></label>
-              <div className="grid grid-cols-2 gap-3">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                 <label className="block text-xs font-semibold text-slate-700">Category *<select value={form.category} onChange={(event) => updateForm('category', event.target.value)} className="mt-1.5 w-full rounded-xl border border-slate-200 bg-white px-3 py-3 text-xs font-normal outline-none focus:border-brand-blue">{PRODUCT_CATEGORIES.map((category) => <option key={category.id} value={category.id}>{category.name}</option>)}</select></label>
                 <label className="block text-xs font-semibold text-slate-700">Price (KES) *<input required type="number" min="0" step="1" value={form.price} onChange={(event) => updateForm('price', event.target.value)} placeholder="0" className="mt-1.5 w-full rounded-xl border border-slate-200 px-3 py-3 text-xs font-normal outline-none focus:border-brand-blue" /></label>
+                <label className="block text-xs font-semibold text-slate-700">Offer (KES) <span className="font-normal text-slate-400">(optional)</span><input type="number" min="0" step="1" value={form.offer_price} onChange={(event) => updateForm('offer_price', event.target.value)} placeholder="Discounted price" className="mt-1.5 w-full rounded-xl border border-slate-200 px-3 py-3 text-xs font-normal outline-none focus:border-brand-blue" /></label>
               </div>
               <label className="block text-xs font-semibold text-slate-700">Description *<textarea required maxLength={700} rows={3} value={form.description} onChange={(event) => updateForm('description', event.target.value)} placeholder="Describe condition, intended use, and key benefits" className="mt-1.5 w-full resize-y rounded-xl border border-slate-200 px-3.5 py-3 text-sm font-normal outline-none focus:border-brand-blue" /></label>
               <label className="block text-xs font-semibold text-slate-700">Specifications *<textarea required rows={3} value={form.specs} onChange={(event) => updateForm('specs', event.target.value)} placeholder={'One specification per line\nCore i5 · 16 GB RAM\n512 GB SSD'} className="mt-1.5 w-full resize-y rounded-xl border border-slate-200 px-3.5 py-3 text-sm font-normal outline-none focus:border-brand-blue" /></label>

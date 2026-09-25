@@ -51,7 +51,17 @@ export default function ProductDetail({ categoryId, productId, onOpenQuote }) {
           <div className="lg:sticky lg:top-28">
             <p className="text-xs sm:text-sm font-bold uppercase tracking-[0.18em] text-brand-blue">{category?.name}</p>
             <h1 className="mt-3 text-3xl font-heading font-extrabold tracking-tight text-brand-navy sm:text-5xl">{product.name}</h1>
-            <p className="mt-5 text-2xl font-heading font-bold text-brand-navy">KES {Number(product.price).toLocaleString()}</p>
+            {product.offer_price != null && Number(product.offer_price) > 0 ? (
+              <div className="mt-5 flex flex-wrap items-baseline gap-3">
+                <span className="text-xl sm:text-2xl text-slate-400 line-through">KES {Number(product.price).toLocaleString()}</span>
+                <span className="text-3xl sm:text-4xl font-heading font-extrabold text-red-600">KES {Number(product.offer_price).toLocaleString()}</span>
+                <span className="rounded-full bg-red-100 px-3 py-1 text-xs font-bold text-red-700">
+                  Special Offer · Save KES {(Number(product.price) - Number(product.offer_price)).toLocaleString()}
+                </span>
+              </div>
+            ) : (
+              <p className="mt-5 text-2xl font-heading font-bold text-brand-navy">KES {Number(product.price).toLocaleString()}</p>
+            )}
             {product.stock != null && <p className="mt-2 text-sm font-medium text-slate-600">{product.stock > 0 ? 'Available' : 'Currently out of stock'}</p>}
             <p className="mt-6 text-base leading-relaxed text-slate-700">{product.description}</p>
             {!!product.specs?.length && <div className="mt-8 border-t border-slate-200 pt-6"><h2 className="text-xs sm:text-sm font-bold uppercase tracking-wider text-slate-500">Specifications</h2><ul className="mt-4 space-y-3">{product.specs.map((spec) => <li key={spec} className="flex items-start gap-2.5 text-sm text-slate-700"><CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-brand-green" />{spec}</li>)}</ul></div>}
