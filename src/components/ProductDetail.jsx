@@ -51,24 +51,24 @@ export default function ProductDetail({ categoryId, productId, onOpenQuote }) {
             {images.length ? (
               <div className="space-y-4">
                 {/* Main Creative Visual Stage with Ambient Canvas Fill */}
-                <div className="group relative flex min-h-[380px] sm:min-h-[460px] lg:min-h-[520px] items-center justify-center overflow-hidden rounded-3xl sm:rounded-[2.25rem] border border-slate-200/90 bg-slate-100/80 shadow-xl shadow-brand-navy/5">
-                  {/* Ambient Blurred Backdrop - creatively occupies all remaining spaces */}
+                {/* Main Visual Stage - Sized so product fills 80-90% of container without excessive margins */}
+                <div className="group relative flex aspect-square w-full max-h-[540px] items-center justify-center overflow-hidden rounded-2xl sm:rounded-[2rem] border border-slate-200/80 bg-slate-50 shadow-md">
+                  {/* Subtle Clean Studio Light */}
                   <div className="absolute inset-0 overflow-hidden">
                     <img
                       src={activeImage.src}
                       alt=""
                       aria-hidden="true"
-                      className="h-full w-full object-cover blur-2xl scale-125 opacity-40 saturate-150 pointer-events-none transform-gpu transition-all duration-700"
+                      className="h-full w-full object-cover blur-2xl scale-125 opacity-20 saturate-125 pointer-events-none transform-gpu"
                     />
-                    <div className="absolute inset-0 bg-white/35 backdrop-blur-md" />
-                    <div className="absolute inset-0 bg-gradient-to-t from-white/40 via-transparent to-white/30 pointer-events-none" />
+                    <div className="absolute inset-0 bg-white/40" />
                   </div>
 
-                  {/* Foreground Crisp Uncropped Product Image with Physical Shadow */}
+                  {/* Foreground Crisp Uncropped Product Image Filling 80-90% of Container */}
                   <img
                     src={activeImage.src}
                     alt={activeImage.name || product.name}
-                    className="relative z-10 max-h-[440px] sm:max-h-[480px] w-auto max-w-[92%] object-contain drop-shadow-2xl transition-all duration-500 ease-out group-hover:scale-[1.03] cursor-zoom-in"
+                    className="relative z-10 h-full w-full object-contain p-2 sm:p-4 drop-shadow-xl transition-all duration-500 ease-out group-hover:scale-[1.02] cursor-zoom-in"
                     onClick={() => setIsZoomOpen(true)}
                     loading="eager"
                     decoding="async"

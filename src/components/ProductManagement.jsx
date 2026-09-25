@@ -290,7 +290,7 @@ export default function ProductManagement() {
               <div className="mt-4 divide-y divide-slate-200 border-y border-slate-200">
                 {visibleProducts.map((product) => (
                   <article key={product.id} className="flex gap-4 py-4 sm:gap-5">
-                    <div className="relative h-24 w-28 shrink-0 overflow-hidden rounded-xl bg-slate-100/90 sm:h-28 sm:w-36">
+                    <div className="relative h-24 w-28 shrink-0 overflow-hidden rounded-xl bg-slate-50 sm:h-28 sm:w-36">
                       {product.images?.[0]?.src ? (
                         <>
                           <div className="absolute inset-0 overflow-hidden">

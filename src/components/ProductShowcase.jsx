@@ -136,7 +136,7 @@ export default function ProductShowcase({ onOpenQuote, initialCategory = 'all' }
             <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 xl:grid-cols-3">
               {filteredProducts.map((product) => (
                 <article key={product.id} className="overflow-hidden border-y border-slate-200 bg-white transition-colors hover:bg-slate-50">
-                  <div className="group relative flex h-60 items-center justify-center overflow-hidden bg-slate-100/90 p-4">
+                  <div className="group relative flex h-60 items-center justify-center overflow-hidden bg-slate-50 p-2 sm:p-3">
                     {product.images?.[0]?.src ? (
                       <>
                         <div className="absolute inset-0 overflow-hidden">
@@ -144,9 +144,9 @@ export default function ProductShowcase({ onOpenQuote, initialCategory = 'all' }
                             src={product.images[0].src}
                             alt=""
                             aria-hidden="true"
-                            className="h-full w-full object-cover blur-xl scale-125 opacity-35 saturate-150 pointer-events-none transform-gpu transition-all duration-500 group-hover:scale-150 group-hover:opacity-50"
+                            className="h-full w-full object-cover blur-xl scale-125 opacity-20 saturate-125 pointer-events-none transform-gpu transition-all duration-500 group-hover:scale-150 group-hover:opacity-35"
                           />
-                          <div className="absolute inset-0 bg-white/35 backdrop-blur-xs" />
+                          <div className="absolute inset-0 bg-white/40" />
                         </div>
                         <img
                           src={product.images[0].src}
