@@ -136,26 +136,18 @@ export default function ProductShowcase({ onOpenQuote, initialCategory = 'all' }
             <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 xl:grid-cols-3">
               {filteredProducts.map((product) => (
                 <article key={product.id} className="overflow-hidden border-y border-slate-200 bg-white transition-colors hover:bg-slate-50">
-                  <div className="group relative flex h-60 items-center justify-center overflow-hidden bg-slate-50 p-2 sm:p-3">
+                  <a
+                    href={`/products/${product.category}/${encodeURIComponent(product.id)}`}
+                    className="group relative flex aspect-[4/3] sm:aspect-[5/4] w-full items-center justify-center overflow-hidden bg-slate-50/60 p-2 sm:p-3 transition-colors hover:bg-slate-100/50"
+                  >
                     {product.images?.[0]?.src ? (
-                      <>
-                        <div className="absolute inset-0 overflow-hidden">
-                          <img
-                            src={product.images[0].src}
-                            alt=""
-                            aria-hidden="true"
-                            className="h-full w-full object-cover blur-xl scale-125 opacity-20 saturate-125 pointer-events-none transform-gpu transition-all duration-500 group-hover:scale-150 group-hover:opacity-35"
-                          />
-                          <div className="absolute inset-0 bg-white/40" />
-                        </div>
-                        <img
-                          src={product.images[0].src}
-                          alt={product.images[0].name || product.name}
-                          className="relative z-10 h-full w-full object-contain drop-shadow-md transition-transform duration-500 group-hover:scale-105"
-                          loading="eager"
-                          decoding="async"
-                        />
-                      </>
+                      <img
+                        src={product.images[0].src}
+                        alt={product.images[0].name || product.name}
+                        className="relative z-10 h-full w-full object-contain drop-shadow-md transition-transform duration-500 group-hover:scale-105"
+                        loading="eager"
+                        decoding="async"
+                      />
                     ) : (
                       <div className="relative z-10 text-sm text-slate-400">Image coming soon</div>
                     )}
@@ -164,7 +156,7 @@ export default function ProductShowcase({ onOpenQuote, initialCategory = 'all' }
                         Offer
                       </span>
                     )}
-                  </div>
+                  </a>
                   <div className="p-5">
                     <p className="text-xs font-bold uppercase tracking-wider text-brand-blue">{PRODUCT_CATEGORIES.find((category) => category.id === product.category)?.name}</p>
                     <h4 className="mt-1 font-heading font-bold text-brand-navy">{product.name}</h4>

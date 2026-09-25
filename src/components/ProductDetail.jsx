@@ -9,6 +9,8 @@ export default function ProductDetail({ categoryId, productId, onOpenQuote }) {
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const [activeIdx, setActiveIdx] = useState(0);
+  const [isZoomOpen, setIsZoomOpen] = useState(false);
   const category = PRODUCT_CATEGORIES.find((item) => item.id === categoryId);
 
   useEffect(() => {
@@ -21,8 +23,24 @@ export default function ProductDetail({ categoryId, productId, onOpenQuote }) {
   }, [categoryId, productId]);
 
   if (loading && !product) {
-    return <section className="min-h-[75vh] bg-white px-4 pb-20 pt-28 sm:px-8 lg:px-12" />;
+    return (
+      <section className="min-h-[75vh] bg-white px-4 pb-20 pt-28 sm:px-8 lg:px-12">
+        <div className="mx-auto max-w-7xl animate-pulse">
+          <div className="h-5 w-36 rounded-full bg-slate-100" />
+          <div className="mt-7 grid gap-10 lg:grid-cols-2 lg:gap-16">
+            <div className="aspect-square w-full rounded-2xl sm:rounded-[2rem] bg-slate-100" />
+            <div className="space-y-4 pt-4">
+              <div className="h-4 w-28 rounded-full bg-slate-100" />
+              <div className="h-10 w-3/4 rounded-2xl bg-slate-100" />
+              <div className="h-8 w-44 rounded-xl bg-slate-100" />
+              <div className="h-24 w-full rounded-2xl bg-slate-100" />
+            </div>
+          </div>
+        </div>
+      </section>
+    );
   }
+
   if (!loading && !product) {
     return (
       <section className="grid min-h-[65vh] place-items-center px-6 pt-24 text-center">
@@ -38,9 +56,7 @@ export default function ProductDetail({ categoryId, productId, onOpenQuote }) {
   }
 
   const images = product.images?.length ? product.images : [];
-  const [activeIdx, setActiveIdx] = useState(0);
-  const [isZoomOpen, setIsZoomOpen] = useState(false);
-  const activeImage = images[activeIdx] || images[0];
+  const activeImage = images[activeIdx] || images[0] || null;
 
   return (
     <section className="min-h-[75vh] bg-white px-4 pb-20 pt-28 sm:px-8 lg:px-12">
@@ -48,27 +64,16 @@ export default function ProductDetail({ categoryId, productId, onOpenQuote }) {
         <a href={`/products/${categoryId}`} className="inline-flex items-center gap-2 text-sm font-semibold text-slate-600 transition hover:text-brand-blue"><ArrowLeft className="h-4 w-4" />Back to {category?.name}</a>
         <div className="mt-7 grid gap-10 lg:grid-cols-2 lg:items-start lg:gap-16">
           <div>
-            {images.length ? (
+            {images.length && activeImage ? (
               <div className="space-y-4">
                 {/* Main Creative Visual Stage with Ambient Canvas Fill */}
                 {/* Main Visual Stage - Sized so product fills 80-90% of container without excessive margins */}
-                <div className="group relative flex aspect-square w-full max-h-[540px] items-center justify-center overflow-hidden rounded-2xl sm:rounded-[2rem] border border-slate-200/80 bg-slate-50 shadow-md">
-                  {/* Subtle Clean Studio Light */}
-                  <div className="absolute inset-0 overflow-hidden">
-                    <img
-                      src={activeImage.src}
-                      alt=""
-                      aria-hidden="true"
-                      className="h-full w-full object-cover blur-2xl scale-125 opacity-20 saturate-125 pointer-events-none transform-gpu"
-                    />
-                    <div className="absolute inset-0 bg-white/40" />
-                  </div>
-
-                  {/* Foreground Crisp Uncropped Product Image Filling 80-90% of Container */}
+                <div className="group relative flex aspect-square w-full max-h-[540px] items-center justify-center overflow-hidden rounded-2xl sm:rounded-[2rem] border border-slate-200/80 bg-slate-50/60 shadow-md">
+                  {/* Foreground Crisp Product Image Filling 80-90% of Container */}
                   <img
                     src={activeImage.src}
                     alt={activeImage.name || product.name}
-                    className="relative z-10 h-full w-full object-contain p-2 sm:p-4 drop-shadow-xl transition-all duration-500 ease-out group-hover:scale-[1.02] cursor-zoom-in"
+                    className="relative z-10 h-full w-full object-contain p-2 sm:p-3 drop-shadow-xl transition-all duration-500 ease-out group-hover:scale-[1.02] cursor-zoom-in"
                     onClick={() => setIsZoomOpen(true)}
                     loading="eager"
                     decoding="async"
@@ -124,10 +129,7 @@ export default function ProductDetail({ categoryId, productId, onOpenQuote }) {
                             : 'border-slate-200/90 opacity-70 hover:opacity-100 hover:border-slate-300'
                         }`}
                       >
-                        <div className="absolute inset-0">
-                          <img src={img.src} alt="" className="h-full w-full object-cover blur-xs opacity-35" />
-                        </div>
-                        <img src={img.src} alt="" className="relative z-10 h-full w-full object-contain p-1" />
+                        <img src={img.src} alt="" className="h-full w-full object-contain p-1 bg-slate-50/80" />
                       </button>
                     ))}
                   </div>
