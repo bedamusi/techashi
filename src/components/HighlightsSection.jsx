@@ -155,15 +155,35 @@ export default function HighlightsSection({ onOpenQuote }) {
 
                   <div className={`highlights-panel-enter relative min-h-0 ${isHardware ? 'bg-[#eaf1f6]' : 'bg-slate-900'}`}>
                     {isHardware ? (
-                      <div className="grid h-full min-h-[160px] sm:min-h-[220px] grid-cols-1 items-center gap-2.5 p-3 sm:p-4 md:min-h-0 md:grid-cols-[1.55fr_0.85fr] md:gap-4 lg:gap-6 lg:p-6">
-                        <div className="flex h-[120px] sm:h-[180px] min-h-0 items-center justify-center rounded-xl bg-white/70 p-2 sm:p-3 md:h-full md:min-h-[280px] md:p-5">
-                          <img src={HARDWARE_PRODUCTS[0].src} alt={HARDWARE_PRODUCTS[0].alt} className="h-full w-full object-contain object-center" loading="eager" decoding="async" />
+                      <div className="grid h-full min-h-[160px] sm:min-h-[220px] grid-cols-1 gap-2.5 p-2.5 sm:p-4 md:min-h-0 md:grid-cols-[1.45fr_1fr] md:gap-3 lg:gap-4 lg:p-4">
+                        <div className="relative h-full w-full min-h-[140px] sm:min-h-[180px] md:min-h-0 overflow-hidden rounded-xl md:rounded-2xl bg-white shadow-xs group">
+                          <img
+                            src={HARDWARE_PRODUCTS[0].src}
+                            alt={HARDWARE_PRODUCTS[0].alt}
+                            className="h-full w-full object-cover object-center transition-transform duration-500 group-hover:scale-105"
+                            loading="eager"
+                            decoding="async"
+                          />
+                          <span className="absolute bottom-2.5 left-2.5 sm:bottom-3 sm:left-3 rounded-full bg-black/60 backdrop-blur-md px-2.5 py-1 text-[11px] sm:text-xs font-semibold text-white shadow-xs">
+                            {HARDWARE_PRODUCTS[0].label}
+                          </span>
                         </div>
-                        <div className="grid min-h-0 grid-cols-2 gap-2.5 md:h-full md:grid-cols-1 md:grid-rows-2">
+                        <div className="grid min-h-0 grid-cols-2 gap-2.5 md:h-full md:grid-cols-1 md:grid-rows-2 md:gap-3">
                           {HARDWARE_PRODUCTS.slice(1).map((product) => (
-                            <div key={product.label} className="relative flex min-h-[70px] sm:min-h-[95px] items-center justify-center rounded-xl bg-white/70 p-2 md:min-h-0 md:p-3">
-                              <img src={product.src} alt={product.alt} className="h-full w-full object-contain object-center" loading="eager" decoding="async" />
-                              <span className="absolute bottom-1.5 left-2 text-[10px] sm:text-xs font-semibold text-slate-700">{product.label}</span>
+                            <div
+                              key={product.label}
+                              className="relative h-full w-full min-h-[85px] sm:min-h-[110px] md:min-h-0 overflow-hidden rounded-xl md:rounded-2xl bg-slate-900 shadow-xs group"
+                            >
+                              <img
+                                src={product.src}
+                                alt={product.alt}
+                                className="h-full w-full object-cover object-center transition-transform duration-500 group-hover:scale-105"
+                                loading="eager"
+                                decoding="async"
+                              />
+                              <span className="absolute bottom-2 left-2 sm:bottom-2.5 sm:left-2.5 rounded-full bg-black/60 backdrop-blur-md px-2.5 py-1 text-[11px] sm:text-xs font-semibold text-white shadow-xs">
+                                {product.label}
+                              </span>
                             </div>
                           ))}
                         </div>
