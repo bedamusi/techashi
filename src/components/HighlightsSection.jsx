@@ -108,12 +108,6 @@ export default function HighlightsSection({ onOpenQuote }) {
 
   return (
     <section id="highlights" className="border-t border-[#dbe8f2] bg-[#f0f6fb] text-[#1d1d1f]">
-      <header className="px-5 pt-20 pb-8 sm:px-8 sm:pt-24 sm:pb-10 lg:px-12">
-        <h2 className="mx-auto max-w-7xl text-2xl sm:text-3xl lg:text-4xl font-heading font-bold tracking-tight leading-[1.08]">
-          Get the highlights.
-        </h2>
-      </header>
-
       <div
         ref={trackRef}
         className="relative"
@@ -121,9 +115,17 @@ export default function HighlightsSection({ onOpenQuote }) {
       >
         <div
           ref={stageRef}
-          className="sticky top-16 h-[calc(100svh-4rem)] min-h-[560px] max-h-[900px] sm:top-20 sm:h-[calc(100svh-5rem)]"
+          className="sticky top-14 sm:top-16 h-[calc(100svh-3.5rem)] sm:h-[calc(100svh-4rem)] max-h-[920px] flex flex-col justify-start px-4 sm:px-8 lg:px-12 pt-3 sm:pt-5 pb-3 sm:pb-5"
         >
-          <div className="relative h-full w-full">
+          {/* Section Heading closely attached to the showcase */}
+          <div className="mx-auto w-full max-w-7xl shrink-0 pb-2.5 sm:pb-4">
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-heading font-bold tracking-tight text-[#1d1d1f]">
+              Get the highlights.
+            </h2>
+          </div>
+
+          {/* Highlights Stage Container */}
+          <div className="relative mx-auto w-full max-w-7xl flex-1 min-h-0 overflow-hidden rounded-2xl md:rounded-3xl bg-white/70 border border-slate-200/80 shadow-xs">
             {layers.map(({ highlight, index, opacity, y, scale }) => {
               const isHardware = highlight.id === 'hardware';
               return (
@@ -131,37 +133,37 @@ export default function HighlightsSection({ onOpenQuote }) {
                   key={highlight.id}
                   aria-hidden={index !== displayIndex}
                   inert={index !== displayIndex}
-                  className="absolute inset-0 grid h-full w-full grid-cols-1 gap-3 pt-3 pb-14 md:grid-cols-[0.82fr_1.18fr] md:gap-0 md:py-0 md:pb-0"
+                  className="absolute inset-0 grid h-full w-full grid-cols-1 grid-rows-[auto_1fr] md:grid-rows-1 md:grid-cols-[0.82fr_1.18fr] gap-0"
                   style={{ opacity, transform: `translate3d(0, ${y}px, 0) scale(${scale})`, pointerEvents: index === displayIndex ? 'auto' : 'none', willChange: 'opacity, transform' }}
                 >
-                  <div className="highlights-panel-enter flex min-h-0 flex-col justify-center px-5 sm:px-8 md:py-8 md:pl-10 md:pr-8 lg:pl-16 lg:pr-12">
+                  <div className="highlights-panel-enter flex min-h-0 flex-col justify-center px-5 sm:px-8 py-4 sm:py-6 md:py-8 md:pl-10 md:pr-8 lg:pl-14 lg:pr-10">
                     <p className="text-xs sm:text-sm font-sans font-bold uppercase tracking-[0.16em] text-brand-blue">{highlight.eyebrow}</p>
-                    <h3 className="mt-2 max-w-xl text-[26px] font-heading font-semibold tracking-tight leading-[1.08] sm:text-3xl lg:text-[42px]">{highlight.title}</h3>
-                    <p className="mt-3 max-w-lg text-sm sm:text-base lg:text-[17px] leading-relaxed text-slate-600 sm:mt-4">{highlight.description}</p>
+                    <h3 className="mt-1.5 sm:mt-2 max-w-xl text-xl sm:text-2xl md:text-3xl lg:text-[38px] font-heading font-bold tracking-tight leading-[1.1] text-brand-navy">{highlight.title}</h3>
+                    <p className="mt-2 sm:mt-3 max-w-lg text-xs sm:text-sm lg:text-base leading-relaxed text-slate-600">{highlight.description}</p>
 
-                    <div className="mt-5 flex items-end justify-between gap-3 border-t border-black/10 pt-3 sm:mt-8 sm:pt-4">
+                    <div className="mt-4 sm:mt-6 flex items-end justify-between gap-3 border-t border-black/10 pt-3 sm:pt-4">
                       <div className="min-w-0">
-                        <p className="text-lg font-heading font-bold tracking-tight sm:text-xl">{highlight.stat}</p>
+                        <p className="text-base sm:text-lg lg:text-xl font-heading font-bold tracking-tight text-brand-navy">{highlight.stat}</p>
                         <p className="mt-0.5 text-xs sm:text-sm leading-snug text-slate-600">{highlight.statLabel}</p>
                       </div>
-                      <button onClick={onOpenQuote} className="inline-flex shrink-0 items-center gap-1.5 rounded-full bg-[#1d1d1f] px-5 py-2.5 text-xs sm:text-sm font-semibold text-white transition-colors hover:bg-[#333336] sm:px-6">
+                      <button onClick={onOpenQuote} className="inline-flex shrink-0 items-center gap-1.5 rounded-full bg-[#1d1d1f] px-5 py-2.5 text-xs sm:text-sm font-semibold text-white transition-colors hover:bg-brand-blue">
                         Inquire <ArrowRight className="h-3.5 w-3.5" />
                       </button>
                     </div>
-                    <p className="mt-3 hidden text-xs text-slate-500 font-medium md:block">{highlight.tagline}</p>
+                    <p className="mt-2.5 hidden text-xs text-slate-500 font-medium md:block">{highlight.tagline}</p>
                   </div>
 
-                  <div className={`highlights-panel-enter relative min-h-0 bg-[#eaf1f6] ${isHardware ? 'overflow-hidden md:rounded-l-2xl' : 'overflow-hidden rounded-none bg-slate-900'}`}>
+                  <div className={`highlights-panel-enter relative min-h-0 ${isHardware ? 'bg-[#eaf1f6]' : 'bg-slate-900'}`}>
                     {isHardware ? (
-                      <div className="grid h-full min-h-[300px] grid-cols-1 items-center gap-3 p-3 sm:min-h-[390px] sm:p-5 md:min-h-0 md:grid-cols-[1.55fr_0.85fr] md:gap-4 lg:gap-6 lg:p-6">
-                        <div className="flex h-[210px] min-h-0 items-center justify-center rounded-xl bg-white/65 p-3 sm:h-[270px] md:h-full md:min-h-[350px] md:p-5">
+                      <div className="grid h-full min-h-[160px] sm:min-h-[220px] grid-cols-1 items-center gap-2.5 p-3 sm:p-4 md:min-h-0 md:grid-cols-[1.55fr_0.85fr] md:gap-4 lg:gap-6 lg:p-6">
+                        <div className="flex h-[120px] sm:h-[180px] min-h-0 items-center justify-center rounded-xl bg-white/70 p-2 sm:p-3 md:h-full md:min-h-[280px] md:p-5">
                           <img src={HARDWARE_PRODUCTS[0].src} alt={HARDWARE_PRODUCTS[0].alt} className="h-full w-full object-contain object-center" loading="eager" decoding="async" />
                         </div>
-                        <div className="grid min-h-0 grid-cols-2 gap-3 md:h-full md:grid-cols-1 md:grid-rows-2">
+                        <div className="grid min-h-0 grid-cols-2 gap-2.5 md:h-full md:grid-cols-1 md:grid-rows-2">
                           {HARDWARE_PRODUCTS.slice(1).map((product) => (
-                            <div key={product.label} className="relative flex min-h-[120px] items-center justify-center rounded-xl bg-white/65 p-3 sm:min-h-[150px] md:min-h-0 md:p-4">
+                            <div key={product.label} className="relative flex min-h-[70px] sm:min-h-[95px] items-center justify-center rounded-xl bg-white/70 p-2 md:min-h-0 md:p-3">
                               <img src={product.src} alt={product.alt} className="h-full w-full object-contain object-center" loading="eager" decoding="async" />
-                              <span className="absolute bottom-2 left-3 text-xs sm:text-sm font-semibold text-slate-700">{product.label}</span>
+                              <span className="absolute bottom-1.5 left-2 text-[10px] sm:text-xs font-semibold text-slate-700">{product.label}</span>
                             </div>
                           ))}
                         </div>
