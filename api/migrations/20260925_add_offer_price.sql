@@ -1,0 +1,1 @@
+ALTER TABLE products ADD COLUMN offer_price DECIMAL(12,2) NULL DEFAULT NULL AFTER price;

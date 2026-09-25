@@ -24,7 +24,23 @@ function db(): PDO
         PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
         PDO::ATTR_EMULATE_PREPARES => false,
     ]);
+    ensure_schema($pdo);
     return $pdo;
+}
+
+function ensure_schema(PDO $pdo): void
+{
+    static $checked = false;
+    if ($checked) return;
+    $checked = true;
+    try {
+        $cols = $pdo->query('SHOW COLUMNS FROM products')->fetchAll(PDO::FETCH_COLUMN);
+        if (!in_array('offer_price', $cols, true)) {
+            $pdo->exec('ALTER TABLE products ADD COLUMN offer_price DECIMAL(12,2) NULL DEFAULT NULL AFTER price');
+        }
+    } catch (Throwable) {
+        // Schema already updated or table not ready
+    }
 }
 
 function api_json(int $status, array $data): never
@@ -68,6 +84,7 @@ function require_csrf(): void
 function product_row(array $row): array
 {
     $row['price'] = (float)$row['price'];
+    $row['offer_price'] = isset($row['offer_price']) && $row['offer_price'] !== null ? (float)$row['offer_price'] : null;
     $row['stock'] = $row['stock'] === null ? null : (int)$row['stock'];
     $row['specs'] = json_decode((string)$row['specs'], true) ?: [];
     $row['images'] = json_decode((string)$row['images'], true) ?: [];

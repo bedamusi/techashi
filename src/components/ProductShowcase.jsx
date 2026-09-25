@@ -117,15 +117,27 @@ export default function ProductShowcase({ onOpenQuote, initialCategory = 'all' }
             <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 xl:grid-cols-3">
               {filteredProducts.map((product) => (
                 <article key={product.id} className="overflow-hidden border-y border-slate-200 bg-white transition-colors hover:bg-slate-50">
-                  <div className="flex h-52 items-center justify-center bg-slate-50 p-4">
+                  <div className="relative flex h-52 items-center justify-center bg-slate-50 p-4">
                     {product.images?.[0]?.src ? <img src={product.images[0].src} alt={product.images[0].name || product.name} className="h-full w-full object-contain" loading="lazy" /> : <div className="text-sm text-slate-400">Image coming soon</div>}
+                    {product.offer_price != null && Number(product.offer_price) > 0 && (
+                      <span className="absolute top-3 right-3 rounded-full bg-red-600 px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider text-white shadow-xs">
+                        Offer
+                      </span>
+                    )}
                   </div>
                   <div className="p-5">
                     <p className="text-xs font-bold uppercase tracking-wider text-brand-blue">{PRODUCT_CATEGORIES.find((category) => category.id === product.category)?.name}</p>
                     <h4 className="mt-1 font-heading font-bold text-brand-navy">{product.name}</h4>
                     <p className="mt-2 line-clamp-2 text-xs sm:text-sm leading-relaxed text-slate-600">{product.description}</p>
                     <div className="mt-4 flex items-center justify-between gap-3 border-t border-slate-100 pt-4">
-                      <span className="font-heading text-sm font-bold text-brand-navy">KES {Number(product.price).toLocaleString()}</span>
+                      {product.offer_price != null && Number(product.offer_price) > 0 ? (
+                        <div className="flex flex-wrap items-baseline gap-1.5">
+                          <span className="text-xs text-slate-400 line-through">KES {Number(product.price).toLocaleString()}</span>
+                          <span className="font-heading text-sm sm:text-base font-bold text-red-600">KES {Number(product.offer_price).toLocaleString()}</span>
+                        </div>
+                      ) : (
+                        <span className="font-heading text-sm font-bold text-brand-navy">KES {Number(product.price).toLocaleString()}</span>
+                      )}
                       <div className="flex items-center gap-2"><a href={`/products/${product.category}/${encodeURIComponent(product.id)}`} className="px-2.5 py-2 text-xs font-semibold text-brand-blue hover:underline">Details</a><button onClick={() => addItem(product)} disabled={product.stock === 0} className="rounded-full bg-brand-navy px-4 py-2 text-xs font-semibold text-white transition hover:bg-brand-blue disabled:cursor-not-allowed disabled:bg-slate-300">{product.stock === 0 ? 'Out of stock' : 'Add to bag'}</button></div>
                     </div>
                   </div>
