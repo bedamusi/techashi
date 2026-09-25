@@ -106,7 +106,17 @@ export default function CartPage() {
           <div className="divide-y divide-slate-200 border-y border-slate-200 bg-white px-4 sm:px-7">
             {lines.map(({ product, productId, quantity }) => product ? (
               <article key={productId} className="grid grid-cols-[88px_minmax(0,1fr)] gap-4 py-5 sm:grid-cols-[132px_minmax(0,1fr)_auto] sm:gap-6 sm:py-7">
-                <a href={`/products/${product.category}/${encodeURIComponent(product.id)}`} className="grid h-24 place-items-center overflow-hidden rounded-2xl bg-slate-50 p-2 sm:h-32">{product.images?.[0]?.src ? <img src={product.images[0].src} alt={product.images[0].name || product.name} className="h-full w-full object-contain" loading="eager" decoding="async" /> : <ShoppingBag className="h-6 w-6 text-slate-300" />}</a>
+                <a href={`/products/${product.category}/${encodeURIComponent(product.id)}`} className="relative grid h-24 place-items-center overflow-hidden rounded-2xl bg-slate-100/90 p-2 sm:h-32">
+                  {product.images?.[0]?.src ? (
+                    <>
+                      <div className="absolute inset-0 overflow-hidden">
+                        <img src={product.images[0].src} alt="" aria-hidden="true" className="h-full w-full object-cover blur-md scale-125 opacity-30 pointer-events-none" />
+                        <div className="absolute inset-0 bg-white/40" />
+                      </div>
+                      <img src={product.images[0].src} alt={product.images[0].name || product.name} className="relative z-10 h-full w-full object-contain drop-shadow-xs" loading="eager" decoding="async" />
+                    </>
+                  ) : <ShoppingBag className="relative z-10 h-6 w-6 text-slate-300" />}
+                </a>
                 <div className="min-w-0">
                   <p className="text-xs font-bold uppercase tracking-[.14em] text-brand-blue">{product.category}</p>
                   <a href={`/products/${product.category}/${encodeURIComponent(product.id)}`} className="mt-1 block font-heading text-base font-bold text-brand-navy hover:text-brand-blue sm:text-lg">{product.name}</a>

@@ -290,8 +290,16 @@ export default function ProductManagement() {
               <div className="mt-4 divide-y divide-slate-200 border-y border-slate-200">
                 {visibleProducts.map((product) => (
                   <article key={product.id} className="flex gap-4 py-4 sm:gap-5">
-                    <div className="h-24 w-28 shrink-0 overflow-hidden rounded-xl bg-white sm:h-28 sm:w-36">
-                      {product.images?.[0]?.src ? <img src={product.images[0].src} alt={product.images[0].name || product.name} className="h-full w-full object-contain p-2" /> : <div className="grid h-full place-items-center text-slate-300"><Archive className="h-7 w-7" /></div>}
+                    <div className="relative h-24 w-28 shrink-0 overflow-hidden rounded-xl bg-slate-100/90 sm:h-28 sm:w-36">
+                      {product.images?.[0]?.src ? (
+                        <>
+                          <div className="absolute inset-0 overflow-hidden">
+                            <img src={product.images[0].src} alt="" aria-hidden="true" className="h-full w-full object-cover blur-md scale-125 opacity-30 pointer-events-none" />
+                            <div className="absolute inset-0 bg-white/40" />
+                          </div>
+                          <img src={product.images[0].src} alt={product.images[0].name || product.name} className="relative z-10 h-full w-full object-contain p-2 drop-shadow-xs" />
+                        </>
+                      ) : <div className="grid h-full place-items-center text-slate-300"><Archive className="h-7 w-7" /></div>}
                     </div>
                     <div className="min-w-0 flex-1">
                       <p className="text-[10px] font-bold uppercase tracking-wider text-brand-blue">{PRODUCT_CATEGORIES.find((item) => item.id === product.category)?.name}</p>

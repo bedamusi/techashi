@@ -75,7 +75,26 @@ export default function ProductShowcase({ onOpenQuote, initialCategory = 'all' }
       },
     };
     const photo = categoryPhotos[id] ?? categoryPhotos.laptops;
-    return <img src={photo.src} alt={photo.alt} loading="eager" decoding="async" className="h-full w-full object-contain" />;
+    return (
+      <div className="relative h-full w-full flex items-center justify-center overflow-hidden">
+        <div className="absolute inset-0 overflow-hidden">
+          <img
+            src={photo.src}
+            alt=""
+            aria-hidden="true"
+            className="h-full w-full object-cover blur-xl scale-125 opacity-30 saturate-150 pointer-events-none transform-gpu"
+          />
+          <div className="absolute inset-0 bg-white/40" />
+        </div>
+        <img
+          src={photo.src}
+          alt={photo.alt}
+          loading="eager"
+          decoding="async"
+          className="relative z-10 h-full w-full object-contain p-2 drop-shadow-md transition-transform duration-500 group-hover:scale-105"
+        />
+      </div>
+    );
   };
 
   const filteredCategories = isCategoryPage ? [] : PRODUCT_CATEGORIES;
@@ -117,10 +136,31 @@ export default function ProductShowcase({ onOpenQuote, initialCategory = 'all' }
             <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 xl:grid-cols-3">
               {filteredProducts.map((product) => (
                 <article key={product.id} className="overflow-hidden border-y border-slate-200 bg-white transition-colors hover:bg-slate-50">
-                  <div className="relative flex h-52 items-center justify-center bg-slate-50 p-4">
-                    {product.images?.[0]?.src ? <img src={product.images[0].src} alt={product.images[0].name || product.name} className="h-full w-full object-contain" loading="eager" decoding="async" /> : <div className="text-sm text-slate-400">Image coming soon</div>}
+                  <div className="group relative flex h-60 items-center justify-center overflow-hidden bg-slate-100/90 p-4">
+                    {product.images?.[0]?.src ? (
+                      <>
+                        <div className="absolute inset-0 overflow-hidden">
+                          <img
+                            src={product.images[0].src}
+                            alt=""
+                            aria-hidden="true"
+                            className="h-full w-full object-cover blur-xl scale-125 opacity-35 saturate-150 pointer-events-none transform-gpu transition-all duration-500 group-hover:scale-150 group-hover:opacity-50"
+                          />
+                          <div className="absolute inset-0 bg-white/35 backdrop-blur-xs" />
+                        </div>
+                        <img
+                          src={product.images[0].src}
+                          alt={product.images[0].name || product.name}
+                          className="relative z-10 h-full w-full object-contain drop-shadow-md transition-transform duration-500 group-hover:scale-105"
+                          loading="eager"
+                          decoding="async"
+                        />
+                      </>
+                    ) : (
+                      <div className="relative z-10 text-sm text-slate-400">Image coming soon</div>
+                    )}
                     {product.offer_price != null && Number(product.offer_price) > 0 && (
-                      <span className="absolute top-3 right-3 rounded-full bg-red-600 px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider text-white shadow-xs">
+                      <span className="absolute top-3 right-3 z-20 rounded-full bg-red-600 px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider text-white shadow-xs">
                         Offer
                       </span>
                     )}

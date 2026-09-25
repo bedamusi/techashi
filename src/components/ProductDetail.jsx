@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { ArrowLeft, ArrowRight, CheckCircle2, PackageSearch, ShoppingBag } from 'lucide-react';
+import { ArrowLeft, ArrowRight, CheckCircle2, ChevronLeft, ChevronRight, Maximize2, PackageSearch, ShoppingBag, X } from 'lucide-react';
 import { PRODUCT_CATEGORIES } from '../data/techashiData';
 import { readProduct } from '../lib/productStore';
 import { useCart } from '../context/CartContext';
@@ -38,17 +38,106 @@ export default function ProductDetail({ categoryId, productId, onOpenQuote }) {
   }
 
   const images = product.images?.length ? product.images : [];
+  const [activeIdx, setActiveIdx] = useState(0);
+  const [isZoomOpen, setIsZoomOpen] = useState(false);
+  const activeImage = images[activeIdx] || images[0];
+
   return (
     <section className="min-h-[75vh] bg-white px-4 pb-20 pt-28 sm:px-8 lg:px-12">
       <div className="mx-auto max-w-7xl">
         <a href={`/products/${categoryId}`} className="inline-flex items-center gap-2 text-sm font-semibold text-slate-600 transition hover:text-brand-blue"><ArrowLeft className="h-4 w-4" />Back to {category?.name}</a>
         <div className="mt-7 grid gap-10 lg:grid-cols-2 lg:items-start lg:gap-16">
-          <div className="grid gap-3 sm:grid-cols-2">
-            {images.length ? images.map((image, index) => (
-              <div key={`${image.path || image.src}-${index}`} className={`flex min-h-64 items-center justify-center overflow-hidden rounded-3xl bg-slate-50 p-5 ${index === 0 ? 'sm:col-span-2 sm:min-h-[460px]' : 'min-h-48'}`}>
-                <img src={image.src} alt={image.name || product.name} className="max-h-[520px] w-full object-contain" loading="eager" decoding="async" />
+          <div>
+            {images.length ? (
+              <div className="space-y-4">
+                {/* Main Creative Visual Stage with Ambient Canvas Fill */}
+                <div className="group relative flex min-h-[380px] sm:min-h-[460px] lg:min-h-[520px] items-center justify-center overflow-hidden rounded-3xl sm:rounded-[2.25rem] border border-slate-200/90 bg-slate-100/80 shadow-xl shadow-brand-navy/5">
+                  {/* Ambient Blurred Backdrop - creatively occupies all remaining spaces */}
+                  <div className="absolute inset-0 overflow-hidden">
+                    <img
+                      src={activeImage.src}
+                      alt=""
+                      aria-hidden="true"
+                      className="h-full w-full object-cover blur-2xl scale-125 opacity-40 saturate-150 pointer-events-none transform-gpu transition-all duration-700"
+                    />
+                    <div className="absolute inset-0 bg-white/35 backdrop-blur-md" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-white/40 via-transparent to-white/30 pointer-events-none" />
+                  </div>
+
+                  {/* Foreground Crisp Uncropped Product Image with Physical Shadow */}
+                  <img
+                    src={activeImage.src}
+                    alt={activeImage.name || product.name}
+                    className="relative z-10 max-h-[440px] sm:max-h-[480px] w-auto max-w-[92%] object-contain drop-shadow-2xl transition-all duration-500 ease-out group-hover:scale-[1.03] cursor-zoom-in"
+                    onClick={() => setIsZoomOpen(true)}
+                    loading="eager"
+                    decoding="async"
+                  />
+
+                  {/* Fullscreen Expand Action */}
+                  <button
+                    type="button"
+                    onClick={() => setIsZoomOpen(true)}
+                    className="absolute top-4 right-4 z-20 rounded-full bg-white/85 backdrop-blur-md p-2.5 text-slate-700 shadow-md transition hover:bg-white hover:text-brand-blue hover:scale-105"
+                    title="View fullscreen"
+                  >
+                    <Maximize2 className="h-4 w-4" />
+                  </button>
+
+                  {/* Previous / Next Controls if multiple images */}
+                  {images.length > 1 && (
+                    <>
+                      <button
+                        type="button"
+                        onClick={() => setActiveIdx((prev) => (prev > 0 ? prev - 1 : images.length - 1))}
+                        className="absolute left-3.5 top-1/2 -translate-y-1/2 z-20 rounded-full bg-white/85 backdrop-blur-md p-2.5 text-slate-700 shadow-md transition hover:bg-white hover:text-brand-blue hover:scale-110"
+                        aria-label="Previous image"
+                      >
+                        <ChevronLeft className="h-5 w-5" />
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setActiveIdx((prev) => (prev < images.length - 1 ? prev + 1 : 0))}
+                        className="absolute right-3.5 top-1/2 -translate-y-1/2 z-20 rounded-full bg-white/85 backdrop-blur-md p-2.5 text-slate-700 shadow-md transition hover:bg-white hover:text-brand-blue hover:scale-110"
+                        aria-label="Next image"
+                      >
+                        <ChevronRight className="h-5 w-5" />
+                      </button>
+                      <span className="absolute bottom-4 right-4 z-20 rounded-full bg-black/60 backdrop-blur-md px-3 py-1 text-xs font-semibold text-white shadow-xs">
+                        {activeIdx + 1} / {images.length}
+                      </span>
+                    </>
+                  )}
+                </div>
+
+                {/* Thumbnails Strip */}
+                {images.length > 1 && (
+                  <div className="flex gap-3 overflow-x-auto pb-1 pt-1">
+                    {images.map((img, idx) => (
+                      <button
+                        key={`${img.path || img.src}-${idx}`}
+                        type="button"
+                        onClick={() => setActiveIdx(idx)}
+                        className={`relative h-20 w-20 shrink-0 overflow-hidden rounded-2xl border-2 transition-all duration-200 ${
+                          activeIdx === idx
+                            ? 'border-brand-blue ring-2 ring-brand-blue/30 scale-105 shadow-md'
+                            : 'border-slate-200/90 opacity-70 hover:opacity-100 hover:border-slate-300'
+                        }`}
+                      >
+                        <div className="absolute inset-0">
+                          <img src={img.src} alt="" className="h-full w-full object-cover blur-xs opacity-35" />
+                        </div>
+                        <img src={img.src} alt="" className="relative z-10 h-full w-full object-contain p-1" />
+                      </button>
+                    ))}
+                  </div>
+                )}
               </div>
-            )) : <div className="grid min-h-[360px] place-items-center rounded-3xl bg-slate-50 text-sm text-slate-400 sm:col-span-2">Product photos available on request</div>}
+            ) : (
+              <div className="grid min-h-[380px] sm:min-h-[460px] place-items-center rounded-3xl bg-slate-50 text-sm text-slate-400">
+                Product photos available on request
+              </div>
+            )}
           </div>
           <div className="lg:sticky lg:top-28">
             <p className="text-xs sm:text-sm font-bold uppercase tracking-[0.18em] text-brand-blue">{category?.name}</p>
@@ -74,6 +163,33 @@ export default function ProductDetail({ categoryId, productId, onOpenQuote }) {
             </div>
           </div>
         </div>
+        {isZoomOpen && activeImage && (
+          <div
+            className="fixed inset-0 z-50 flex items-center justify-center bg-black/85 p-4 backdrop-blur-lg animate-in fade-in duration-200"
+            onClick={() => setIsZoomOpen(false)}
+          >
+            <button
+              type="button"
+              onClick={() => setIsZoomOpen(false)}
+              className="absolute top-5 right-5 z-50 rounded-full bg-white/20 p-3 text-white backdrop-blur-md transition hover:bg-white/30"
+              aria-label="Close fullscreen"
+            >
+              <X className="h-6 w-6" />
+            </button>
+            <div className="relative max-h-[90vh] max-w-[90vw]" onClick={(e) => e.stopPropagation()}>
+              <img
+                src={activeImage.src}
+                alt={activeImage.name || product.name}
+                className="max-h-[88vh] max-w-[88vw] rounded-2xl object-contain shadow-2xl"
+              />
+              {images.length > 1 && (
+                <div className="mt-3 text-center text-sm font-medium text-white/80">
+                  {activeIdx + 1} of {images.length}
+                </div>
+              )}
+            </div>
+          </div>
+        )}
       </div>
     </section>
   );
