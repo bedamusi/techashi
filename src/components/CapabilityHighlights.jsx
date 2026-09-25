@@ -37,7 +37,7 @@ export default function CapabilityHighlights({ onOpenQuote }) {
         <div className="w-full">
           
           {/* PANEL 01: TECHNOLOGY THAT CONNECTS (Networking) */}
-          <div data-capability-stack-card="1" style={{ '--stack-offset': '0px', zIndex: 1 }} className="capability-fullwidth-stack sticky w-full border-y border-slate-200/80 bg-white transition-colors duration-500">
+          <div data-capability-stack-card="1" style={{ '--stack-offset': '0px', zIndex: 1 }} className="capability-fullwidth-stack lg:sticky w-full border-y border-slate-200/80 bg-white transition-colors duration-500">
             <div className="grid grid-cols-1 lg:grid-cols-12 min-h-[460px]">
               
               {/* Text Side */}
@@ -106,7 +106,7 @@ export default function CapabilityHighlights({ onOpenQuote }) {
           </div>
 
           {/* PANEL 02: TECHNOLOGY THAT PROTECTS (CCTV) */}
-          <div data-capability-stack-card="2" style={{ '--stack-offset': '18px', zIndex: 2 }} className="capability-fullwidth-stack sticky w-full border-y border-slate-200/80 bg-slate-50 transition-colors duration-500">
+          <div data-capability-stack-card="2" style={{ '--stack-offset': '18px', zIndex: 2 }} className="capability-fullwidth-stack lg:sticky w-full border-y border-slate-200/80 bg-slate-50 transition-colors duration-500">
             <div className="grid grid-cols-1 lg:grid-cols-12 min-h-[460px]">
               
               {/* Visual Side First on Desktop for Variety - Full photography visible without obscuring overlays */}
@@ -174,7 +174,7 @@ export default function CapabilityHighlights({ onOpenQuote }) {
           </div>
 
           {/* PANEL 03: TECHNOLOGY THAT PERFORMS (PCs & Gadgets) */}
-          <div data-capability-stack-card="3" style={{ '--stack-offset': '36px', zIndex: 3 }} className="capability-fullwidth-stack sticky w-full border-y border-slate-200/80 bg-white transition-colors duration-500">
+          <div data-capability-stack-card="3" style={{ '--stack-offset': '36px', zIndex: 3 }} className="capability-fullwidth-stack lg:sticky w-full border-y border-slate-200/80 bg-white transition-colors duration-500">
             <div className="grid grid-cols-1 lg:grid-cols-12 min-h-[460px]">
               
               {/* Text Side */}
@@ -286,7 +286,7 @@ export default function CapabilityHighlights({ onOpenQuote }) {
           </div>
 
           {/* PANEL 04: TECHNOLOGY THAT MOVES YOUR BUSINESS FORWARD (Digital & Cloud) */}
-          <div data-capability-stack-card="4" style={{ '--stack-offset': '54px', zIndex: 4 }} className="capability-fullwidth-stack sticky w-full border-y border-slate-200/80 bg-slate-50 transition-colors duration-500">
+          <div data-capability-stack-card="4" style={{ '--stack-offset': '54px', zIndex: 4 }} className="capability-fullwidth-stack lg:sticky w-full border-y border-slate-200/80 bg-slate-50 transition-colors duration-500">
             <div className="grid grid-cols-1 lg:grid-cols-12 min-h-[460px]">
               
               {/* Visual Side First - Full photography visible without obscuring overlays */}

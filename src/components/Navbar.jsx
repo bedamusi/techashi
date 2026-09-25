@@ -172,7 +172,7 @@ export default function Navbar({ onOpenQuote, onSelectCategory }) {
             </a>
 
             {/* Center: Apple-Style Product Navigation Bar */}
-            <nav className="hidden lg:flex items-center space-x-6 xl:space-x-8">
+            <nav className="hidden lg:flex items-center gap-x-3 xl:gap-x-5 2xl:gap-x-7 mx-2 xl:mx-4 shrink min-w-0">
               {productLinks.map((item) => (
                 <div
                   key={item.id}
@@ -183,7 +183,7 @@ export default function Navbar({ onOpenQuote, onSelectCategory }) {
                     href={item.href}
                     onClick={(e) => handleProductClick(e, item)}
                     aria-current={window.location.pathname === item.href ? 'page' : undefined}
-                    className={`text-[13.5px] font-normal tracking-tight transition-colors duration-150 ${
+                    className={`text-[12px] xl:text-[13.5px] font-normal tracking-tight whitespace-nowrap transition-colors duration-150 ${
                       (activeFlyout === item.id || window.location.pathname === item.href)
                         ? 'text-brand-blue font-semibold'
                         : 'text-slate-700 hover:text-slate-900'
@@ -196,10 +196,10 @@ export default function Navbar({ onOpenQuote, onSelectCategory }) {
             </nav>
 
             {/* Right: Where to Buy / Quote & Search Icon */}
-            <div className="hidden sm:flex items-center space-x-5 shrink-0">
+            <div className="hidden sm:flex items-center gap-x-3 xl:gap-x-5 shrink-0">
               <button
                 onClick={onOpenQuote}
-                className="text-[13.5px] font-normal text-slate-700 hover:text-brand-blue transition-colors duration-150"
+                className="text-[12px] xl:text-[13.5px] font-normal text-slate-700 hover:text-brand-blue transition-colors duration-150 whitespace-nowrap"
               >
                 Where to Buy
               </button>

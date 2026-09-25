@@ -55,7 +55,6 @@ const CAPABILITY_VISUALS = {
 const ICONS = { Network, ShieldCheck, Laptop, Globe, Cloud, Wrench };
 
 function ChapterVisual({ item, index, animated = false }) {
-  const ItemIcon = ICONS[item.iconName] || Network;
   const visual = CAPABILITY_VISUALS[item.key];
 
   return (
@@ -67,7 +66,7 @@ function ChapterVisual({ item, index, animated = false }) {
           loading={animated || index === 0 || item.key === 'support' ? 'eager' : 'lazy'}
           decoding="async"
           fetchPriority={animated || item.key === 'support' ? 'high' : 'auto'}
-          className="h-[260px] w-full object-cover sm:h-[420px] lg:h-[min(62svh,560px)] lg:min-h-[400px]"
+          className="h-[240px] w-full object-cover sm:h-[420px] lg:h-[min(62svh,560px)] lg:min-h-[400px]"
           style={{ objectPosition: visual.position }}
         />
       </picture>
@@ -83,7 +82,7 @@ function ChapterVisual({ item, index, animated = false }) {
 
 /**
  * A story row stays in the normal document flow while the shared media stage
- * updates to match the story crossing the viewport's reading line.
+ * updates to match the story crossing the viewport's reading line on desktop.
  */
 function ChapterBlock({ item, index, isActive, onOpenQuote }) {
   const ItemIcon = ICONS[item.iconName] || Network;
@@ -92,16 +91,16 @@ function ChapterBlock({ item, index, isActive, onOpenQuote }) {
     <article
       id={`chapter-${item.key}`}
       aria-current={isActive ? 'step' : undefined}
-      className={`chapter relative flex min-h-[76svh] items-center py-14 sm:py-20 lg:py-24 ${isActive ? 'ecosystem-story-active' : ''}`}
+      className={`chapter relative flex min-h-0 items-center py-8 sm:min-h-[76svh] sm:py-16 lg:py-24 ${isActive ? 'ecosystem-story-active' : ''}`}
     >
-      <div className="grid w-full grid-cols-1 items-center gap-8 sm:gap-12">
+      <div className="grid w-full grid-cols-1 items-center gap-6 sm:gap-12">
         <div className="chapter-image lg:hidden">
           <ChapterVisual item={item} index={index} />
         </div>
 
         {/* Chapter Text Column */}
         <div
-          className={`chapter-text flex flex-col justify-center transition-[transform,color] duration-700 ease-out ${isActive ? 'translate-y-0' : 'translate-y-1'}`}
+          className={`chapter-text flex flex-col justify-center transition-[transform,color] duration-500 ease-out ${isActive ? 'translate-y-0' : 'translate-y-1'}`}
         >
           {/* Eyebrow & Category Metadata */}
           <div className="mb-3.5 flex items-center gap-3">
@@ -111,32 +110,32 @@ function ChapterBlock({ item, index, isActive, onOpenQuote }) {
             </span>
           </div>
 
-          {/* A clean editorial headline leads each scroll chapter. */}
-          <h3 className="text headline typography-ps-callout font-heading text-2xl sm:text-3xl lg:text-[2.25rem] xl:text-[2.75rem] font-bold leading-[1.05] tracking-tight text-brand-navy">
+          {/* Editorial headline */}
+          <h3 className="text headline font-heading text-xl sm:text-3xl lg:text-[2.25rem] xl:text-[2.75rem] font-bold leading-[1.08] tracking-tight text-brand-navy">
             {item.tagline}
           </h3>
 
           {/* Summary Narrative */}
-          <p className="copy typography-ps-callout mt-4 text-sm sm:text-base lg:text-lg leading-[1.45] text-slate-600 max-w-xl">
+          <p className="copy mt-3 text-xs sm:text-base lg:text-lg leading-relaxed text-slate-600 max-w-xl">
             {item.summary}
           </p>
 
           {/* Key Deliverables Feature Matrix */}
-          <div className="mt-7 border-t border-slate-200/90 pt-5">
-            <p className="mb-3 text-[11px] font-bold uppercase tracking-[0.2em] text-slate-400">
+          <div className="mt-5 sm:mt-7 border-t border-slate-200/90 pt-4 sm:pt-5">
+            <p className="mb-2.5 text-[10px] sm:text-[11px] font-bold uppercase tracking-[0.2em] text-slate-400">
               Capabilities & Deliverables
             </p>
-            <ul className="grid grid-cols-1 gap-x-6 gap-y-2.5 sm:grid-cols-2">
+            <ul className="grid grid-cols-1 gap-x-6 gap-y-2 sm:grid-cols-2">
               {item.items.map((deliverable) => (
                 <li
                   key={deliverable}
-                  className="flex items-start gap-2.5 text-[11px] sm:text-xs leading-[1.35] text-slate-700"
+                  className="flex items-start gap-2 text-[11px] sm:text-xs leading-[1.35] text-slate-700"
                 >
                   <span
-                    className="mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-brand-soft-green text-brand-green shadow-2xs"
+                    className="mt-0.5 flex h-3.5 w-3.5 sm:h-4 sm:w-4 shrink-0 items-center justify-center rounded-full bg-brand-soft-green text-brand-green shadow-2xs"
                     aria-hidden="true"
                   >
-                    <Check className="h-2.5 w-2.5 stroke-[3]" />
+                    <Check className="h-2 w-2 sm:h-2.5 sm:w-2.5 stroke-[3]" />
                   </span>
                   <span>{deliverable}</span>
                 </li>
@@ -145,16 +144,16 @@ function ChapterBlock({ item, index, isActive, onOpenQuote }) {
           </div>
 
           {/* Interactive CTA Trigger */}
-          <div className="mt-8 flex items-center gap-5">
+          <div className="mt-6 sm:mt-8 flex items-center gap-4">
             <button
               type="button"
               onClick={onOpenQuote}
-              className="group inline-flex items-center gap-2.5 rounded-full bg-brand-navy px-6 py-3.5 text-sm font-semibold text-white shadow-md shadow-brand-navy/15 transition-all duration-300 hover:bg-brand-blue hover:shadow-lg hover:shadow-brand-navy/25 hover:gap-3.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-blue"
+              className="group inline-flex items-center gap-2 rounded-full bg-brand-navy px-5 py-2.5 sm:px-6 sm:py-3.5 text-xs sm:text-sm font-semibold text-white shadow-md shadow-brand-navy/15 transition-all duration-300 hover:bg-brand-blue hover:shadow-lg hover:shadow-brand-navy/25 hover:gap-3 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-blue"
             >
               <span>Request a quote</span>
               <ArrowRight
                 aria-hidden="true"
-                className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1"
+                className="h-3.5 w-3.5 sm:h-4 sm:w-4 transition-transform duration-300 group-hover:translate-x-1"
               />
             </button>
 
@@ -174,37 +173,45 @@ export default function InteractiveEcosystem({ onOpenQuote }) {
   const capabilities = useMemo(() => ECOSYSTEM_CAPABILITIES, []);
   const [activeChapterIndex, setActiveChapterIndex] = useState(0);
 
-  // Warm the locally hosted support photo on first mount so it is ready when
-  // its chapter becomes active, including after client-side route navigation.
+  // Warm support photo on initial mount
   useEffect(() => {
     const supportImage = new Image();
     supportImage.src = CAPABILITY_VISUALS.support.src;
   }, []);
 
-  // Update active chapter index as user scrolls to drive the sticky media stage
+  // Update active chapter on desktop via IntersectionObserver to eliminate scroll jank & reflows
   useEffect(() => {
-    let frameId = 0;
-    const updateActiveChapter = () => {
-      cancelAnimationFrame(frameId);
-      frameId = requestAnimationFrame(() => {
-        const marker = window.innerHeight * 0.45;
-        const index = capabilities.findIndex((item) => {
-          const element = document.getElementById(`chapter-${item.key}`);
-          if (!element) return false;
-          const rect = element.getBoundingClientRect();
-          return rect.top <= marker && rect.bottom >= marker;
-        });
-        if (index >= 0) setActiveChapterIndex(index);
+    if (typeof window === 'undefined') return;
+
+    let observer = null;
+    const initObserver = () => {
+      if (observer) observer.disconnect();
+      if (window.innerWidth < 1024) return; // Stage is hidden on mobile/tablet
+
+      observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              const key = entry.target.id.replace('chapter-', '');
+              const index = capabilities.findIndex((item) => item.key === key);
+              if (index >= 0) setActiveChapterIndex(index);
+            }
+          });
+        },
+        { rootMargin: '-20% 0px -40% 0px', threshold: 0.1 }
+      );
+
+      capabilities.forEach((item) => {
+        const el = document.getElementById(`chapter-${item.key}`);
+        if (el) observer.observe(el);
       });
     };
 
-    updateActiveChapter();
-    window.addEventListener('scroll', updateActiveChapter, { passive: true });
-    window.addEventListener('resize', updateActiveChapter);
+    initObserver();
+    window.addEventListener('resize', initObserver, { passive: true });
     return () => {
-      cancelAnimationFrame(frameId);
-      window.removeEventListener('scroll', updateActiveChapter);
-      window.removeEventListener('resize', updateActiveChapter);
+      if (observer) observer.disconnect();
+      window.removeEventListener('resize', initObserver);
     };
   }, [capabilities]);
 
@@ -215,31 +222,31 @@ export default function InteractiveEcosystem({ onOpenQuote }) {
       data-anim-scroll-group="Performance"
       aria-label="Interactive Ecosystem"
     >
-      {/* Section Header: Apple ps-section-header typography */}
-      <div className="viewport-content max-w-7xl mx-auto px-4 sm:px-8 pt-20 sm:pt-28 lg:pt-36 pb-10 sm:pb-14">
+      {/* Section Header */}
+      <div className="viewport-content max-w-7xl mx-auto px-4 sm:px-8 pt-14 sm:pt-24 lg:pt-32 pb-8 sm:pb-12">
         <header
-          className="ps-section-header text-large-center text-small-start flex flex-col gap-4 border-b border-slate-200/80 pb-10 sm:pb-16"
+          className="ps-section-header flex flex-col gap-3 sm:gap-4 border-b border-slate-200/80 pb-8 sm:pb-14"
           data-component-list="StaggeredFadeIn"
         >
           <div className="inline-flex items-center gap-2">
             <span className="h-1.5 w-1.5 rounded-full bg-brand-green shadow-[0_0_8px_rgba(142,198,65,0.7)]" aria-hidden="true" />
-            <h2 className="ps-headline-eyebrow typography-ps-body text-xs sm:text-sm font-bold uppercase tracking-[0.2em] text-brand-blue">
+            <h2 className="ps-headline-eyebrow text-xs sm:text-sm font-bold uppercase tracking-[0.2em] text-brand-blue">
               Interactive Ecosystem
             </h2>
           </div>
 
-          <p className="ps-headline-elevated ps-spacing-large-10 ps-spacing-small-8 large-centered small-uncentered ric-large-10 ric-small-10 ric-xsmall-12 typography-ps-headline-standalone font-heading text-xl sm:text-2xl lg:text-3xl font-bold tracking-tight text-brand-navy leading-[1.1]">
+          <p className="font-heading text-xl sm:text-2xl lg:text-3xl font-bold tracking-tight text-brand-navy leading-[1.1]">
             Technology, built around your business.
           </p>
 
-          <p className="ps-header-description ric-large-8 ric-medium-10 ric-small-12 large-centered typography-ps-body text-sm sm:text-base lg:text-lg leading-[1.45] text-slate-600 max-w-2xl">
+          <p className="text-xs sm:text-base lg:text-lg leading-relaxed text-slate-600 max-w-2xl">
             Explore Techashi’s connected technology capabilities.
           </p>
         </header>
       </div>
 
-      {/* Normal-flow story chapters drive the shared, sticky media stage on desktop. */}
-      <div className="chapters-wrapper mx-auto max-w-7xl px-4 pb-16 sm:px-8 sm:pb-28">
+      {/* Chapters */}
+      <div className="chapters-wrapper mx-auto max-w-7xl px-4 pb-14 sm:px-8 sm:pb-24">
         <div className="grid grid-cols-1 items-stretch gap-8 lg:grid-cols-12 lg:gap-14">
           <div className="chapters divide-y divide-slate-200/70 lg:col-span-5">
             {capabilities.map((item, index) => (

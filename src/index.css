@@ -67,9 +67,15 @@
 @layer base {
   html {
     font-family: 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    scroll-behavior: smooth;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  @media (min-width: 768px) and (prefers-reduced-motion: no-preference) {
+    html {
+      scroll-behavior: smooth;
+    }
   }
   
   h1, h2, h3, h4, h5, h6 {
@@ -147,9 +153,8 @@
 
   /* Full-width capability bands build depth while remaining driven by normal page scroll. */
   .capability-fullwidth-stack {
-    top: calc(4.5rem + var(--stack-offset, 0px));
+    position: relative;
     isolation: isolate;
-    box-shadow: 0 -1px 0 rgba(15, 35, 55, 0.08), 0 -20px 40px -32px rgba(8, 35, 62, 0.28);
   }
 
   .capability-fullwidth-stack::before {
@@ -168,12 +173,12 @@
   [data-capability-stack-card="3"] { --capability-accent: #2563eb; }
   [data-capability-stack-card="4"] { --capability-accent: #4f46e5; }
 
-  @media (min-width: 640px) {
-    .capability-fullwidth-stack { top: calc(5rem + var(--stack-offset, 0px)); }
-  }
-
   @media (min-width: 1024px) {
-    .capability-fullwidth-stack { top: calc(6rem + var(--stack-offset, 0px)); }
+    .capability-fullwidth-stack {
+      position: sticky;
+      top: calc(6rem + var(--stack-offset, 0px));
+      box-shadow: 0 -1px 0 rgba(15, 35, 55, 0.08), 0 -20px 40px -32px rgba(8, 35, 62, 0.28);
+    }
   }
 
 /* Reduced motion support */
