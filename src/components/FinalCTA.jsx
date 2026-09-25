@@ -1,66 +1,35 @@
 import React from 'react';
-import { ArrowRight, MessageSquare, Sparkles } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 
 export default function FinalCTA({ onOpenQuote }) {
   return (
-    <section className="py-16 sm:py-36 bg-brand-navy-deep text-white relative overflow-hidden">
-      
-      {/* Background Glow Accents - Desktop only to preserve mobile 60fps scrolling */}
-      <div className="hidden sm:block absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[400px] bg-brand-blue/30 rounded-full blur-[140px] pointer-events-none" />
-      <div className="hidden sm:block absolute bottom-0 right-1/4 w-[300px] h-[300px] bg-brand-green/15 rounded-full blur-[120px] pointer-events-none" />
+    <section className="relative isolate overflow-hidden bg-brand-navy-deep py-20 text-white sm:py-28">
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_50%_110%,rgba(20,104,173,0.38),transparent_62%)]" aria-hidden="true" />
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent" aria-hidden="true" />
 
-      {/* Architectural Grid */}
-      <div className="absolute inset-0 opacity-10 pointer-events-none">
-        <div className="w-full h-full bg-[radial-gradient(#ffffff_1px,transparent_1px)] [background-size:24px_24px]" />
-      </div>
-
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
-        
-        {/* Eyebrow */}
-        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 border border-white/15 text-brand-green text-xs font-heading font-semibold tracking-widest uppercase mb-6 sm:mb-8">
-          <Sparkles className="w-3.5 h-3.5" />
-          <span>Start Your Project</span>
-        </div>
-
-        {/* Master Heading */}
-        <h2 className="text-2xl sm:text-3xl lg:text-4xl font-heading font-extrabold tracking-tight leading-tight">
-          TECHNOLOGY SHOULD<br />
-          <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-green via-white to-slate-200">
-            MOVE YOU FORWARD.
-          </span>
+      <div className="relative mx-auto max-w-5xl px-5 text-center sm:px-8">
+        <p className="text-xs font-bold uppercase tracking-[0.18em] text-brand-green sm:text-sm">A clearer way forward</p>
+        <h2 className="mx-auto mt-5 max-w-4xl font-heading text-[clamp(2.25rem,5vw,4.5rem)] font-semibold leading-[1.02] tracking-[-0.035em] text-balance">
+          Make your next technology move <span className="text-brand-green">work harder.</span>
         </h2>
-
-        {/* Preserved Authentic Copy */}
-        <p className="mt-6 sm:mt-8 text-sm sm:text-xl text-slate-300 max-w-2xl mx-auto font-normal leading-relaxed">
-          From technology products and infrastructure to digital solutions and professional IT services, Techashi helps individuals and businesses find the right technology for their needs.
+        <p className="mx-auto mt-6 max-w-2xl text-base leading-relaxed text-white/75 sm:mt-7 sm:text-lg">
+          From the devices your team relies on to the systems and support behind them, bring every part together with Techashi.
         </p>
-
-        {/* CTAs */}
-        <div className="mt-8 sm:mt-12 flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4">
+        <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:mt-10 sm:flex-row">
           <button
+            type="button"
             onClick={onOpenQuote}
-            className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-8 py-3.5 sm:px-9 sm:py-4 rounded-full bg-brand-green hover:bg-brand-green-hover text-brand-navy font-heading font-bold text-sm transition-all duration-200 shadow-glow-green hover:scale-102 active:scale-98"
+            className="group inline-flex min-h-12 w-full items-center justify-center gap-2.5 rounded-full bg-brand-green px-7 text-sm font-bold text-brand-navy transition-colors hover:bg-brand-green-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-brand-navy-deep sm:w-auto"
           >
-            <span>GET A QUOTE</span>
-            <ArrowRight className="w-4 h-4" />
+            Let’s plan your next step <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" aria-hidden="true" />
           </button>
-
-          <button
-            onClick={onOpenQuote}
-            className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-8 py-3.5 sm:px-9 sm:py-4 rounded-full bg-white/10 hover:bg-white/20 text-white border border-white/20 font-heading font-semibold text-sm transition-all duration-200 backdrop-blur-sm active:scale-98"
+          <a
+            href="/support"
+            className="inline-flex min-h-12 w-full items-center justify-center rounded-full border border-white/30 px-7 text-sm font-semibold text-white transition-colors hover:border-white/70 hover:bg-white/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-green sm:w-auto"
           >
-            <MessageSquare className="w-4 h-4 text-brand-green" />
-            <span>TALK TO TECHASHI</span>
-          </button>
+            Explore our services
+          </a>
         </div>
-
-        {/* Secondary assurance */}
-        <div className="mt-8 sm:mt-12 text-[11px] sm:text-xs text-slate-400 flex flex-wrap items-center justify-center gap-4 sm:gap-6">
-          <span>✓ Free Initial Consultation</span>
-          <span>✓ Certified Technicians</span>
-          <span>✓ Transparent Proposals</span>
-        </div>
-
       </div>
     </section>
   );

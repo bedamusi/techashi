@@ -58,10 +58,100 @@
   }
 }
 
+@keyframes home-hero-photo-arrive {
+  from { opacity: 0.65; transform: scale(1.045); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+.home-hero-photo {
+  animation: home-hero-photo-arrive 1.4s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes home-hero-copy-arrive {
+  from { opacity: 0; transform: translate3d(0, 18px, 0); }
+  to { opacity: 1; transform: translate3d(0, 0, 0); }
+}
+
+.home-hero-copy {
+  animation: home-hero-copy-arrive 760ms cubic-bezier(0.16, 1, 0.3, 1) 120ms both;
+}
+
+.story-parallax {
+  opacity: 1;
+}
+
+.techashi-result-journey .story-parallax {
+  animation: none;
+  transform-origin: center;
+}
+
+.techashi-result-panel {
+  z-index: 2;
+  pointer-events: none;
+}
+
+.techashi-result-panel a {
+  pointer-events: auto;
+}
+
+.techashi-result-panel h2,
+.techashi-result-panel h3,
+.techashi-result-panel p {
+  text-shadow: 0 2px 18px rgba(6, 47, 85, 0.62);
+}
+
+.techashi-result-word {
+  display: inline-block;
+  opacity: 0.78;
+  will-change: opacity, transform;
+}
+
+.story-copy-reveal,
+.story-content-reveal {
+  opacity: 1;
+}
+
+@keyframes story-copy-scroll {
+  from { opacity: 0.45; transform: translate3d(0, 28px, 0); }
+  to { opacity: 1; transform: translate3d(0, 0, 0); }
+}
+
+@supports (animation-timeline: view()) {
+  .story-copy-reveal,
+  .story-content-reveal {
+    animation: story-copy-scroll linear both;
+    animation-timeline: view(block);
+    animation-range: entry 0% entry 60%;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .ecosystem-reveal { animation: none; }
   .highlights-panel-enter { animation: none; }
   .hero-product-reveal { animation: none; }
+  .home-hero-photo,
+  .home-hero-copy,
+  .story-parallax,
+  .story-copy-reveal,
+  .story-content-reveal { animation: none !important; transform: none; }
+  .story-copy-reveal,
+  .story-content-reveal,
+  .story-parallax { opacity: 1; }
+  .techashi-result-journey { height: auto !important; }
+  .techashi-result-journey [data-result-stage] { display: none !important; }
+  .techashi-result-journey [data-result-panel] {
+    position: relative !important;
+    inset: auto !important;
+    top: auto !important;
+    display: flex !important;
+    min-height: 60svh;
+    height: auto !important;
+    padding-block: 4rem;
+    opacity: 1 !important;
+    visibility: visible !important;
+    transform: none !important;
+  }
+  .techashi-result-word { opacity: 1 !important; transform: none !important; }
 }
 
 @layer base {

@@ -16,25 +16,25 @@ export default function OurWork({ onOpenQuote }) {
 
   const tags = ['All', 'Infrastructure', 'Security', 'Hardware', 'Digital', 'Cloud', 'Maintenance'];
 
-  const filteredWork = filter === 'All' 
-    ? WORK_PORTFOLIO 
+  const filteredWork = filter === 'All'
+    ? WORK_PORTFOLIO
     : WORK_PORTFOLIO.filter(w => w.tag === filter);
 
   return (
     <section id="our-work" className="py-24 sm:py-32 bg-white relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        
+
         {/* Section Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
           <div className="max-w-2xl">
             <p className="text-xs font-heading font-bold uppercase tracking-widest text-brand-blue mb-3">
-              Portfolio
+              Project examples
             </p>
             <h2 className="text-2xl sm:text-3xl lg:text-4xl font-heading font-extrabold text-brand-navy tracking-tight leading-tight">
-              SEE TECHNOLOGY IN ACTION.
+              Practical work, clearly scoped.
             </h2>
             <p className="mt-4 text-base sm:text-lg text-slate-600 leading-relaxed">
-              Explore how Techashi implements structured cabling, high-definition security, hardware fleets, and cloud suites.
+              Examples of Techashi project scopes across networking, security, hardware, web, cloud, and maintenance.
             </p>
           </div>
 
@@ -81,7 +81,7 @@ export default function OurWork({ onOpenQuote }) {
                     </div>
                     <div>
                       <p className="text-[11px] font-mono text-slate-300 uppercase">{project.category}</p>
-                      <p className="text-xs font-semibold text-white">Verified Deployment</p>
+                      <p className="text-xs font-semibold text-white">Project example</p>
                     </div>
                   </div>
 

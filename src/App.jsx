@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Navbar from './components/Navbar';
 import LocalNav from './components/LocalNav';
 import Hero from './components/Hero';
+import TechashiResult from './components/TechashiResult';
 import HighlightsSection from './components/HighlightsSection';
 import InteractiveEcosystem from './components/InteractiveEcosystem';
 import CapabilityHighlights from './components/CapabilityHighlights';
@@ -28,6 +29,7 @@ import { ToastProvider } from './context/ToastContext';
 function HomePage({ onOpenQuote, selectedProductCategory, onSelectCategory }) {
   return <>
     <Hero onOpenQuote={onOpenQuote} />
+    <TechashiResult />
     <HighlightsSection onOpenQuote={onOpenQuote} />
     <InteractiveEcosystem onOpenQuote={onOpenQuote} />
     <CapabilityHighlights onOpenQuote={onOpenQuote} />
