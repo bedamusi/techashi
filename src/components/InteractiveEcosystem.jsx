@@ -11,41 +11,42 @@ import {
   Wrench,
 } from 'lucide-react';
 import { ECOSYSTEM_CAPABILITIES } from '../data/techashiData';
+import { unsplashResponsiveProps } from '../lib/responsiveImage';
 
 // Documentary technology photography strictly preserved
 const CAPABILITY_VISUALS = {
   networking: {
-    src: 'https://images.unsplash.com/photo-1695668548342-c0c1ad479aee?auto=format&fit=crop&w=1800&q=85',
+    src: 'https://images.unsplash.com/photo-1695668548342-c0c1ad479aee?auto=format&fit=crop&w=1000&q=75',
     alt: 'Network servers installed in a data centre',
     position: 'center',
     accentColor: '#075293',
   },
   security: {
-    src: 'https://images.unsplash.com/photo-1757323148943-2ae82a19ec9f?auto=format&fit=crop&w=1800&q=85',
+    src: 'https://images.unsplash.com/photo-1757323148943-2ae82a19ec9f?auto=format&fit=crop&w=1000&q=75',
     alt: 'Security cameras mounted on a building',
     position: 'center',
     accentColor: '#15803d',
   },
   hardware: {
-    src: 'https://images.unsplash.com/photo-1650919031731-0a1ffb23285a?auto=format&fit=crop&w=1800&q=85',
+    src: 'https://images.unsplash.com/photo-1650919031731-0a1ffb23285a?auto=format&fit=crop&w=1000&q=75',
     alt: 'Laptop computer on a desk',
     position: 'center',
     accentColor: '#0284c7',
   },
   digital: {
-    src: 'https://images.unsplash.com/photo-1778146476147-5f8d4bd03c79?auto=format&fit=crop&w=1800&q=85',
+    src: 'https://images.unsplash.com/photo-1778146476147-5f8d4bd03c79?auto=format&fit=crop&w=1000&q=75',
     alt: 'Laptop and phone displaying software on a desk',
     position: 'center',
     accentColor: '#6366f1',
   },
   productivity: {
-    src: 'https://images.unsplash.com/photo-1521737711867-e3b97375f902?auto=format&fit=crop&w=1800&q=85',
+    src: 'https://images.unsplash.com/photo-1521737711867-e3b97375f902?auto=format&fit=crop&w=1000&q=75',
     alt: 'Colleagues collaborating around a table',
     position: 'center',
     accentColor: '#0ea5e9',
   },
   support: {
-    src: '/assets/expert-assistance-revendo.jpg',
+    src: '/assets/optimized/expert-assistance-revendo.webp',
     alt: 'Technician opening a laptop to inspect its internal hardware',
     position: 'center',
     accentColor: '#d97706',
@@ -62,10 +63,11 @@ function ChapterVisual({ item, index, animated = false }) {
       <picture className="relative block overflow-hidden bg-slate-100">
         <img
           src={visual.src}
+          {...unsplashResponsiveProps(visual.src, '(min-width: 1024px) 56vw, calc(100vw - 2rem)')}
           alt={visual.alt}
           loading="eager"
+          fetchPriority="low"
           decoding="async"
-          fetchPriority="high"
           className="h-[240px] w-full object-cover sm:h-[420px] lg:h-[min(62svh,560px)] lg:min-h-[400px]"
           style={{ objectPosition: visual.position }}
         />
@@ -173,10 +175,30 @@ export default function InteractiveEcosystem({ onOpenQuote }) {
   const capabilities = useMemo(() => ECOSYSTEM_CAPABILITIES, []);
   const [activeChapterIndex, setActiveChapterIndex] = useState(0);
 
-  // Warm support photo on initial mount
   useEffect(() => {
-    const supportImage = new Image();
-    supportImage.src = CAPABILITY_VISUALS.support.src;
+    const warmImages = [];
+    const warmCapabilityImages = () => {
+      const sizes = '(min-width: 1024px) 56vw, calc(100vw - 2rem)';
+      Object.values(CAPABILITY_VISUALS).forEach((visual) => {
+        const image = new Image();
+        const responsive = unsplashResponsiveProps(visual.src, sizes);
+        image.fetchPriority = 'low';
+        if (responsive.srcSet) {
+          image.sizes = responsive.sizes;
+          image.srcset = responsive.srcSet;
+        }
+        image.src = visual.src;
+        warmImages.push(image);
+      });
+    };
+    const idleId = window.requestIdleCallback?.(warmCapabilityImages, { timeout: 1200 });
+    const timerId = idleId === undefined ? window.setTimeout(warmCapabilityImages, 500) : null;
+
+    return () => {
+      if (idleId !== undefined) window.cancelIdleCallback?.(idleId);
+      if (timerId !== null) window.clearTimeout(timerId);
+      warmImages.length = 0;
+    };
   }, []);
 
   // Update active chapter on desktop via IntersectionObserver to eliminate scroll jank & reflows

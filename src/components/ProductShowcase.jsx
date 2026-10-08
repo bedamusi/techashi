@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { PRODUCT_CATEGORIES } from '../data/techashiData';
 import { readProducts } from '../lib/productStore';
+import { unsplashResponsiveProps } from '../lib/responsiveImage';
 import { useCart } from '../context/CartContext';
 import { 
   ArrowRight, 
@@ -46,50 +47,57 @@ export default function ProductShowcase({ onOpenQuote, initialCategory = 'all' }
   const renderProductGraphic = (id) => {
     const categoryPhotos = {
       laptops: {
-        src: 'https://images.unsplash.com/photo-1655226569940-b0ed83f6e268?auto=format&fit=crop&w=1200&q=85',
+        src: 'https://images.unsplash.com/photo-1655226569940-b0ed83f6e268?auto=format&fit=crop&w=900&q=75',
         alt: 'Photograph of a silver laptop on a clean white surface',
       },
       desktops: {
-        src: 'https://images.unsplash.com/photo-1634571799202-619a5d4c086e?auto=format&fit=crop&w=1200&q=85',
+        src: 'https://images.unsplash.com/photo-1634571799202-619a5d4c086e?auto=format&fit=crop&w=900&q=75',
         alt: 'Photograph of a desktop monitor and computer workspace',
       },
       servers: {
-        src: 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=1200&q=85',
+        src: 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=900&q=75',
         alt: 'Photograph of a server rack and enterprise computing equipment',
       },
       refurbished: {
-        src: 'https://images.unsplash.com/photo-1695480549117-e5b36e4767ca?auto=format&fit=crop&w=1200&q=85',
+        src: 'https://images.unsplash.com/photo-1695480549117-e5b36e4767ca?auto=format&fit=crop&w=900&q=75',
         alt: 'Photograph of desktop computer equipment in a technology showroom',
       },
       accessories: {
-        src: 'https://images.unsplash.com/photo-1708481480582-9793278e36ab?auto=format&fit=crop&w=1200&q=85',
+        src: 'https://images.unsplash.com/photo-1708481480582-9793278e36ab?auto=format&fit=crop&w=900&q=75',
         alt: 'Photograph of a computer desk with keyboard, mouse, and monitor',
       },
       cctv: {
-        src: 'https://images.unsplash.com/photo-1686678652918-8b235f8b9415?auto=format&fit=crop&w=1200&q=85',
+        src: 'https://images.unsplash.com/photo-1686678652918-8b235f8b9415?auto=format&fit=crop&w=900&q=75',
         alt: 'Photograph of an installed outdoor CCTV camera',
       },
       networking: {
-        src: 'https://images.unsplash.com/photo-1698668975271-2ba9a323be6b?auto=format&fit=crop&w=1200&q=85',
+        src: 'https://images.unsplash.com/photo-1698668975271-2ba9a323be6b?auto=format&fit=crop&w=900&q=75',
         alt: 'Photograph of a managed network switch rack with connected cables',
       },
     };
     const photo = categoryPhotos[id] ?? categoryPhotos.laptops;
+    const responsivePhotoProps = unsplashResponsiveProps(photo.src, '(min-width: 1280px) 33vw, (min-width: 640px) 50vw, 100vw');
     return (
       <div className="relative h-full w-full flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0 overflow-hidden">
           <img
             src={photo.src}
+            {...responsivePhotoProps}
             alt=""
             aria-hidden="true"
+            loading="eager"
+            fetchPriority="low"
+            decoding="async"
             className="h-full w-full object-cover blur-xl scale-125 opacity-30 saturate-150 pointer-events-none transform-gpu"
           />
           <div className="absolute inset-0 bg-white/40" />
         </div>
         <img
           src={photo.src}
+          {...responsivePhotoProps}
           alt={photo.alt}
           loading="eager"
+          fetchPriority="low"
           decoding="async"
           className="relative z-10 h-full w-full object-contain p-2 drop-shadow-md transition-transform duration-500 group-hover:scale-105"
         />
@@ -134,7 +142,7 @@ export default function ProductShowcase({ onOpenQuote, initialCategory = 'all' }
           <div className="mb-16">
             <div className="mb-5 flex items-end justify-between"><h3 className="text-2xl font-heading font-bold text-brand-navy">Products</h3><span className="text-xs sm:text-sm text-slate-500">{filteredProducts.length} items</span></div>
             <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 xl:grid-cols-3">
-              {filteredProducts.map((product) => (
+              {filteredProducts.map((product, index) => (
                 <article key={product.id} className="overflow-hidden border-y border-slate-200 bg-white transition-colors hover:bg-slate-50">
                   <a
                     href={`/products/${product.category}/${encodeURIComponent(product.id)}`}
@@ -145,7 +153,8 @@ export default function ProductShowcase({ onOpenQuote, initialCategory = 'all' }
                         src={product.images[0].src}
                         alt={product.images[0].name || product.name}
                         className="relative z-10 h-full w-full object-contain drop-shadow-md transition-transform duration-500 group-hover:scale-105"
-                        loading="eager"
+                        loading={index < 3 ? 'eager' : 'lazy'}
+                        fetchPriority="low"
                         decoding="async"
                       />
                     ) : (

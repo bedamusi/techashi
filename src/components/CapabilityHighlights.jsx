@@ -14,6 +14,7 @@ Radio,
 Sparkles,
 } from 'lucide-react';
 import { SERVICES } from '../data/techashiData';
+import { unsplashResponsiveProps } from '../lib/responsiveImage';
 
 export default function CapabilityHighlights({ onOpenQuote }) {
   return (
@@ -95,9 +96,11 @@ export default function CapabilityHighlights({ onOpenQuote }) {
               {/* Visual Architectural Side - Full photography visible without obscuring overlays */}
               <div className="lg:col-span-6 relative min-h-[360px] sm:min-h-[440px] lg:min-h-full overflow-hidden bg-slate-900">
                 <img
-                  src="https://images.unsplash.com/photo-1698668975271-2ba9a323be6b?auto=format&fit=crop&w=1400&q=85"
+                  src="https://images.unsplash.com/photo-1698668975271-2ba9a323be6b?auto=format&fit=crop&w=1100&q=75"
+                  {...unsplashResponsiveProps('https://images.unsplash.com/photo-1698668975271-2ba9a323be6b?auto=format&fit=crop&w=1100&q=75', '(min-width: 1024px) 50vw, 100vw')}
                   alt="Real network switches and structured cabling in an equipment rack"
                   loading="eager"
+                  fetchPriority="low"
                   decoding="async"
                   className="absolute inset-0 h-full w-full object-cover"
                 />
@@ -113,9 +116,11 @@ export default function CapabilityHighlights({ onOpenQuote }) {
               {/* Visual Side First on Desktop for Variety - Full photography visible without obscuring overlays */}
               <div className="lg:col-span-6 order-2 lg:order-1 relative min-h-[360px] sm:min-h-[440px] lg:min-h-full overflow-hidden bg-slate-900">
                 <img
-                  src="https://images.unsplash.com/photo-1686678652918-8b235f8b9415?auto=format&fit=crop&w=1400&q=85"
+                  src="https://images.unsplash.com/photo-1686678652918-8b235f8b9415?auto=format&fit=crop&w=1100&q=75"
+                  {...unsplashResponsiveProps('https://images.unsplash.com/photo-1686678652918-8b235f8b9415?auto=format&fit=crop&w=1100&q=75', '(min-width: 1024px) 50vw, 100vw')}
                   alt="Real outdoor CCTV camera installed on a building wall"
                   loading="eager"
+                  fetchPriority="low"
                   decoding="async"
                   className="absolute inset-0 h-full w-full object-cover"
                 />
@@ -245,10 +250,10 @@ export default function CapabilityHighlights({ onOpenQuote }) {
 
                   <div className="grid grid-cols-2 gap-2.5">
                     <div className="flex h-24 items-center justify-center overflow-hidden rounded-xl bg-slate-50 p-2 sm:h-28">
-                      <img src="https://images.unsplash.com/photo-1655226569940-b0ed83f6e268?auto=format&fit=crop&w=800&q=85" alt="Silver business laptop product photograph" loading="eager" decoding="async" className="h-full w-full object-contain" />
+                      <img src="https://images.unsplash.com/photo-1655226569940-b0ed83f6e268?auto=format&fit=crop&w=700&q=75" {...unsplashResponsiveProps('https://images.unsplash.com/photo-1655226569940-b0ed83f6e268?auto=format&fit=crop&w=700&q=75', '50vw')} alt="Silver business laptop product photograph" loading="eager" fetchPriority="low" decoding="async" className="h-full w-full object-contain" />
                     </div>
                     <div className="flex h-24 items-center justify-center overflow-hidden rounded-xl bg-slate-50 p-2 sm:h-28">
-                      <img src="https://images.unsplash.com/photo-1642655825268-137758d008e8?auto=format&fit=crop&w=800&q=85" alt="Desktop workstation with monitor and keyboard" loading="eager" decoding="async" className="h-full w-full object-contain" />
+                      <img src="https://images.unsplash.com/photo-1642655825268-137758d008e8?auto=format&fit=crop&w=700&q=75" {...unsplashResponsiveProps('https://images.unsplash.com/photo-1642655825268-137758d008e8?auto=format&fit=crop&w=700&q=75', '50vw')} alt="Desktop workstation with monitor and keyboard" loading="eager" fetchPriority="low" decoding="async" className="h-full w-full object-contain" />
                     </div>
                   </div>
 
@@ -294,9 +299,11 @@ export default function CapabilityHighlights({ onOpenQuote }) {
               {/* Visual Side First - Full photography visible without obscuring overlays */}
               <div className="lg:col-span-6 order-2 lg:order-1 relative min-h-[360px] sm:min-h-[440px] lg:min-h-full overflow-hidden bg-slate-900">
                 <img
-                  src="https://images.unsplash.com/photo-1708481480582-9793278e36ab?auto=format&fit=crop&w=1400&q=85"
+                  src="https://images.unsplash.com/photo-1708481480582-9793278e36ab?auto=format&fit=crop&w=1100&q=75"
+                  {...unsplashResponsiveProps('https://images.unsplash.com/photo-1708481480582-9793278e36ab?auto=format&fit=crop&w=1100&q=75', '(min-width: 1024px) 50vw, 100vw')}
                   alt="Real workplace computer setup with monitor and peripherals"
                   loading="eager"
+                  fetchPriority="low"
                   decoding="async"
                   className="absolute inset-0 h-full w-full object-cover"
                 />

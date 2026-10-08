@@ -3,11 +3,11 @@ import { ArrowDown } from 'lucide-react';
 import { COMPANY_INFO } from '../data/techashiData';
 
 const resultImages = [
-  { src: '/assets/result-workstation.jpg', alt: 'A real workstation with a laptop displaying software development tools', className: 'techashi-result-image--workstations aspect-[16/9] w-[34vw] max-w-[240px] sm:w-[22vw] sm:max-w-[300px]', startOffset: [-105, -45], offset: [-475, -235] },
-  { src: '/assets/result-network-rack.jpg', alt: 'Network equipment and cabling in a server rack', className: 'techashi-result-image--networking aspect-[4/3] w-[30vw] max-w-[220px] sm:w-[19vw] sm:max-w-[280px]', startOffset: [105, -60], offset: [475, -220] },
-  { src: '/assets/result-security-camera.jpg', alt: 'Security cameras installed on an outdoor pole', className: 'techashi-result-image--cctv aspect-[3/4] w-[23vw] max-w-[155px] sm:w-[12vw] sm:max-w-[180px]', startOffset: [-95, 60], offset: [-465, 165] },
-  { src: '/assets/result-collaboration.jpg', alt: 'A team collaborating around laptops', className: 'techashi-result-image--cloud aspect-[4/3] w-[28vw] max-w-[205px] sm:w-[17vw] sm:max-w-[250px]', startOffset: [95, 70], offset: [465, 165] },
-  { src: '/assets/result-it-support.jpg', alt: 'A technician repairing computer networking hardware', className: 'techashi-result-image--digital aspect-[4/3] w-[31vw] max-w-[220px] sm:w-[18vw] sm:max-w-[260px]', startOffset: [0, -5], offset: [0, 190] },
+  { src: '/assets/optimized/result-workstation.webp', alt: 'A real workstation with a laptop displaying software development tools', className: 'techashi-result-image--workstations aspect-[16/9] w-[34vw] max-w-[240px] sm:w-[22vw] sm:max-w-[300px]', startOffset: [-105, -45], offset: [-475, -235] },
+  { src: '/assets/optimized/result-network-rack.webp', alt: 'Network equipment and cabling in a server rack', className: 'techashi-result-image--networking aspect-[4/3] w-[30vw] max-w-[220px] sm:w-[19vw] sm:max-w-[280px]', startOffset: [105, -60], offset: [475, -220] },
+  { src: '/assets/optimized/result-security-camera.webp', alt: 'Security cameras installed on an outdoor pole', className: 'techashi-result-image--cctv aspect-[3/4] w-[23vw] max-w-[155px] sm:w-[12vw] sm:max-w-[180px]', startOffset: [-95, 60], offset: [-465, 165] },
+  { src: '/assets/optimized/result-collaboration.webp', alt: 'A team collaborating around laptops', className: 'techashi-result-image--cloud aspect-[4/3] w-[28vw] max-w-[205px] sm:w-[17vw] sm:max-w-[250px]', startOffset: [95, 70], offset: [465, 165] },
+  { src: '/assets/optimized/result-it-support.webp', alt: 'A technician repairing computer networking hardware', className: 'techashi-result-image--digital aspect-[4/3] w-[31vw] max-w-[220px] sm:w-[18vw] sm:max-w-[260px]', startOffset: [0, -5], offset: [0, 190] },
 ];
 
 const deliverables = [
@@ -143,7 +143,7 @@ export default function TechashiResult() {
         <div data-result-stage className="sticky top-24 flex h-[calc(100svh-6rem)] max-h-[900px] items-center justify-center overflow-hidden">
           <div className="pointer-events-none absolute inset-0" aria-hidden="true">
             {resultImages.map((image) => (
-                <img key={image.src} src={image.src} alt="" data-result-image data-start-x={image.startOffset[0]} data-start-y={image.startOffset[1]} data-offset-x={image.offset[0]} data-offset-y={image.offset[1]} className={`story-parallax absolute left-1/2 top-1/2 rounded-xl object-cover ${image.className}`} loading="lazy" decoding="async" />
+                <img key={image.src} src={image.src} alt="" data-result-image data-start-x={image.startOffset[0]} data-start-y={image.startOffset[1]} data-offset-x={image.offset[0]} data-offset-y={image.offset[1]} className={`story-parallax absolute left-1/2 top-1/2 rounded-xl object-cover ${image.className}`} loading="eager" fetchPriority="low" decoding="async" />
             ))}
             <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(6,47,85,0.22)_0%,rgba(6,47,85,0.45)_48%,rgba(6,47,85,0.38)_100%)]" />
           </div>

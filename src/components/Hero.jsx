@@ -13,7 +13,7 @@ export default function Hero({ onOpenQuote }) {
   return (
     <section className="relative isolate flex h-[100svh] w-full flex-col justify-center overflow-hidden bg-brand-navy px-5 pb-24 pt-24 text-white sm:px-8 sm:pb-28 sm:pt-28">
       <img
-        src="/assets/workstations.jpg"
+        src="/assets/optimized/workstations.webp"
         alt=""
         aria-hidden="true"
         className="home-hero-photo absolute inset-0 h-full w-full object-cover object-center"

@@ -2,9 +2,9 @@ import React, { useEffect, useRef, useState } from 'react';
 import { ArrowRight } from 'lucide-react';
 
 const HARDWARE_PRODUCTS = [
-  { src: '/assets/laptops/real-laptop-4.jpg', alt: 'Enterprise business laptop', label: 'Business laptops' },
-  { src: '/assets/laptops/real-laptop-6.jpg', alt: 'High performance laptop', label: 'Performance' },
-  { src: '/assets/workstations.jpg', alt: 'Multi-monitor workstation setup with desktop computers', label: 'Workstations' },
+  { src: '/assets/optimized/real-laptop-4.webp', alt: 'Enterprise business laptop', label: 'Business laptops' },
+  { src: '/assets/optimized/real-laptop-6.webp', alt: 'High performance laptop', label: 'Performance' },
+  { src: '/assets/optimized/workstations.webp', alt: 'Multi-monitor workstation setup with desktop computers', label: 'Workstations' },
 ];
 
 const HIGHLIGHTS = [
@@ -13,7 +13,7 @@ const HIGHLIGHTS = [
     eyebrow: 'Computing Hardware',
     title: 'PCs & Laptops. Tested. Verified. Warranty backed.',
     description: 'Brand-new enterprise laptops and rigorously benchmarked refurbished desktop workstations suited for every workload.',
-    image: '/assets/laptops/real-laptop-4.jpg',
+    image: '/assets/optimized/real-laptop-4.webp',
     stat: 'Quality Tested',
     statLabel: 'Multi-point hardware inspection on all refurbished units',
     tagline: 'Hardware Sales • Installation • Support',
@@ -23,7 +23,7 @@ const HIGHLIGHTS = [
     eyebrow: 'Infrastructure',
     title: 'Networking that never skips a beat.',
     description: 'Cat6 structured cabling, enterprise WiFi 6 roaming, managed switching, and hardware firewalls engineered for zero downtime.',
-    image: '/assets/highlight-networking.jpg',
+    image: '/assets/optimized/highlight-networking.webp',
     stat: 'Gigabit Ready',
     statLabel: 'Engineered for high throughput and clean cable management',
     tagline: 'Hardware Sales • Installation • Support',
@@ -33,7 +33,7 @@ const HIGHLIGHTS = [
     eyebrow: 'Surveillance & Security',
     title: 'Watch over what matters, from anywhere.',
     description: 'Commercial CCTV camera installations with dedicated NVR storage and secure live smartphone remote viewing on iOS and Android.',
-    image: '/assets/surveillance-cameras-upload.png',
+    image: '/assets/optimized/surveillance-cameras-upload.webp',
     stat: 'HD & 4K',
     statLabel: 'Day & night optical surveillance with motion detection',
     tagline: 'Hardware Sales • Installation • Support',
@@ -43,7 +43,7 @@ const HIGHLIGHTS = [
     eyebrow: 'Productivity Suite',
     title: 'Microsoft 365, integrated effortlessly.',
     description: 'Official licensing, zero-downtime email migration, Teams collaboration, SharePoint intranets, and user onboarding.',
-    image: '/assets/highlight-cloud.jpg',
+    image: '/assets/optimized/highlight-cloud.webp',
     stat: 'Cloud First',
     statLabel: 'Collaborate securely with anywhere file access',
     tagline: 'Hardware Sales • Installation • Support',
@@ -53,7 +53,7 @@ const HIGHLIGHTS = [
     eyebrow: 'Web & Visual Identity',
     title: 'From idea to a commanding online presence.',
     description: 'Bespoke corporate websites, e-commerce stores, brand logos, company profiles, and marketing collateral.',
-    image: '/assets/highlight-digital-brand.jpg',
+    image: '/assets/optimized/highlight-digital-brand.webp',
     stat: 'End-to-End',
     statLabel: 'Design, development, hosting, and maintenance',
     tagline: 'Hardware Sales • Installation • Support',
@@ -64,6 +64,26 @@ export default function HighlightsSection({ onOpenQuote }) {
   const [scrollPosition, setScrollPosition] = useState(0);
   const trackRef = useRef(null);
   const stageRef = useRef(null);
+
+  useEffect(() => {
+    const warmImages = [];
+    const warmHighlightImages = () => {
+      HIGHLIGHTS.forEach((highlight) => {
+        const image = new Image();
+        image.fetchPriority = 'low';
+        image.src = highlight.image;
+        warmImages.push(image);
+      });
+    };
+    const idleId = window.requestIdleCallback?.(warmHighlightImages, { timeout: 1200 });
+    const timerId = idleId === undefined ? window.setTimeout(warmHighlightImages, 500) : null;
+
+    return () => {
+      if (idleId !== undefined) window.cancelIdleCallback?.(idleId);
+      if (timerId !== null) window.clearTimeout(timerId);
+      warmImages.length = 0;
+    };
+  }, []);
 
   // The page remains the scroll container. Progress is sampled only while this
   // section's track is moving past its own sticky stage.
@@ -164,6 +184,7 @@ export default function HighlightsSection({ onOpenQuote }) {
                               alt={HARDWARE_PRODUCTS[0].alt}
                               className="h-full w-full object-contain object-center"
                               loading="eager"
+                              fetchPriority="low"
                               decoding="async"
                             />
                             <span className="absolute bottom-2.5 left-2.5 sm:bottom-3 sm:left-3 rounded-full bg-black/60 backdrop-blur-md px-2.5 py-1 text-[11px] sm:text-xs font-semibold text-white shadow-xs">
@@ -183,6 +204,7 @@ export default function HighlightsSection({ onOpenQuote }) {
                                   alt={product.alt}
                                   className="h-full w-full object-contain object-center"
                                   loading="eager"
+                                  fetchPriority="low"
                                   decoding="async"
                                 />
                                 <span className="absolute bottom-2 left-2 sm:bottom-2.5 sm:left-2.5 rounded-full bg-black/60 backdrop-blur-md px-2.5 py-1 text-[11px] sm:text-xs font-semibold text-white shadow-xs">
@@ -194,7 +216,7 @@ export default function HighlightsSection({ onOpenQuote }) {
                         </div>
                       </div>
                     ) : (
-                      <img src={highlight.image} alt={highlight.title} className="h-full w-full object-cover object-center" loading="eager" decoding="async" fetchPriority="high" />
+                      <img src={highlight.image} alt={highlight.title} className="h-full w-full object-cover object-center" loading="eager" fetchPriority="low" decoding="async" />
                     )}
                   </div>
                 </article>
