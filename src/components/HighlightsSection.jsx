@@ -1,231 +1,182 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { ArrowRight } from 'lucide-react';
-
-const HARDWARE_PRODUCTS = [
-  { src: '/assets/optimized/real-laptop-4.webp', alt: 'Enterprise business laptop', label: 'Business laptops' },
-  { src: '/assets/optimized/real-laptop-6.webp', alt: 'High performance laptop', label: 'Performance' },
-  { src: '/assets/optimized/workstations.webp', alt: 'Multi-monitor workstation setup with desktop computers', label: 'Workstations' },
-];
+import React, { useState } from 'react';
+import { ArrowRight, X } from 'lucide-react';
 
 const HIGHLIGHTS = [
   {
     id: 'hardware',
-    eyebrow: 'Computing Hardware',
-    title: 'PCs & Laptops. Tested. Verified. Warranty backed.',
-    description: 'Brand-new enterprise laptops and rigorously benchmarked refurbished desktop workstations suited for every workload.',
+    title: 'Enterprise PCs & Laptops',
+    category: 'Hardware',
+    description: 'Brand-new enterprise laptops and rigorously benchmarked refurbished desktop workstations with multi-point quality testing.',
     image: '/assets/optimized/real-laptop-4.webp',
-    stat: 'Quality Tested',
-    statLabel: 'Multi-point hardware inspection on all refurbished units',
-    tagline: 'Hardware Sales • Installation • Support',
   },
   {
     id: 'networking',
-    eyebrow: 'Infrastructure',
-    title: 'Networking that never skips a beat.',
+    title: 'High-Throughput Networking',
+    category: 'Networking',
     description: 'Cat6 structured cabling, enterprise WiFi 6 roaming, managed switching, and hardware firewalls engineered for zero downtime.',
     image: '/assets/optimized/highlight-networking.webp',
-    stat: 'Gigabit Ready',
-    statLabel: 'Engineered for high throughput and clean cable management',
-    tagline: 'Hardware Sales • Installation • Support',
   },
   {
     id: 'cctv',
-    eyebrow: 'Surveillance & Security',
-    title: 'Watch over what matters, from anywhere.',
-    description: 'Commercial CCTV camera installations with dedicated NVR storage and secure live smartphone remote viewing on iOS and Android.',
+    title: 'Commercial CCTV & Remote Access',
+    category: 'Security',
+    description: 'High-definition optical camera installations with dedicated NVR storage and encrypted smartphone live view anywhere on iOS and Android.',
     image: '/assets/optimized/surveillance-cameras-upload.webp',
-    stat: 'HD & 4K',
-    statLabel: 'Day & night optical surveillance with motion detection',
-    tagline: 'Hardware Sales • Installation • Support',
   },
   {
     id: 'cloud',
-    eyebrow: 'Productivity Suite',
-    title: 'Microsoft 365, integrated effortlessly.',
-    description: 'Official licensing, zero-downtime email migration, Teams collaboration, SharePoint intranets, and user onboarding.',
+    title: 'Microsoft 365 & Cloud Solutions',
+    category: 'Cloud',
+    description: 'Official enterprise licensing, zero-downtime mail migration, Teams collaboration, OneDrive cloud storage, and secure intranets.',
     image: '/assets/optimized/highlight-cloud.webp',
-    stat: 'Cloud First',
-    statLabel: 'Collaborate securely with anywhere file access',
-    tagline: 'Hardware Sales • Installation • Support',
   },
   {
     id: 'digital',
-    eyebrow: 'Web & Visual Identity',
-    title: 'From idea to a commanding online presence.',
-    description: 'Bespoke corporate websites, e-commerce stores, brand logos, company profiles, and marketing collateral.',
+    title: 'Web Platforms & Digital Branding',
+    category: 'Digital',
+    description: 'Bespoke corporate web platforms, e-commerce stores, brand logos, profiles, and digital transformation architectures.',
     image: '/assets/optimized/highlight-digital-brand.webp',
-    stat: 'End-to-End',
-    statLabel: 'Design, development, hosting, and maintenance',
-    tagline: 'Hardware Sales • Installation • Support',
   },
 ];
 
 export default function HighlightsSection({ onOpenQuote }) {
-  const [scrollPosition, setScrollPosition] = useState(0);
-  const trackRef = useRef(null);
-  const stageRef = useRef(null);
-
-  useEffect(() => {
-    const warmImages = [];
-    const warmHighlightImages = () => {
-      HIGHLIGHTS.forEach((highlight) => {
-        const image = new Image();
-        image.fetchPriority = 'low';
-        image.src = highlight.image;
-        warmImages.push(image);
-      });
-    };
-    const idleId = window.requestIdleCallback?.(warmHighlightImages, { timeout: 1200 });
-    const timerId = idleId === undefined ? window.setTimeout(warmHighlightImages, 500) : null;
-
-    return () => {
-      if (idleId !== undefined) window.cancelIdleCallback?.(idleId);
-      if (timerId !== null) window.clearTimeout(timerId);
-      warmImages.length = 0;
-    };
-  }, []);
-
-  // The page remains the scroll container. Progress is sampled only while this
-  // section's track is moving past its own sticky stage.
-  useEffect(() => {
-    let frame = 0;
-    const updateActiveHighlight = () => {
-      cancelAnimationFrame(frame);
-      frame = requestAnimationFrame(() => {
-        const track = trackRef.current;
-        const stage = stageRef.current;
-        if (!track || !stage) return;
-
-        const top = parseFloat(window.getComputedStyle(stage).top) || 0;
-        const travel = Math.max(1, track.offsetHeight - stage.offsetHeight);
-        const moved = top - track.getBoundingClientRect().top;
-        const progress = Math.min(0.99999, Math.max(0, moved / travel));
-        setScrollPosition(Math.min(HIGHLIGHTS.length - 1, Math.max(0, progress * HIGHLIGHTS.length)));
-      });
-    };
-
-    updateActiveHighlight();
-    window.addEventListener('scroll', updateActiveHighlight, { passive: true });
-    window.addEventListener('resize', updateActiveHighlight);
-    return () => {
-      cancelAnimationFrame(frame);
-      window.removeEventListener('scroll', updateActiveHighlight);
-      window.removeEventListener('resize', updateActiveHighlight);
-    };
-  }, []);
-
-  // Switch the composition only at the midpoint of the scroll interval. A
-  // single visible panel avoids ghosted text and double-exposed product art.
-  const displayIndex = Math.min(HIGHLIGHTS.length - 1, Math.round(scrollPosition));
-  const distanceFromActive = Math.abs(scrollPosition - displayIndex);
-  const layers = [{
-    highlight: HIGHLIGHTS[displayIndex],
-    index: displayIndex,
-    opacity: 1,
-    y: (scrollPosition - displayIndex) * 10,
-    scale: 1 - Math.min(0.005, distanceFromActive * 0.01),
-  }];
+  const [selectedItem, setSelectedItem] = useState(null);
 
   return (
-    <section id="highlights" className="border-t border-[#dbe8f2] bg-[#f0f6fb] text-[#1d1d1f]">
-      <div
-        ref={trackRef}
-        className="relative"
-        style={{ height: `calc(${HIGHLIGHTS.length} * 100svh)` }}
-      >
-        <div
-          ref={stageRef}
-          className="sticky top-14 sm:top-16 h-[calc(100svh-3.5rem)] sm:h-[calc(100svh-4rem)] max-h-[920px] flex flex-col justify-start px-4 sm:px-8 lg:px-12 pt-3 sm:pt-5 pb-3 sm:pb-5"
-        >
-          {/* Section Heading closely attached to the showcase */}
-          <div className="mx-auto w-full max-w-7xl shrink-0 pb-2.5 sm:pb-4">
-            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-heading font-bold tracking-tight text-[#1d1d1f]">
-              Get the highlights.
-            </h2>
-          </div>
-
-          {/* Highlights Stage Container */}
-          <div className="relative mx-auto w-full max-w-7xl flex-1 min-h-0 overflow-hidden rounded-2xl md:rounded-3xl bg-white/70 border border-slate-200/80 shadow-xs">
-            {layers.map(({ highlight, index, opacity, y, scale }) => {
-              const isHardware = highlight.id === 'hardware';
-              return (
-                <article
-                  key={highlight.id}
-                  aria-hidden={index !== displayIndex}
-                  inert={index !== displayIndex}
-                  className="absolute inset-0 grid h-full w-full grid-cols-1 grid-rows-[auto_1fr] md:grid-rows-1 md:grid-cols-[0.82fr_1.18fr] gap-0"
-                  style={{ opacity, transform: `translate3d(0, ${y}px, 0) scale(${scale})`, pointerEvents: index === displayIndex ? 'auto' : 'none', willChange: 'opacity, transform' }}
-                >
-                  <div className="highlights-panel-enter flex min-h-0 flex-col justify-center px-5 sm:px-8 py-4 sm:py-6 md:py-8 md:pl-10 md:pr-8 lg:pl-14 lg:pr-10">
-                    <p className="text-xs sm:text-sm font-sans font-bold uppercase tracking-[0.16em] text-brand-blue">{highlight.eyebrow}</p>
-                    <h3 className="mt-1.5 sm:mt-2 max-w-xl text-xl sm:text-2xl md:text-3xl lg:text-[38px] font-heading font-bold tracking-tight leading-[1.1] text-brand-navy">{highlight.title}</h3>
-                    <p className="mt-2 sm:mt-3 max-w-lg text-xs sm:text-sm lg:text-base leading-relaxed text-slate-600">{highlight.description}</p>
-
-                    <div className="mt-4 sm:mt-6 flex items-end justify-between gap-3 border-t border-black/10 pt-3 sm:pt-4">
-                      <div className="min-w-0">
-                        <p className="text-base sm:text-lg lg:text-xl font-heading font-bold tracking-tight text-brand-navy">{highlight.stat}</p>
-                        <p className="mt-0.5 text-xs sm:text-sm leading-snug text-slate-600">{highlight.statLabel}</p>
-                      </div>
-                      <button onClick={onOpenQuote} className="inline-flex shrink-0 items-center gap-1.5 rounded-full bg-[#1d1d1f] px-5 py-2.5 text-xs sm:text-sm font-semibold text-white transition-colors hover:bg-brand-blue">
-                        Inquire <ArrowRight className="h-3.5 w-3.5" />
-                      </button>
-                    </div>
-                    <p className="mt-2.5 hidden text-xs text-slate-500 font-medium md:block">{highlight.tagline}</p>
-                  </div>
-
-                  <div className={`highlights-panel-enter relative min-h-0 ${isHardware ? 'bg-[#eaf1f6]' : 'bg-slate-900'}`}>
-                    {isHardware ? (
-                      <div className="flex h-full w-full items-center justify-center p-3 sm:p-4 lg:p-6">
-                        <div className="grid w-full max-w-2xl grid-cols-1 gap-2.5 sm:gap-3.5 md:grid-cols-[1.4fr_1fr] md:items-stretch">
-                          {/* Main Business Laptop (Dell) */}
-                          <div className="relative flex aspect-[4/3] sm:aspect-[16/11] md:aspect-auto md:h-full w-full items-center justify-center overflow-hidden rounded-xl md:rounded-2xl bg-white p-2.5 sm:p-4 shadow-xs">
-                            <img
-                              src={HARDWARE_PRODUCTS[0].src}
-                              alt={HARDWARE_PRODUCTS[0].alt}
-                              className="h-full w-full object-contain object-center"
-                              loading="eager"
-                              fetchPriority="low"
-                              decoding="async"
-                            />
-                            <span className="absolute bottom-2.5 left-2.5 sm:bottom-3 sm:left-3 rounded-full bg-black/60 backdrop-blur-md px-2.5 py-1 text-[11px] sm:text-xs font-semibold text-white shadow-xs">
-                              {HARDWARE_PRODUCTS[0].label}
-                            </span>
-                          </div>
-
-                          {/* Right Column: Performance Laptop & Workstations */}
-                          <div className="grid grid-cols-2 gap-2.5 sm:gap-3 md:grid-cols-1 md:gap-3">
-                            {HARDWARE_PRODUCTS.slice(1).map((product) => (
-                              <div
-                                key={product.label}
-                                className="relative flex aspect-video w-full items-center justify-center overflow-hidden rounded-xl md:rounded-2xl bg-slate-900 shadow-xs"
-                              >
-                                <img
-                                  src={product.src}
-                                  alt={product.alt}
-                                  className="h-full w-full object-contain object-center"
-                                  loading="eager"
-                                  fetchPriority="low"
-                                  decoding="async"
-                                />
-                                <span className="absolute bottom-2 left-2 sm:bottom-2.5 sm:left-2.5 rounded-full bg-black/60 backdrop-blur-md px-2.5 py-1 text-[11px] sm:text-xs font-semibold text-white shadow-xs">
-                                  {product.label}
-                                </span>
-                              </div>
-                            ))}
-                          </div>
-                        </div>
-                      </div>
-                    ) : (
-                      <img src={highlight.image} alt={highlight.title} className="h-full w-full object-cover object-center" loading="eager" fetchPriority="low" decoding="async" />
-                    )}
-                  </div>
-                </article>
-              );
-            })}
-          </div>
-
+    <section id="highlights" className="py-16 md:py-24 bg-white border-t border-slate-200">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        {/* Section Header */}
+        <div className="text-center mb-12 sm:mb-16">
+          <span className="inline-block px-4 py-1.5 bg-brand-navy/10 text-brand-navy text-xs sm:text-sm font-semibold rounded-full mb-3 tracking-wide">
+            Get The Highlights
+          </span>
+          <h2 className="font-heading text-3xl sm:text-4xl md:text-5xl font-extrabold text-brand-navy tracking-tight mb-4">
+            Showcase & Infrastructure
+          </h2>
+          <p className="text-slate-600 text-sm sm:text-base max-w-2xl mx-auto leading-relaxed">
+            Take a look inside the enterprise hardware, structured cabling, optical surveillance, and cloud systems we deploy for our clients.
+          </p>
         </div>
+
+        {/* Gallery Grid - Exact Cybertech style */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
+          {HIGHLIGHTS.map((item) => (
+            <div
+              key={item.id}
+              role="button"
+              tabIndex={0}
+              onClick={() => setSelectedItem(item)}
+              onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') setSelectedItem(item); }}
+              className="group relative aspect-[4/3] rounded-xl overflow-hidden cursor-pointer select-none bg-slate-900 border border-slate-200 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg focus:outline-none"
+            >
+              {/* Image */}
+              <img
+                src={item.image}
+                alt={item.title}
+                loading="lazy"
+                draggable={false}
+                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 pointer-events-none select-none"
+              />
+
+              {/* Hover Overlay: dark gradient with bottom category and title */}
+              <div className="absolute inset-0 bg-gradient-to-t from-slate-950/85 via-slate-950/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
+                {/* Bottom text */}
+                <div className="absolute bottom-0 left-0 right-0 p-4 sm:p-5 text-left">
+                  <span className="text-xs text-brand-green font-medium block mb-1">
+                    {item.category}
+                  </span>
+                  <h3 className="text-white font-heading font-semibold text-base sm:text-lg">
+                    {item.title}
+                  </h3>
+                </div>
+              </div>
+            </div>
+          ))}
+
+          {/* 6th Slot CTA Card completing the 3-column grid cleanly */}
+          <div className="group relative aspect-[4/3] rounded-xl overflow-hidden bg-slate-900 text-white p-6 sm:p-7 flex flex-col justify-between border border-slate-800 shadow-sm">
+            <div>
+              <span className="inline-block px-3 py-1 rounded-full bg-white/10 text-brand-green text-xs font-semibold mb-3">
+                Custom Systems
+              </span>
+              <h3 className="font-heading font-bold text-lg sm:text-xl text-white">
+                Need a tailored infrastructure setup?
+              </h3>
+              <p className="text-slate-400 text-xs sm:text-sm mt-2 leading-relaxed">
+                We supply hardware, run structured cabling, and configure end-to-end office environments.
+              </p>
+            </div>
+
+            <button
+              type="button"
+              onClick={onOpenQuote}
+              className="mt-4 inline-flex items-center justify-center gap-2 rounded-lg bg-brand-green px-4 py-2.5 text-xs sm:text-sm font-bold text-brand-navy shadow-sm transition hover:bg-[#a2db4f]"
+            >
+              Request a Fast Quote <ArrowRight className="w-4 h-4" />
+            </button>
+          </div>
+        </div>
+
       </div>
+
+      {/* Cybertech Style Lightbox Modal */}
+      {selectedItem && (
+        <div
+          role="dialog"
+          aria-modal="true"
+          onClick={() => setSelectedItem(null)}
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/90 backdrop-blur-sm"
+        >
+          <div
+            onClick={(e) => e.stopPropagation()}
+            className="relative max-w-4xl w-full"
+          >
+            {/* Close Button above modal */}
+            <button
+              type="button"
+              onClick={() => setSelectedItem(null)}
+              aria-label="Close"
+              className="absolute -top-12 right-0 text-white/80 hover:text-white transition-colors"
+            >
+              <X className="w-8 h-8" />
+            </button>
+
+            {/* Modal Image */}
+            <img
+              src={selectedItem.image}
+              alt={selectedItem.title}
+              className="w-full h-auto max-h-[75vh] object-contain rounded-xl shadow-2xl bg-black"
+            />
+
+            {/* Modal Bottom Caption */}
+            <div className="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-slate-950/90 via-slate-950/60 to-transparent rounded-b-xl flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+              <div>
+                <span className="text-sm text-brand-green font-medium block mb-1">
+                  {selectedItem.category}
+                </span>
+                <h3 className="text-xl sm:text-2xl font-semibold text-white">
+                  {selectedItem.title}
+                </h3>
+                <p className="text-slate-300 text-xs sm:text-sm mt-1 max-w-xl">
+                  {selectedItem.description}
+                </p>
+              </div>
+
+              <button
+                type="button"
+                onClick={() => {
+                  setSelectedItem(null);
+                  onOpenQuote();
+                }}
+                className="shrink-0 inline-flex items-center gap-2 rounded-lg bg-brand-green px-5 py-2.5 text-xs sm:text-sm font-bold text-brand-navy shadow-sm transition hover:bg-[#a2db4f]"
+              >
+                Inquire About This <ArrowRight className="w-4 h-4" />
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </section>
   );
 }
