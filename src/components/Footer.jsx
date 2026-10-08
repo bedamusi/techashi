@@ -122,8 +122,6 @@ export default function Footer({ onOpenQuote }) {
           <p>© {new Date().getFullYear()} {COMPANY_INFO.name}. All rights reserved.</p>
           <div className="flex flex-wrap items-center gap-x-6 gap-y-2">
             <a href={COMPANY_INFO.domain} className="transition-colors hover:text-white">techashisolutions.com</a>
-            <a href="https://www.pexels.com/video/a-close-up-video-of-cable-wires-connected-on-a-motherboard-7140937/" target="_blank" rel="noreferrer" className="transition-colors hover:text-white">Footage: MrColo / Pexels</a>
-            <a href="/" className="transition-colors hover:text-white">Back to home ↑</a>
           </div>
         </div>
       </div>
