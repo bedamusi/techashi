@@ -26,6 +26,7 @@ const footerGroups = [
   {
     title: 'Discover',
     links: [
+      { label: 'Company Profile (PDF)', href: '/Techashi-Company-Profile.pdf', isDownload: true },
       { label: 'Highlights', href: '/highlights' },
       { label: 'Our solutions', href: '/solutions' },
       { label: 'Connected ecosystem', href: '/ecosystem' },
@@ -34,7 +35,7 @@ const footerGroups = [
   },
 ];
 
-export default function Footer({ onOpenQuote }) {
+export default function Footer({ onOpenQuote, onOpenProfile }) {
   const footerRef = useRef(null);
   const videoRef = useRef(null);
 
@@ -96,9 +97,20 @@ export default function Footer({ onOpenQuote }) {
               <ul className="space-y-3 text-sm text-white/80">
                 {group.links.map((link) => (
                   <li key={`${group.title}-${link.label}`}>
-                    <a href={link.href} className="transition-colors hover:text-white focus-visible:text-white focus-visible:outline-none">
-                      {link.label}
-                    </a>
+                    {link.isDownload ? (
+                      <button
+                        type="button"
+                        onClick={onOpenProfile}
+                        className="inline-flex items-center gap-1.5 transition-colors hover:text-brand-green text-left text-white"
+                      >
+                        <span>{link.label}</span>
+                        <ArrowUpRight className="h-3 w-3" />
+                      </button>
+                    ) : (
+                      <a href={link.href} className="transition-colors hover:text-white focus-visible:text-white focus-visible:outline-none">
+                        {link.label}
+                      </a>
+                    )}
                   </li>
                 ))}
               </ul>

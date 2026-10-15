@@ -23,10 +23,11 @@ import FinalCTA from './components/FinalCTA';
 import Footer from './components/Footer';
 import MobileQuickBar from './components/MobileQuickBar';
 import QuoteModal from './components/QuoteModal';
+import CompanyProfileModal from './components/CompanyProfileModal';
 import { CartProvider } from './context/CartContext';
 import { ToastProvider } from './context/ToastContext';
 
-function HomePage({ onOpenQuote, selectedProductCategory, onSelectCategory }) {
+function HomePage({ onOpenQuote, onOpenProfile, selectedProductCategory, onSelectCategory }) {
   return <>
     <Hero onOpenQuote={onOpenQuote} />
     <TechashiResult />
@@ -37,12 +38,12 @@ function HomePage({ onOpenQuote, selectedProductCategory, onSelectCategory }) {
     <CinematicBrandMoment />
     <HowWeWork onOpenQuote={onOpenQuote} />
     <ProductShowcase onOpenQuote={onOpenQuote} activeCategory={selectedProductCategory} onSelectCategory={onSelectCategory} />
-    <FinalCTA onOpenQuote={onOpenQuote} />
+    <FinalCTA onOpenQuote={onOpenQuote} onOpenProfile={onOpenProfile} />
   </>;
 }
 
-function RouteContent({ path, onOpenQuote, selectedProductCategory, onSelectCategory }) {
-  if (path === '/') return <HomePage onOpenQuote={onOpenQuote} selectedProductCategory={selectedProductCategory} onSelectCategory={onSelectCategory} />;
+function RouteContent({ path, onOpenQuote, onOpenProfile, selectedProductCategory, onSelectCategory }) {
+  if (path === '/') return <HomePage onOpenQuote={onOpenQuote} onOpenProfile={onOpenProfile} selectedProductCategory={selectedProductCategory} onSelectCategory={onSelectCategory} />;
   if (path === '/highlights') return <HighlightsSection onOpenQuote={onOpenQuote} />;
   if (path === '/solutions') return <CapabilityHighlights onOpenQuote={onOpenQuote} />;
   if (path === '/ecosystem') return <InteractiveEcosystem onOpenQuote={onOpenQuote} />;
@@ -76,22 +77,26 @@ function NotFound() {
 
 export default function App() {
   const [isQuoteOpen, setIsQuoteOpen] = useState(false);
+  const [isProfileOpen, setIsProfileOpen] = useState(false);
   const path = window.location.pathname.replace(/\/+$/, '') || '/';
   const handleOpenQuote = () => setIsQuoteOpen(true);
   const handleCloseQuote = () => setIsQuoteOpen(false);
+  const handleOpenProfile = () => setIsProfileOpen(true);
+  const handleCloseProfile = () => setIsProfileOpen(false);
 
   return (
     <ToastProvider>
     <CartProvider>
       <div className="relative min-h-screen bg-white text-brand-charcoal selection:bg-brand-blue selection:text-white">
-        <Navbar onOpenQuote={handleOpenQuote} />
+        <Navbar onOpenQuote={handleOpenQuote} onOpenProfile={handleOpenProfile} />
         <LocalNav onOpenQuote={handleOpenQuote} />
         <main key={path} className="page-route-enter">
-          <RouteContent path={path} onOpenQuote={handleOpenQuote} />
+          <RouteContent path={path} onOpenQuote={handleOpenQuote} onOpenProfile={handleOpenProfile} />
         </main>
-        <Footer onOpenQuote={handleOpenQuote} />
+        <Footer onOpenQuote={handleOpenQuote} onOpenProfile={handleOpenProfile} />
         {path !== '/cart' && !path.startsWith('/admin') && <MobileQuickBar onOpenQuote={handleOpenQuote} />}
         <QuoteModal isOpen={isQuoteOpen} onClose={handleCloseQuote} />
+        <CompanyProfileModal isOpen={isProfileOpen} onClose={handleCloseProfile} onOpenQuote={handleOpenQuote} />
       </div>
     </CartProvider>
     </ToastProvider>

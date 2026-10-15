@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { Menu, X, Search, ArrowRight, ChevronRight, ShoppingBag } from 'lucide-react';
+import { Menu, X, Search, ArrowRight, ChevronRight, ShoppingBag, FileText } from 'lucide-react';
 import SearchDrawer from './SearchDrawer';
 import TechashiLogo from './TechashiLogo';
 import { useCart } from '../context/CartContext';
 
-export default function Navbar({ onOpenQuote, onSelectCategory }) {
+export default function Navbar({ onOpenQuote, onSelectCategory, onOpenProfile }) {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
@@ -193,8 +193,18 @@ export default function Navbar({ onOpenQuote, onSelectCategory }) {
               ))}
             </nav>
 
-            {/* Right: Where to Buy / Quote & Search Icon */}
-            <div className="hidden sm:flex items-center gap-x-3 xl:gap-x-5 shrink-0">
+            {/* Right: Company Profile, Where to Buy / Quote & Search Icon */}
+            <div className="hidden sm:flex items-center gap-x-3 xl:gap-x-4 shrink-0">
+              <button
+                type="button"
+                onClick={onOpenProfile}
+                className="inline-flex items-center gap-1.5 text-[11px] xl:text-[12.5px] font-semibold text-brand-navy hover:text-brand-blue bg-slate-100 hover:bg-brand-soft-blue px-3 py-1.5 rounded-full transition-colors whitespace-nowrap"
+                title="View & download 2026 Company Profile"
+              >
+                <FileText className="w-3.5 h-3.5 text-brand-blue" />
+                <span>Company Profile</span>
+              </button>
+
               <button
                 onClick={onOpenQuote}
                 className="text-[12px] xl:text-[13.5px] font-normal text-slate-700 hover:text-brand-blue transition-colors duration-150 whitespace-nowrap"
@@ -332,6 +342,18 @@ export default function Navbar({ onOpenQuote, onSelectCategory }) {
             </div>
 
             <div className="pt-2 border-t border-slate-100 space-y-2">
+              <button
+                type="button"
+                onClick={() => {
+                  setMobileMenuOpen(false);
+                  onOpenProfile();
+                }}
+                className="w-full py-2.5 rounded-xl border border-slate-200 bg-slate-50 text-brand-navy font-heading font-semibold text-xs flex items-center justify-center gap-2 shadow-2xs"
+              >
+                <FileText className="w-3.5 h-3.5 text-brand-blue" />
+                <span>View Company Profile</span>
+              </button>
+
               <button
                 onClick={() => {
                   setMobileMenuOpen(false);

@@ -2,16 +2,36 @@
 // Sourced strictly from official company specifications without fabricated claims.
 
 export const COMPANY_INFO = {
-  name: "TECHASHI SOLUTIONS L.T.D",
+  name: "Techashi Solutions Ltd",
   shortName: "Techashi",
   domain: "https://techashisolutions.com/",
-  tagline: "Technology, Built Around Your Business.",
-  eyebrow: "TECHNOLOGY • SOLUTIONS • SUPPORT",
+  tagline: "Technology that keeps your business moving.",
+  eyebrow: "DEVICES • NETWORKS • SECURITY • WEB • MICROSOFT 365",
+  phone: "+254 700 357 022",
+  phoneDisplay: "+254 700 357 022",
+  email: "info@techashisolutions.com",
+  location: "Chaka Place Building, 3rd Floor, Argwings Kodhek Rd, Nairobi",
+  profilePdf: "/Techashi-Company-Profile.pdf",
+  mission: "To deliver reliable, affordable technology solutions and honest advice that let our clients focus on running their business.",
+  vision: "To be the trusted technology partner for growing businesses — from the first laptop to the full office network.",
   description:
-    "Techashi Solutions is a technology solutions company providing IT products and services to individuals, small businesses, and corporate clients. We combine hardware sales, installation, and professional IT services, so clients can get everything tech-related from one trusted partner.",
+    "Techashi Solutions Ltd is a technology company that helps businesses, institutions and homes get more out of technology. We supply the devices people work on every day, design and install the networks and security systems that protect them, and build the websites and digital tools that help them grow — with practical advice at every step.",
   proposition:
-    "Clients can get everything tech-related from one trusted partner.",
+    "One partner for all your ICT needs.",
 };
+
+export const PROFILE_SERVICES = [
+  { id: '01', title: 'Network design & installation', desc: 'Fast, stable & secure office networks, structured cabling & WiFi.' },
+  { id: '02', title: 'CCTV sales & installation', desc: 'Commercial IP cameras, NVR recording & remote phone viewing.' },
+  { id: '03', title: 'Tech gadget sales', desc: 'Smartwatches, accessories, storage, chargers & everyday tech.' },
+  { id: '04', title: 'New & refurbished PCs', desc: 'Laptops and desktops tested & prepared for dependable use.' },
+  { id: '05', title: 'PC servicing & maintenance', desc: 'Diagnostics, repairs, upgrades, OS installs & fleet maintenance.' },
+  { id: '06', title: 'Website creation', desc: 'Modern, mobile-friendly websites that convert visitors.' },
+  { id: '07', title: 'Graphic design', desc: 'Logos, company profiles, flyers, social media & print assets.' },
+  { id: '08', title: 'Microsoft 365 consultation', desc: 'Business email, Teams, OneDrive, SharePoint setup & onboarding.' },
+  { id: '09', title: 'Tech consultancy', desc: 'Independent advice on IT strategy, system selection & budgets.' },
+  { id: '10', title: 'Forecourt management systems', desc: 'Complete fuel retail system: pumps, wet stock, eTIMS & cashless pay.' },
+];
 
 export const TARGET_AUDIENCE = [
   {

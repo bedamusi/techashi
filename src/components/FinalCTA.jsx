@@ -1,7 +1,7 @@
 import React from 'react';
 import { ArrowRight } from 'lucide-react';
 
-export default function FinalCTA({ onOpenQuote }) {
+export default function FinalCTA({ onOpenQuote, onOpenProfile }) {
   return (
     <section className="relative isolate overflow-hidden bg-brand-navy-deep py-20 text-white sm:py-28">
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_50%_110%,rgba(20,104,173,0.38),transparent_62%)]" aria-hidden="true" />
@@ -23,11 +23,18 @@ export default function FinalCTA({ onOpenQuote }) {
           >
             Let’s plan your next step <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" aria-hidden="true" />
           </button>
+          <button
+            type="button"
+            onClick={onOpenProfile}
+            className="inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-full border border-white/30 px-7 text-sm font-semibold text-white transition-colors hover:border-white/70 hover:bg-white/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-green sm:w-auto"
+          >
+            View Company Profile
+          </button>
           <a
             href="/support"
-            className="inline-flex min-h-12 w-full items-center justify-center rounded-full border border-white/30 px-7 text-sm font-semibold text-white transition-colors hover:border-white/70 hover:bg-white/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-green sm:w-auto"
+            className="inline-flex min-h-12 w-full items-center justify-center rounded-full border border-transparent px-5 text-sm font-semibold text-white/80 transition-colors hover:text-white hover:bg-white/5 sm:w-auto"
           >
-            Explore our services
+            Explore services
           </a>
         </div>
       </div>
